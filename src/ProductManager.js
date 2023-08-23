@@ -14,18 +14,21 @@ class ProductManager {
         return [];
     }
 
-    async addProduct(title, description, price, thumbnail, code, stock) {
-        let products = await this.getProducts();
-
-        if (products.find(item => item.product.code === code)) {
-            return console.log(`El producto con el code: ${code} ya existe.`);
+    async addProduct({ title, description, code, price, status, stock, category, thumbnail }) {
+        try {
+            let products = await this.getProducts();
+            if (products.find(item => item.product.code === code)) {
+                return `El producto con el code: ${code} ya existe.`;
+            }
+            products.push({
+                product: new Producto(title, description, code, price, status, stock, category, thumbnail),
+                id: products.length === 0 ? 1 : products[products.length - 1].id + 1
+            });
+            await escribirJson(this.path, products);
+            return "Producto agregado exitosamente"
+        } catch (error) {
+            throw error;
         }
-        products.push({
-            product: new Producto(title, description, price, thumbnail, code, stock),
-            id: products.length === 0 ? 1 : products[products.length - 1].id + 1
-        });
-        await escribirJson(this.path, products);
-        return console.log('El producto se agrego exitosamente');
     }
 
     async getProductById(productId) {
@@ -40,16 +43,15 @@ class ProductManager {
         if (products.find(item => item.id === productId)) {
             products = products.filter(item => item.id !== productId);
             await escribirJson(this.path, products);
-            console.log('Se elimino el producto correctamente');
-            return;
+            return 'Se elimino el producto correctamente';
         }
-        console.log('Not found');
+        return 'Not found';
     }
-    async modifyProductById(productId, title, description, price, thumbnail, code, stock) {
+    async modifyProductById(productId, title, description, code, price, status, stock, category, thumbnail) {
         let products = await this.getProducts();
         let productoAModificar = products.find(item => item.id === productId);
         if (productoAModificar) {
-            productoAModificar.product = new Producto(title, description, price, thumbnail, code, stock);
+            productoAModificar.product = new Producto(title, description, code, price, status, stock, category, thumbnail);
             await escribirJson(this.path, products);
             return 'El producto se modifico correctamente';
         }

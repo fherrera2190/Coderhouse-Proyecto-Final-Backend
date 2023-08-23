@@ -1,24 +1,14 @@
-const ProductManager = require('./ProductManager');
-const path = require('path')
-pm = new ProductManager(path.join(__dirname,'data','productos.json'));
 const express = require('express');
 const app = express();
-PORT = 3000;
+PORT = 8080;
+
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get('/products', async (req, res) => {
-    const  products = await pm.getProducts()
-    if (req.query.limit) {
-        res.send(products.slice(0, +req.query.limit));
-        return;
-    }
-    res.send(products);
-});
-app.get('/products/:pid', async (req, res) => {
-    const  products = await pm.getProductById(+req.params.pid)
-    res.send(products);
-});
+const productsRouter= require('./routes/products.routes');
+app.use('/api/products', productsRouter);
+
 
 
 
