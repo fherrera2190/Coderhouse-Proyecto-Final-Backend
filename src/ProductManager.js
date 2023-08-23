@@ -1,5 +1,5 @@
 
-const { leerJson, escribirJson, existe } = require('../data/index')
+const { leerJson, escribirJson, existe } = require('./data/index')
 const Producto = require('./Producto')
 
 class ProductManager {

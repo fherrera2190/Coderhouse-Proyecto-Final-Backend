@@ -1,6 +1,6 @@
 const ProductManager = require('./ProductManager');
-const path = './data/productos.json';
-pm = new ProductManager(path);
+const path = require('path')
+pm = new ProductManager(path.join(__dirname,'data','productos.json'));
 const express = require('express');
 const app = express();
 PORT = 3000;
