@@ -38,6 +38,7 @@ class ProductManager {
         }
         return 'Not found';
     }
+    
     async deleteProductById(productId) {
         let products = await this.getProducts();
         if (products.find(item => item.id === productId)) {
@@ -47,15 +48,17 @@ class ProductManager {
         }
         return 'Not found';
     }
-    async modifyProductById(productId, title, description, code, price, status, stock, category, thumbnail) {
+
+    async modifyProductById(productId, array) {
         let products = await this.getProducts();
-        let productoAModificar = products.find(item => item.id === productId);
-        if (productoAModificar) {
-            productoAModificar.product = new Producto(title, description, code, price, status, stock, category, thumbnail);
-            await escribirJson(this.path, products);
-            return 'El producto se modifico correctamente';
-        }
-        return 'Not found'
+        const productoAModificar = products.find(item => item.id === productId);
+        if (!productoAModificar || productId < 1) return 'Not found'
+        array.forEach(par => {
+            if (Object.keys(productoAModificar.product).includes(par[0])) productoAModificar.product[par[0]] = par[1];
+        });
+        await escribirJson(this.path, products);
+        return 'El producto se modifico correctamente';
+
     }
 }
 

@@ -25,6 +25,14 @@ router.post('/', async (req, res) => {
     res.status(200).json({ status: result });
 
 })
+
+router.put('/:pid', async (req, res) => {
+    const result = await pm.modifyProductById(+req.params.pid, Object.entries(req.body))
+    if (result === 'El producto se modifico correctamente') res.status(200).json({ status: 'OK', msg: result });
+    res.status(400).json({ status: 'Error', msg: result })
+})
+
+
 router.delete('/:pid', async (req, res) => {
 
     const result = await pm.deleteProductById(+req.params.pid)

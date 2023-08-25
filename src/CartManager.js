@@ -25,14 +25,14 @@ class CartManager {
         if (!cart) return 'Cart no found';
 
         if (cart.products.length > 0) {
-            const product = cart.products.find(cart => cart.pid === pid);
+            const product = cart.products.find(cart => cart.product === pid);
             if (product) {
                 product.quantity += 1;
                 await escribirJson(this.path, carts);
                 return "Se agrego una unidad";
             }
         }
-        cart.products.push({ pid, quantity: 1 });
+        cart.products.push({ product:pid, quantity: 1 });
         await escribirJson(this.path, carts);
         return "Producto agregado exitosamente"
     }

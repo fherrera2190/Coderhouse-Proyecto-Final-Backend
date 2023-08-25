@@ -3,11 +3,11 @@
           "product": {
                "title": "producto prueba",
                "description": "Este es un producto prueba",
-               "code": " abc123",
-               "price": 200,
-               "status": true,
+               "code": "AA",
+               "price": 100,
+               "status": false,
                "stock": 25,
-               "category": "categoria",
+               "category": "Bebida",
                "thumbnail": "Sin imagen"
           },
           "id": 1
@@ -89,5 +89,42 @@
                "thumbnail": "Sin imagen"
           },
           "id": 7
+     },
+     {
+          "product": {
+               "title": "producto prueba",
+               "description": "Este es un producto prueba",
+               "code": "abc121111113475",
+               "price": 200,
+               "status": true,
+               "stock": 25,
+               "category": "categoria",
+               "thumbnail": "Sin imagen"
+          },
+          "id": 8
+     },
+     {
+          "product": {
+               "title": "producto prueba",
+               "description": "Este es un producto prueba",
+               "price": 200,
+               "status": false,
+               "stock": 2,
+               "category": "Oferta"
+          },
+          "id": 9
+     },
+     {
+          "product": {
+               "title": "producto prueba",
+               "description": "Este es un producto prueba",
+               "code": "AA",
+               "price": 100,
+               "status": true,
+               "stock": 25,
+               "category": "categoria",
+               "thumbnail": "Sin imagen"
+          },
+          "id": 10
      }
 ]

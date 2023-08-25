@@ -3,34 +3,25 @@
           "cid": 1,
           "products": [
                {
-                    "pid": 1,
-                    "quantity": 5
+                    "product": 1,
+                    "quantity": 4
                },
                {
-                    "pid": 2,
-                    "quantity": 2
+                    "product": 3,
+                    "quantity": 4
                },
                {
-                    "pid": 3,
+                    "product": 2,
                     "quantity": 1
-               },
-               {
-                    "pid": 5,
-                    "quantity": 1
-               },
-               {
-                    "pid": 4,
-                    "quantity": 2
                }
           ]
      },
      {
           "cid": 2,
-          "products": [
-               {
-                    "pid": 4,
-                    "quantity": 1
-               }
-          ]
+          "products": []
+     },
+     {
+          "cid": 3,
+          "products": []
      }
 ]
