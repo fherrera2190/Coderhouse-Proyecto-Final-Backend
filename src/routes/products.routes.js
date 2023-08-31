@@ -1,4 +1,4 @@
-const ProductManager = require('../ProductManager');
+const ProductManager = require('../modules/ProductManager');
 const path = require('path')
 const express = require('express');
 pm = new ProductManager(path.join(__dirname, '../data', 'productos.json'));

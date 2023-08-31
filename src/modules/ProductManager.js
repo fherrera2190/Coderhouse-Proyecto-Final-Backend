@@ -1,5 +1,5 @@
 
-const { leerJson, escribirJson, existe } = require('./data/index')
+const { leerJson, escribirJson, existe } = require('../data/index')
 const Producto = require('./Producto')
 
 class ProductManager {
@@ -38,7 +38,7 @@ class ProductManager {
         }
         return 'Not found';
     }
-    
+
     async deleteProductById(productId) {
         let products = await this.getProducts();
         if (products.find(item => item.id === productId)) {
@@ -54,7 +54,9 @@ class ProductManager {
         const productoAModificar = products.find(item => item.id === productId);
         if (!productoAModificar || productId < 1) return 'Not found'
         array.forEach(par => {
-            if (Object.keys(productoAModificar.product).includes(par[0])) productoAModificar.product[par[0]] = par[1];
+            if (Object.keys(productoAModificar.product).includes(par[0]) && par[0] !== 'code') {
+                productoAModificar.product[par[0]] = par[1];
+            }
         });
         await escribirJson(this.path, products);
         return 'El producto se modifico correctamente';

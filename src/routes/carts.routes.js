@@ -1,9 +1,8 @@
 
 const express = require('express');
 const router = express.Router();
-
 const path = require('path')
-const CartManager = require('../CartManager');
+const CartManager = require('../modules/CartManager');
 cm = new CartManager(path.join(__dirname, '../data', 'carrito.json'));
 
 
