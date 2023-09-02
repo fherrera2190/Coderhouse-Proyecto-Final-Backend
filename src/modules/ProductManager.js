@@ -1,10 +1,10 @@
 
-const { leerJson, escribirJson, existe } = require('../data/index')
-const Producto = require('./Producto')
+const { leerJson, escribirJson, existe } = require('../data/index');
+const Producto = require('./Producto');
 
 class ProductManager {
-    constructor(path) {
-        this.path = path;
+    constructor() {
+        this.path = require('path').join(__dirname, '../data', 'productos.json');
     }
 
     async getProducts() {
@@ -15,20 +15,33 @@ class ProductManager {
     }
 
     async addProduct({ title, description, code, price, status, stock, category, thumbnail }) {
-        try {
-            let products = await this.getProducts();
-            if (products.find(item => item.product.code === code)) {
-                return `El producto con el code: ${code} ya existe.`;
-            }
-            products.push({
-                product: new Producto(title, description, code, price, status, stock, category, thumbnail),
-                id: products.length === 0 ? 1 : products[products.length - 1].id + 1
-            });
-            await escribirJson(this.path, products);
-            return "Producto agregado exitosamente"
-        } catch (error) {
-            throw error;
+        if (!title) {
+            return 'Error debe ingresar un titulo'
         }
+        if (!code) {
+            return 'Error debe ingresar un code'
+        }
+        if (!price) {
+            return 'Error debe ingresar un price'
+        }
+        if (!stock) {
+            return 'Error debe ingresar stock'
+        }
+        if (!category) {
+            return 'Error debe ingresar una categoria'
+        }
+
+        let products = await this.getProducts();
+        if (products.find(item => item.product.code === code)) {
+            return `El producto con el code: ${code} ya existe.`;
+        }
+        products.push({
+            product: new Producto(title, description, code, price, status, stock, category, thumbnail),
+            id: products.length === 0 ? 1 : products[products.length - 1].id + 1
+        });
+        await escribirJson(this.path, products);
+        return "Producto agregado exitosamente"
+
     }
 
     async getProductById(productId) {

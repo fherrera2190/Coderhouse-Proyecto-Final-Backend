@@ -1,10 +1,7 @@
-
 const express = require('express');
 const router = express.Router();
-const path = require('path')
 const CartManager = require('../modules/CartManager');
-cm = new CartManager(path.join(__dirname, '../data', 'carrito.json'));
-
+cm = new CartManager();
 
 router.get('/:cid', async (req, res) => {
     const cart = await cm.getCartByCid(+req.params.cid);
@@ -24,4 +21,5 @@ router.post('/:cid/products/:pid', async (req, res) => {
     if (resultado === 'Cart no found') return res.send({ status: `Error: ${resultado}` });
     res.status(200).send({ status: 'OK', data: resultado })
 });
+
 module.exports = router;

@@ -1,7 +1,7 @@
 [
      {
           "product": {
-               "title": "producto prueba",
+               "title": "producto prueba1",
                "description": "Este es un producto prueba",
                "code": "AA",
                "price": 100,
@@ -14,7 +14,7 @@
      },
      {
           "product": {
-               "title": "producto prueba",
+               "title": "producto prueba2",
                "description": "Este es un producto prueba",
                "code": " abc1234",
                "price": 200,
@@ -27,20 +27,20 @@
      },
      {
           "product": {
-               "title": "producto prueba",
+               "title": "producto prueba3",
                "description": "Este es un producto prueba",
                "code": " abc12345",
                "price": 200,
                "status": true,
                "stock": 25,
-               "category": "categoria",
+               "category": "categoria4",
                "thumbnail": []
           },
           "id": 3
      },
      {
           "product": {
-               "title": "producto prueba",
+               "title": "producto prueba5",
                "description": "Este es un producto prueba",
                "code": " abc123456",
                "price": 200,
@@ -53,7 +53,7 @@
      },
      {
           "product": {
-               "title": "producto prueba",
+               "title": "producto prueba6",
                "description": "Este es un producto prueba",
                "code": "abc123475",
                "price": 200,
@@ -66,54 +66,15 @@
      },
      {
           "product": {
-               "title": "producto prueba",
-               "description": "Este es un producto prueba",
-               "code": "abc1213475",
-               "price": 200,
-               "status": true,
-               "stock": 25,
-               "category": "categoria",
+               "title": "Tasdasdas",
+               "description": "",
+               "code": "AA123",
+               "price": "12323",
+               "status": false,
+               "stock": "12",
+               "category": "asdsa",
                "thumbnail": []
           },
           "id": 6
-     },
-     {
-          "product": {
-               "title": "producto prueba",
-               "description": "Este es un producto prueba",
-               "code": "abc121113475",
-               "price": 200,
-               "status": true,
-               "stock": 25,
-               "category": "categoria",
-               "thumbnail": []
-          },
-          "id": 7
-     },
-     {
-          "product": {
-               "title": "producto prueba",
-               "description": "Este es un producto prueba",
-               "code": "abc121111113475",
-               "price": 200,
-               "status": true,
-               "stock": 25,
-               "category": "categoria",
-               "thumbnail": []
-          },
-          "id": 8
-     },
-     {
-          "product": {
-               "title": "producto prueba",
-               "description": "Este es un producto prueba",
-               "code": "fer434123",
-               "price": 100,
-               "status": false,
-               "stock": 25,
-               "category": "Bebida",
-               "thumbnail": []
-          },
-          "id": 9
      }
 ]

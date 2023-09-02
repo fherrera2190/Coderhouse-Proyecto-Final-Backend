@@ -2,9 +2,8 @@ const { leerJson, escribirJson, existe } = require('../data/index')
 const Cart = require('./Cart');
 
 class CartManager {
-    constructor(path) {
-        this.path = path;
-
+    constructor() {
+        this.path = require('path').join(__dirname, '../data', 'carrito.json');
     }
     async getCarts() {
         if (existe(this.path)) {
@@ -23,7 +22,6 @@ class CartManager {
         let carts = await this.getCarts(cid);
         let cart = carts.find((cart) => cart.cid === cid);
         if (!cart) return 'Cart no found';
-
         if (cart.products.length > 0) {
             const product = cart.products.find(cart => cart.product === pid);
             if (product) {
@@ -32,7 +30,7 @@ class CartManager {
                 return "Se agrego una unidad";
             }
         }
-        cart.products.push({ product:pid, quantity: 1 });
+        cart.products.push({ product: pid, quantity: 1 });
         await escribirJson(this.path, carts);
         return "Producto agregado exitosamente"
     }
@@ -40,7 +38,7 @@ class CartManager {
     async getCartByCid(cid) {
         const cart = (await this.getCarts()).find((cart) => cart.cid === cid);
         if (cart) return cart;
-        return;
+        return 'not found';
     }
 }
 

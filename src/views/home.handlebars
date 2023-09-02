@@ -1,0 +1,30 @@
+<main class="container">
+    <table class="table table-striped ">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Title</th>
+                <th scope="col">Description</th>
+                <th scope="col">Code</th>
+                <th scope="col">Price</th>
+                <th scope="col">Status</th>
+                <th scope="col">Stock</th>
+                <th scope="col">Category</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each products}}
+            <tr>
+                <th scope="row">{{this.id}}</th>
+                <td> {{this.product.title}}</td>
+                <td> {{this.product.description}}</td>
+                <td> {{this.product.code}}</td>
+                <td> {{this.product.price}}</td>
+                <td> {{this.product.status}}</td>
+                <td> {{this.product.stock}}</td>
+                <td> {{this.product.category}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</main>
