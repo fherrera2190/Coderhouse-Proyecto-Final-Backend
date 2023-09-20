@@ -1,22 +1,30 @@
+const productsModels = require('../dao/mongo/models/products.models');
 const ProductManager = require('../modules/ProductManager');
-pm = new ProductManager();
+// pm = new ProductManager();
 
 
 module.exports = (io) => {
     io.on('connection', (socket) => {
         console.log(`Un cliente se ha conectado ${socket.id}`);
-
         socket.on('nuevoProducto', async (producto) => {
-
-            await pm.addProduct(producto);
-            const products = await pm.getProducts()
-
-            io.emit('actualizarProductos', products);
+            try {
+                await productsModels.create(producto)
+                const productos = await productsModels.find().lean();
+                io.emit('actualizarProductos', productos);
+            } catch (error) {
+                console.log(error);
+            }
         });
 
-        socket.on('eliminarProducto', async id => {
-            await pm.deleteProductById(id);
-            io.emit('actualizarProductos', await pm.getProducts());
+        socket.on('eliminarProducto', async code => {
+            try {
+                const product = await productsModels.deleteOne({ code: { $eq:code } });
+                console.log(product)
+                const productos = await productsModels.find().lean();
+                io.emit('actualizarProductos', productos);
+            } catch (error) {
+                console.log(error);
+            }
         });
 
         socket.on('disconnect', () => {

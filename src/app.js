@@ -7,7 +7,7 @@ const cartsRouter = require('./routes/carts.routes');
 const viewRouter = require('./routes/view.routes');
 const { Server } = require('socket.io')
 const PORT = 8080;
-
+const mongoose = require('mongoose');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -30,3 +30,10 @@ app.use('/api/carts', cartsRouter);
 const serverExpress = app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
 const io = new Server(serverExpress);
 require('./sockets/socket')(io);
+
+mongoose.connect('mongodb+srv://ferbeoulve:root1234@cluster0.s9kw73z.mongodb.net/?retryWrites=true&w=majority&dbName=ecommerce')
+.then((result) => {
+    console.log('DB conectada');
+}).catch((err) => {
+    console.log(err);
+});

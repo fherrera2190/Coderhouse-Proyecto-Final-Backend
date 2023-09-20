@@ -21,24 +21,24 @@ document.getElementById("addProduct").addEventListener('submit', (e) => {
 
 document.getElementById("deleteProduct").addEventListener('submit', (e) => {
     e.preventDefault();
-    socket.emit('eliminarProducto', +document.getElementById('deleteById').value);
+    socket.emit('eliminarProducto', document.getElementById('deleteById').value);
 });
 
 
 socket.on('actualizarProductos', productos => {
     const tbody = document.getElementById('tbody');
     let nuevotbody = '';
-    productos.forEach(item => {
+    console.log(productos)
+    productos.forEach(product => {
         nuevotbody += `
             <tr>
-             <th scope="row">${item.id}</th>
-             <td> ${item.product.title}</td>
-             <td> ${item.product.description}</td>
-             <td> ${item.product.code}</td>
-             <td> ${item.product.price}</td>
-             <td> ${item.product.status}</td>
-             <td> ${item.product.stock}</td>
-             <td> ${item.product.category}</td>
+             <th scope="row">${product.code}</th>
+             <td> ${product.title}</td>
+             <td> ${product.description}</td>
+             <td> ${product.price}</td>
+             <td> ${product.status}</td>
+             <td> ${product.stock}</td>
+             <td> ${product.category}</td>
             </tr>
         `
     });

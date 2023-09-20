@@ -52,8 +52,8 @@
                     tabindex="0">
                     <form class="mt-3" id="deleteProduct">
                         <div class="mb-3">
-                            <label for="deleteById" class="form-label">Ingrese Numero de Id</label>
-                            <input type="number" class="form-control" name="deleteById" id="deleteById">
+                            <label for="deleteById" class="form-label">Ingrese Codigo de producto</label>
+                            <input type="text" class="form-control" name="deleteById" id="deleteById">
                         </div>
 
                         <button type="reset" class="btn btn-primary">Reset</button>
@@ -66,10 +66,9 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col">#</th>
+                        <th scope="col">Code</th>
                         <th scope="col">Title</th>
                         <th scope="col">Description</th>
-                        <th scope="col">Code</th>
                         <th scope="col">Price</th>
                         <th scope="col">Status</th>
                         <th scope="col">Stock</th>
@@ -79,14 +78,13 @@
                 <tbody id="tbody">
                     {{#each products}}
                     <tr>
-                        <th scope="row">{{this.id}}</th>
-                        <td> {{this.product.title}}</td>
-                        <td> {{this.product.description}}</td>
-                        <td> {{this.product.code}}</td>
-                        <td> {{this.product.price}}</td>
-                        <td> {{this.product.status}}</td>
-                        <td> {{this.product.stock}}</td>
-                        <td> {{this.product.category}}</td>
+                        <th scope="row">{{this.code}}</th>
+                        <td> {{this.title}}</td>
+                        <td> {{this.description}}</td>
+                        <td> {{this.price}}</td>
+                        <td> {{this.status}}</td>
+                        <td> {{this.stock}}</td>
+                        <td> {{this.category}}</td>
                     </tr>
                     {{/each}}
                 </tbody>
