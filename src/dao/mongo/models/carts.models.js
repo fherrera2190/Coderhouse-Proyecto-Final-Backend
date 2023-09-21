@@ -3,9 +3,9 @@ const cartCollection = "carts";
 
 const cartSchema = new Schema({
     products: {
-        type: [{ id_product: { type: Schema.Types.ObjectId, ref: "products" }, quantity: Number }],
+        type: [{ product: { type: Schema.Types.ObjectId, ref: "products" }, quantity: { type: Number, default: 1 } }],
         default: []
     }
 });
 
-export const cartsModel = model(cartCollection, cartSchema);
+module.exports = model(cartCollection, cartSchema);
