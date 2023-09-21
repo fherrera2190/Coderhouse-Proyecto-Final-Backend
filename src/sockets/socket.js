@@ -1,3 +1,4 @@
+const messagesModel = require('../dao/mongo/models/messages.models');
 const productsModels = require('../dao/mongo/models/products.models');
 const ProductManager = require('../modules/ProductManager');
 // pm = new ProductManager();
@@ -18,7 +19,7 @@ module.exports = (io) => {
 
         socket.on('eliminarProducto', async code => {
             try {
-                const product = await productsModels.deleteOne({ code: { $eq:code } });
+                const product = await productsModels.deleteOne({ code: { $eq: code } });
                 console.log(product)
                 const productos = await productsModels.find().lean();
                 io.emit('actualizarProductos', productos);
@@ -26,6 +27,16 @@ module.exports = (io) => {
                 console.log(error);
             }
         });
+
+        socket.on('newMessage', async message => {
+            try {
+                console.log(message)
+                await messagesModel.create(message)
+                io.emit('updateMessages', message);
+            } catch (error) {
+                console.log(error);
+            }
+        })
 
         socket.on('disconnect', () => {
             console.log('Un cliente se ha desconectado');

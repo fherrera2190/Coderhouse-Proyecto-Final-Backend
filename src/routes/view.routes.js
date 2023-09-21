@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const ProductManager = require('../modules/ProductManager');
 const productsModels = require('../dao/mongo/models/products.models');
+const messagesModel = require('../dao/mongo/models/messages.models');
 pm = new ProductManager();
 
 
@@ -30,7 +31,18 @@ router.get('/realtimeproducts', async (req, res) => {
 })
 
 router.get('/chat', async (req, res) => {
-    res.render('chat');
+
+    try {
+        let messages = await messagesModel.find().lean();
+        //console.log(messages)
+        res.setHeader('Content-Type', 'text/html')
+        res.status(200).render('chat', {
+            title: 'Chat Room',
+            messages
+        })
+    } catch (error) {
+        return res.status(500).json({ error: error.code, detalle: error.message });
+    }
 });
 
 

@@ -1,10 +1,5 @@
 const socket = io();
 
-socket.on('nuevoProducto', data => {
-    console.log(data.message);
-    socket.emit('identificacion', nombre);
-})
-
 document.getElementById("addProduct").addEventListener('submit', (e) => {
     e.preventDefault();
     const newProduct = {

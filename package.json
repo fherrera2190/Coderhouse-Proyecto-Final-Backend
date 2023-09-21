@@ -8,6 +8,9 @@
     "dev": "nodemon ./src/app.js",
     "start": "node ./src/app.js"
   },
+  "engine": {
+    "node": "14.x"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
