@@ -31,10 +31,8 @@ router.get('/realtimeproducts', async (req, res) => {
 })
 
 router.get('/chat', async (req, res) => {
-
     try {
         let messages = await messagesModel.find().lean();
-        //console.log(messages)
         res.setHeader('Content-Type', 'text/html')
         res.status(200).render('chat', {
             title: 'Chat Room',
