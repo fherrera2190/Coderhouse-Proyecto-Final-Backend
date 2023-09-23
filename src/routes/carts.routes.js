@@ -10,7 +10,7 @@ router.get('/:cid', async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(req.params.cid)) return res.status(400).json({ error: "Cid invalid" });
     const { cid } = req.params;
     try {
-        const cart = await cartsModels.findById(cid).populate('products.product');
+        const cart = await cartsModels.findById(cid);
         if (!cart) return res.status(400).json({ error: "Cart not found" });
         return res.status(200).json({ status: "OK", cart });
     } catch (error) {
@@ -36,13 +36,14 @@ router.post('/:cid/products/:pid', async (req, res) => {
         if (!existsProduct) return res.status(400).json({ error: "Product not found" });
         const existsCart = await cartsModels.findById(cid);
         if (!existsCart) return res.status(400).json({ error: "Cart not found" });
-        const findProducttExistente = existsCart.products.find(product => product.id === pid);
+        const findProducttExistente = existsCart.products.find(product => product.product.toJSON() === pid);
         if (findProducttExistente) {
             findProducttExistente.quantity += 1;
-            await cartsModels.updateOne({ _id: cid }, existsCart);
+            await cartsModels.updateOne({_id:cid }, existsCart);
+            console.log(findProducttExistente)
             return res.status(200).json({ status: "OK", msg: "Product add quantity +1" });
         }
-        existsCart.products.push({ _id: existsProduct._id });
+        existsCart.products.push({ product: existsProduct._id });
         await cartsModels.updateOne({ _id: cid }, existsCart);
         return res.status(200).json({ status: "OK", msg: "Product add sussesfully" });
 
