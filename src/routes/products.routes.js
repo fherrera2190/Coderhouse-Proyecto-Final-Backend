@@ -53,15 +53,15 @@ router.get("/", async (req, res) => {
     :  `/products${"?page="+nextPage}${req.query.limit?"&limit="+req.query.limit:""}${req.query.sort?"&sort="+ req.query.sort:""}${req.query.query?"&query="+ req.query.query:""}`
     //console.log(req.get("host"));
     //console.log(req.originalUrl);
-    console.log( 
-    totalPages,
-    prevPage,
-    nextPage,
-    page,
-    hasPrevPage,
-    hasNextPage,
-    prevLink,
-    nextLink)
+    // console.log( 
+    // totalPages,
+    // prevPage,
+    // nextPage,
+    // page,
+    // hasPrevPage,
+    // hasNextPage,
+    // prevLink,
+    // nextLink)
     return res.status(200).json({
       status: "Success",
       products: docs,
