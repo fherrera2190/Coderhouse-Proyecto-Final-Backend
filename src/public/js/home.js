@@ -23,7 +23,6 @@ document.getElementById("deleteProduct").addEventListener('submit', (e) => {
 socket.on('actualizarProductos', productos => {
     const tbody = document.getElementById('tbody');
     let nuevotbody = '';
-    console.log(productos)
     productos.forEach(product => {
         nuevotbody += `
             <tr>
