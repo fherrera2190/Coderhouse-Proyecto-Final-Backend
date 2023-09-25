@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const ProductManager = require("../modules/ProductManager");
+// const ProductManager = require("../modules/ProductManager");
+// pm = new ProductManager();
 const productsModels = require("../dao/mongo/models/products.models");
 const messagesModel = require("../dao/mongo/models/messages.models");
-pm = new ProductManager();
 
 router.get("/", async (req, res) => {
   try {
@@ -55,6 +55,15 @@ router.get("/products", async (req, res) => {
   }
 });
 
-router.get("/carts/:cid", (req, res) => {});
+router.get("/carts/:cid", (req, res) => {
+  try {
+    res.setHeader("Content-Type", "text/html");
+    res.status(200).render("carts.handlebars", {
+      title: "Carts - Page"
+    });
+  } catch (error) {
+    return res.status(500).json({ error: error.code, detalle: error.message });
+  }
+});
 
 module.exports = router;

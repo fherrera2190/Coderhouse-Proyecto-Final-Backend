@@ -1,7 +1,8 @@
 async function sendCart(e) {
+  const input = document.getElementById("carts");
   try {
     const response = await fetch(
-      "/api/carts/650f08bc86666cd3892abeb3/products/" + e.currentTarget.id,
+      "/api/carts/" + input.value + "/products/" + e.currentTarget.id,
       {
         method: "POST",
         headers: { "Content-type": "application/json; charset=UTF-8" }

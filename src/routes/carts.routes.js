@@ -42,12 +42,11 @@ router.post("/:cid/products/:pid", async (req, res) => {
     const existsCart = await cartsModels.findById(cid);
     if (!existsCart) return res.status(400).json({ error: "Cart not found" });
     const findProducttExistente = existsCart.products.find(
-      (product) => product.product.toJSON() === pid
+      product => product.product.toJSON() === pid
     );
     if (findProducttExistente) {
       findProducttExistente.quantity += 1;
       await cartsModels.updateOne({ _id: cid }, existsCart);
-      console.log(findProducttExistente);
       return res
         .status(200)
         .json({ status: "OK", msg: "Product add quantity +1" });
@@ -86,7 +85,6 @@ router.put("/:cid", async (req, res) => {
 
 //PUT api/carts/:cid/products/:pid deberá poder actualizar SÓLO la cantidad de ejemplares del producto por cualquier cantidad pasada desde req.body
 router.put("/:cid/products/:pid", async (req, res) => {
-  console.log(req.body.quantity);
   if (!req.body.quantity)
     return res.status(400).json({ error: "Tiene que ingresar quantity" });
 
@@ -103,7 +101,7 @@ router.put("/:cid/products/:pid", async (req, res) => {
     if (!existsCart) return res.status(400).json({ error: "Cart not found" });
 
     const productModify = existsCart.products.find(
-      (product) => product.product.toJSON() === req.params.pid
+      product => product.product.toJSON() === req.params.pid
     );
     if (!productModify)
       return res.status(400).json({ error: "Product no exist on cart" });
@@ -138,7 +136,7 @@ router.delete("/:cid/products/:pid", async (req, res) => {
 
     if (
       !existsCart.products.find(
-        (product) => product.product.toJSON() === req.params.pid
+        product => product.product.toJSON() === req.params.pid
       )
     )
       return res.status(400).json({ error: "Product no exist on cart" });
@@ -147,7 +145,7 @@ router.delete("/:cid/products/:pid", async (req, res) => {
       { _id: req.params.cid },
       {
         products: existsCart.products.filter(
-          (product) => product.product.toJSON() !== req.params.pid
+          product => product.product.toJSON() !== req.params.pid
         )
       }
     );
