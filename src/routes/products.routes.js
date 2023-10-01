@@ -4,10 +4,11 @@ const router = express.Router();
 // pm = new ProductManager();
 const productsModels = require("../dao/mongo/models/products.models");
 const { mongoose } = require("mongoose");
+const auth = require("../middlewares/auth");
 
 
 // GET Produucts
-router.get("/", async (req, res) => {
+router.get("/",async (req, res) => {
   const limit =(req.query.limit&& +req.query.limit>0) ? +req.query.limit : 10;
   try {
     let sort = req.query.sort;
@@ -98,7 +99,7 @@ router.get("/:pid", async (req, res) => {
 });
 
 // ADD PRODUCT
-router.post("/", async (req, res) => {
+router.post("/", auth,async (req, res) => {
   try {
     await productsModels.create(req.body);
     const productos = await productsModels.find().lean();

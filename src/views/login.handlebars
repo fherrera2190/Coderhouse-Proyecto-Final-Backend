@@ -1,0 +1,36 @@
+<main class="bg-dark">
+  <div class="h-100 d-flex justify-content-center align-items-center">
+    <form
+      class="p-5 rounded-2 bg-light "
+      style="height: 400px; width: 420px;"
+      action="/api/sessions/login"
+      method="post"
+    >
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Email address</label>
+        <input
+          type="email"
+          class="form-control"
+          id="email"
+          name="email"
+          aria-describedby="emailHelp"
+        />
+        <div id="emailHelp" class="form-text">We'll never share your email with
+          anyone else.</div>
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">Password</label>
+        <input
+          type="password"
+          class="form-control"
+          id="password"
+          name="password"
+        />
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+      <hr>
+      <p>You don't have an account  <a class="" href="/register">Register</a></p>
+    </form>
+  </div>
+
+</main>

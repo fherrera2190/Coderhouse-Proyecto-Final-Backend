@@ -5,9 +5,10 @@ const router = express.Router();
 const productsModels = require("../dao/mongo/models/products.models");
 const cartsModels = require("../dao/mongo/models/carts.models");
 const { mongoose } = require("mongoose");
+const auth = require("../middlewares/auth");
 
 //GET CART
-router.get("/:cid", async (req, res) => {
+router.get("/:cid", auth, async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.cid))
     return res.status(400).json({ error: "Cid invalid" });
   const { cid } = req.params;
@@ -20,7 +21,7 @@ router.get("/:cid", async (req, res) => {
   }
 });
 //CREATE CART
-router.post("/", async (req, res) => {
+router.post("/", auth, async (req, res) => {
   try {
     const result = await cartsModels.create({});
     return res.status(201).send({ status: "OK", result });
@@ -29,7 +30,7 @@ router.post("/", async (req, res) => {
   }
 });
 //ADD PRODUCT
-router.post("/:cid/products/:pid", async (req, res) => {
+router.post("/:cid/products/:pid", auth, async (req, res) => {
   try {
     const { pid, cid } = req.params;
     if (!mongoose.Types.ObjectId.isValid(pid))
@@ -62,7 +63,7 @@ router.post("/:cid/products/:pid", async (req, res) => {
 });
 
 //PUT api/carts/:cid deberá actualizar el carrito con un arreglo de productos con el formato especificado arriba. No habia formato(?????????????)
-router.put("/:cid", async (req, res) => {
+router.put("/:cid", auth, async (req, res) => {
   try {
     const cid = req.params.cid;
     if (!mongoose.Types.ObjectId.isValid(cid))
@@ -84,7 +85,7 @@ router.put("/:cid", async (req, res) => {
 });
 
 //PUT api/carts/:cid/products/:pid deberá poder actualizar SÓLO la cantidad de ejemplares del producto por cualquier cantidad pasada desde req.body
-router.put("/:cid/products/:pid", async (req, res) => {
+router.put("/:cid/products/:pid", auth, async (req, res) => {
   if (!req.body.quantity)
     return res.status(400).json({ error: "Tiene que ingresar quantity" });
 
@@ -121,7 +122,7 @@ router.put("/:cid/products/:pid", async (req, res) => {
   }
 });
 //DELETE api/carts/:cid/products/:pid deberá eliminar del carrito el producto seleccionado.
-router.delete("/:cid/products/:pid", async (req, res) => {
+router.delete("/:cid/products/:pid", auth, async (req, res) => {
   try {
     const { pid, cid } = req.params;
     if (!mongoose.Types.ObjectId.isValid(pid))
@@ -157,7 +158,7 @@ router.delete("/:cid/products/:pid", async (req, res) => {
 });
 
 // DELETE api/carts/:cid deberá eliminar todos los productos del carrito
-router.delete("/:cid", async (req, res) => {
+router.delete("/:cid", auth, async (req, res) => {
   try {
     const cid = req.params.cid;
     if (!mongoose.Types.ObjectId.isValid(cid))
