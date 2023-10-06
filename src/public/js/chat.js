@@ -20,10 +20,10 @@ socket.on("updateMessages", message => {
 const enviarMensaje = document.getElementById("enviarMensaje");
 enviarMensaje.addEventListener("click", e => {
   probandoScroll.scrollTop = probandoScroll.scrollHeight;
-  const textArea = document.getElementById("textarea").value;
   const newMessage = {
     email: document.getElementById("email").value,
-    message: textArea
+    message: document.getElementById("textarea").value
   };
+  document.getElementById("textarea").value = "";
   socket.emit("newMessage", newMessage);
 });
