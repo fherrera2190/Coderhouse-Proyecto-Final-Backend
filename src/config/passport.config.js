@@ -68,7 +68,7 @@ const inicializaPassport = () => {
       {
         clientID: "Iv1.852bd6834d25d577",
         clientSecret: "a497e4eb3ed80265ecfbec28b93133f86d0befae",
-        callbackURL: "http://localhost:8080/api/sessions/callbackGitHub"
+        callbackURL: "https://server-express-0y8z.onrender.com/api/sessions/callbackGitHub"
       },
       async (token, tokenRefresh, profile, done) => {
         try {
