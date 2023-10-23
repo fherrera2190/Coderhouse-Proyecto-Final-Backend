@@ -1,7 +1,5 @@
 const express = require("express");
 const router = express.Router();
-// const CartManager = require("../modules/CartManager");
-// cm = new CartManager();
 const productsModels = require("../dao/mongo/models/products.models");
 const cartsModels = require("../dao/mongo/models/carts.models");
 const { mongoose } = require("mongoose");
@@ -24,11 +22,13 @@ router.get("/:cid", auth, async (req, res) => {
 router.post("/", auth, async (req, res) => {
   try {
     const result = await cartsModels.create({});
+    
     return res.status(201).send({ status: "OK", result });
   } catch (error) {
     console.log(error);
   }
 });
+
 //ADD PRODUCT
 router.post("/:cid/products/:pid", auth, async (req, res) => {
   try {

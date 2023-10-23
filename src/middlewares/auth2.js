@@ -1,5 +1,5 @@
 module.exports = (req, res, next) => {
-  if (req.session.user) {
+  if (req.cookies.coderCookie) {
     return res.redirect("/");
   }
   next();

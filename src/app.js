@@ -10,30 +10,20 @@ const { Server } = require("socket.io");
 const PORT = 8080;
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
-const session = require("express-session");
-const connectMongo = require("connect-mongo");
 const passport = require("passport");
 const inicializaPassport = require("./config/passport.config");
+const session = require("express-session");
+const connectMongo = require("connect-mongo");
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname + "/public")));
 app.use(cookieParser());
-app.use(
-  session({
-    secret: "probando",
-    resave: true,
-    saveUninitialized: true,
-    store: connectMongo.create({
-      mongoUrl:
-        "mongodb+srv://ferbeoulve:root1234@cluster0.s9kw73z.mongodb.net/?retryWrites=true&w=majority&dbName=ecommerce",
-      ttl: 60
-    })
-  })
-);
+
 inicializaPassport();
 app.use(passport.initialize());
-app.use(passport.session());
+
 
 app.use((req, res, next) => {
   req.io = io;

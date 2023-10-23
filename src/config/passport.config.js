@@ -1,67 +1,39 @@
 const passport = require("passport");
-const local = require("passport-local");
 const userModel = require("../dao/mongo/models/users.models");
 const bcrypt = require("bcrypt");
 const github = require("passport-github2");
-
+const passportJWT = require("passport-jwt");
+const { PRIVATE_KEY } = require("../utils");
+const cartsModels = require("../dao/mongo/models/carts.models");
 // adminCoder@coder.com
 //adminCod3r123
 
+const buscaToken = req => {
+  let token = null;
+  if (req && req.cookies) {
+    // console.log("Recupero token,desde la cookie...PASSPORT!!");
+    token = req.cookies.coderCookie;
+  }
+  return token;
+};
+
 const inicializaPassport = () => {
   passport.use(
-    "register",
-    new local.Strategy(
+    "jwt",
+    new passportJWT.Strategy(
       {
-        usernameField: "email",
-        passReqToCallback: true
+        jwtFromRequest: passportJWT.ExtractJwt.fromExtractors([buscaToken]),
+        secretOrKey: PRIVATE_KEY
       },
-      async (req, username, password, done) => {
-        const { first_name, last_name, age, email } = req.body;
+      async (contenidoJwt, done) => {
         try {
-          const existe = await userModel.findOne({ email });
-          if (existe) done(null, false);
-
-          const user = await userModel.create({
-            first_name: first_name.trim(),
-            last_name: last_name.trim(),
-            age,
-            email: email.trim(),
-            password: bcrypt.hashSync(password.trim(), bcrypt.genSaltSync(10))
-          });
-          done(null, user);
+          return done(null, contenidoJwt.user);
         } catch (error) {
-          done(error);
+          return done(error);
         }
       }
     )
   );
-
-  passport.use(
-    "login",
-    new local.Strategy(
-      {
-        usernameField: "email"
-      },
-      async (username, password, done) => {
-        try {
-          let user = await userModel.findOne({ email: username });
-          if (user && bcrypt.compareSync(password.trim(), user.password)) {
-            return done(null, {
-              _id: user._id,
-              email: user.email,
-              first_name: user.first_name,
-              last_name: user.last_name,
-              role: user.role
-            });
-          }
-          done(null, false);
-        } catch (error) {
-          done(error);
-        }
-      }
-    )
-  );
-
   passport.use(
     "github",
     new github.Strategy(
@@ -72,7 +44,10 @@ const inicializaPassport = () => {
       },
       async (token, tokenRefresh, profile, done) => {
         try {
-          let usuario = await userModel.findOne({ email: profile._json.email });
+          const usuario = await userModel.findOne({
+            email: profile._json.email
+          });
+          console.log(profile._json.email)
           if (!usuario) {
             let newUsuario = {
               first_name: profile._json.name,
@@ -82,9 +57,10 @@ const inicializaPassport = () => {
               password: bcrypt.hashSync(
                 profile._json.email,
                 bcrypt.genSaltSync(10)
-              )
+              ),
+              cartId: await cartsModels.create({})
             };
-            let result = await userModel.create(newUsuario);
+            const result = await userModel.create(newUsuario);
             return done(null, result);
           }
           return done(null, usuario);
@@ -94,15 +70,6 @@ const inicializaPassport = () => {
       }
     )
   );
-
-  passport.serializeUser((user, done) => {
-    done(null, user._id);
-  });
-
-  passport.deserializeUser(async (id, done) => {
-    const usuario = await userModel.findById(id);
-    done(null, usuario);
-  });
 }; //fin inicializaPassport
 
 module.exports = inicializaPassport;
