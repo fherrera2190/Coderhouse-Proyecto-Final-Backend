@@ -1,8 +1,8 @@
 const express = require("express");
-const handlebars = require("express-handlebars");
 const app = express();
+const handlebars = require("express-handlebars");
 const path = require("path");
-const productsRouter = require("./routes/products.routes");
+const productsRouter = require("./routes/products.routes.js");
 const cartsRouter = require("./routes/carts.routes");
 const sessionsRouter = require("./routes/sessions.routes");
 const viewRouter = require("./routes/view.routes");
@@ -12,9 +12,6 @@ const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const passport = require("passport");
 const inicializaPassport = require("./config/passport.config");
-const session = require("express-session");
-const connectMongo = require("connect-mongo");
-
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -23,8 +20,6 @@ app.use(cookieParser());
 
 inicializaPassport();
 app.use(passport.initialize());
-
-
 app.use((req, res, next) => {
   req.io = io;
   next();
@@ -36,9 +31,13 @@ app.set("view engine", "handlebars");
 
 // Routes
 app.use("/", viewRouter);
-app.use("/api/products", productsRouter);
+app.use("/api/products", productsRouter.getRouter());
 app.use("/api/carts", cartsRouter);
 app.use("/api/sessions", sessionsRouter);
+
+//Nuevos Routes 2
+
+// app.use("/api/products2", productsRouter2.getRouter());
 
 const serverExpress = app.listen(PORT, () =>
   console.log(`Server running on http://localhost:${PORT}`)

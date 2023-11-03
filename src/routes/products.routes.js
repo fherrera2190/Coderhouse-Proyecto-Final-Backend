@@ -1,145 +1,24 @@
-const express = require("express");
-const router = express.Router();
-const productsModels = require("../dao/mongo/models/products.models");
-const { mongoose } = require("mongoose");
-const auth = require("../middlewares/auth");
+const Router = require("./router");
+const {
+  getProducts,
+  getProductById,
+  addProduct,
+  updateProduct,
+  deleteProduct
+} = require("../controllers/products.controller");
 
+class ProductsRouter extends Router {
+  init() {
+    this.get("/", ["PUBLIC"], getProducts);
 
-// GET Produucts
-router.get("/",async (req, res) => {
-  const limit =(req.query.limit&& +req.query.limit>0) ? +req.query.limit : 10;
-  try {
-    let sort = req.query.sort;
-    if (sort && "asc" === req.query.sort.toLocaleLowerCase()) {
-      sort = { price: 1 };
-    }
-    if (sort && "desc" === req.query.sort.toLocaleLowerCase()) {
-      sort = { price: -1 };
-    }
+    this.get("/:pid", ["PUBLIC"], getProductById);
 
-    let query ={};
+    this.post("/", ["ADMIN"], addProduct);
 
-    if (req.query.query === "true") {
-      query.status = true;
-    } 
-     if (req.query.query === "false") {
-      query.status = false;
-    } 
-    if(req.query.query && req.query.query!=="true" && req.query.query!=="false") {
-      query.category = req.query.query;
-    }
-    const products = await productsModels.paginate(query, {
-      limit,
-      page: req.query.page ?? 1,
-      sort
-    });
+    this.put("/:pid", ["ADMIN"], updateProduct);
 
-    const {
-      docs,
-      totalPages,
-      prevPage,
-      nextPage,
-      page,
-      hasPrevPage,
-      hasNextPage
-    } = products;
-    
-    const prevLink= !prevPage
-    ? null
-    :  `/products${"?page="+prevPage}${req.query.limit?"&limit="+req.query.limit:""}${req.query.sort?"&sort="+ req.query.sort:""}${req.query.query?"&query="+ req.query.query:""}`
-    const nextLink=!nextPage
-    ? null
-    :  `/products${"?page="+nextPage}${req.query.limit?"&limit="+req.query.limit:""}${req.query.sort?"&sort="+ req.query.sort:""}${req.query.query?"&query="+ req.query.query:""}`
-    
-    return res.status(200).json({
-      status: "Success",
-      products: docs,
-      totalPages,
-      prevPage,
-      nextPage,
-      page,
-      hasPrevPage,
-      hasNextPage,
-      prevLink,
-      nextLink
-    });
-  } catch (error) {
-    return res.status(500).json({ error: error.code, detalle: error.message });
+    this.delete("/:pid", ["ADMIN"], deleteProduct);
   }
-});
+}
 
-// GET Products by ID
-router.get("/:pid", async (req, res) => {
-  try {
-    if (!mongoose.Types.ObjectId.isValid(req.params.pid.trim()))
-      return res.status(400).json({ error: "Id invalido" });
-    const product = await productsModels.findOne({
-      _id: { $eq: req.params.pid.trim() }
-    });
-    if (!product)
-      return res
-        .status(200)
-        .json({ status: "OK", msg: "No existe producto con ese pid" });
-    return res.status(200).json({ status: "OK", product: product });
-  } catch (error) {
-    return res.status(500).json({ error: error.code, detalle: error.message });
-  }
-});
-
-// ADD PRODUCT
-router.post("/", auth,async (req, res) => {
-  try {
-    await productsModels.create(req.body);
-    const productos = await productsModels.find().lean();
-    req.io.emit("actualizarProductos", productos);
-    return res
-      .status(201)
-      .json({ status: "OK", msg: "Producto creado exitosamente" });
-  } catch (error) {
-    return res.status(500).json({ error: error.code, detalle: error.message });
-  }
-});
-
-// MODIFY PRODUCT BY ID
-router.put("/:pid", async (req, res) => {
-  try {
-    if (!mongoose.Types.ObjectId.isValid(req.params.pid.trim()))
-      return res.status(400).json({ error: "Id invalido" });
-    const product = await productsModels.findByIdAndUpdate(
-      req.params.pid.trim(),
-      req.body
-    );
-    if (!product)
-      return res
-        .status(200)
-        .json({ status: "OK", msg: "No existe producto con ese pid" });
-    const productos = await productsModels.find().lean();
-    req.io.emit("actualizarProductos", productos);
-    return res.status(200).json({ status: "OK", product: product });
-  } catch (error) {
-    return res.status(500).json({ error: error.code, detalle: error.message });
-  }
-});
-// DELETE PRODUCT BY ID
-router.delete("/:pid", async (req, res) => {
-  try {
-    if (!mongoose.Types.ObjectId.isValid(req.params.pid.trim()))
-      return res.status(400).json({ error: "Id invalido" });
-    const product = await productsModels.deleteOne({
-      _id: { $eq: req.params.pid.trim() }
-    });
-    if (!product)
-      return res
-        .status(200)
-        .json({ status: "OK", msg: "No existe producto con ese pid" });
-    const productos = await productsModels.find().lean();
-    req.io.emit("actualizarProductos", productos);
-    return res
-      .status(200)
-      .json({ status: "OK", msg: "Producto eliminado exitosamente" });
-  } catch (error) {
-    return res.status(500).json({ error: error.code, detalle: error.message });
-  }
-});
-
-module.exports = router;
+module.exports = new ProductsRouter();

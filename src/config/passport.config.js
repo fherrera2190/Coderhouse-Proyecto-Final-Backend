@@ -1,4 +1,5 @@
 const passport = require("passport");
+const local = require("passport-local");
 const userModel = require("../dao/mongo/models/users.models");
 const bcrypt = require("bcrypt");
 const github = require("passport-github2");
@@ -18,6 +19,11 @@ const buscaToken = req => {
 };
 
 const inicializaPassport = () => {
+  // passport.use(
+  //   "registro",
+  //   new local.Strategy({ passReqToCallback: true, usernameField: "email" }, asycn)
+  // );
+
   passport.use(
     "jwt",
     new passportJWT.Strategy(
@@ -47,7 +53,7 @@ const inicializaPassport = () => {
           const usuario = await userModel.findOne({
             email: profile._json.email
           });
-          console.log(profile._json.email)
+          console.log(profile._json.email);
           if (!usuario) {
             let newUsuario = {
               first_name: profile._json.name,

@@ -10,6 +10,9 @@ const cartsModels = require("../dao/mongo/models/carts.models");
 const authenticateGithub = passport.authenticate("github", { session: false });
 
 router.post("/login", auth2, async (req, res) => {
+
+  if(!req.body.email || !req.body.password) return res.status(400).json({status:"error", error:"debe completar todos los campos"})
+
   const user = await userModel.findOne({ email: req.body.email });
   if (!user) return res.status(401).redirect("/login");
   if (!bcrypt.compareSync(req.body.password.trim(), user.password))
