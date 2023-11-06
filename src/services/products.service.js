@@ -4,7 +4,7 @@ class ProductsService {
   constructor(dao) {
     this.dao = new dao();
   }
-  async getProducts() {
+  async getProducts(filtro={}) {
     return await this.dao.get();
   }
   async createProduct() {

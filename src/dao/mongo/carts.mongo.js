@@ -2,11 +2,14 @@ const cartsModels = require("./models/carts.models");
 
 class Carts {
   constructor() {}
-  async get(filtro = {}) {
+  async getCarts(filtro = {}) {
     return await cartsModels.find(filtro);
   }
-  async create(product) {
-    return await cartsModels.create();
+  async createCart() {
+    return await cartsModels.create({});
+  }
+  async getCartById(cid) {
+    return await cartsModels.findById(cid).populate("products.product");
   }
 }
 

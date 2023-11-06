@@ -3,7 +3,7 @@ const app = express();
 const handlebars = require("express-handlebars");
 const path = require("path");
 const productsRouter = require("./routes/products.routes.js");
-const cartsRouter = require("./routes/carts.routes");
+const cartRouter = require("./routes/cart.routes.js");
 const sessionsRouter = require("./routes/sessions.routes");
 const viewRouter = require("./routes/view.routes");
 const { Server } = require("socket.io");
@@ -32,8 +32,8 @@ app.set("view engine", "handlebars");
 // Routes
 app.use("/", viewRouter);
 app.use("/api/products", productsRouter.getRouter());
-app.use("/api/carts", cartsRouter);
-app.use("/api/sessions", sessionsRouter);
+app.use("/api/carts", cartRouter.getRouter());
+app.use("/api/sessions", sessionsRouter.getRouter());
 
 //Nuevos Routes 2
 
