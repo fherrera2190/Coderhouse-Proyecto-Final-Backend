@@ -1,6 +1,6 @@
 class UsersService {
   constructor(dao) {
-    this.dao = new dao();
+    this.dao =  dao;
   }
   async getUsers() {
     return await this.dao.get();

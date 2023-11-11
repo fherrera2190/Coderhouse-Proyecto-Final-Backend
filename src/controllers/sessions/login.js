@@ -1,5 +1,5 @@
 const { generaJWT } = require("../../utils");
-const userModel = require("../../dao/mongo/models/users.models");
+const userModel = require("../../dao/mongo/models/user.model");
 const bcrypt = require("bcrypt");
 
 module.exports = async (req, res) => {

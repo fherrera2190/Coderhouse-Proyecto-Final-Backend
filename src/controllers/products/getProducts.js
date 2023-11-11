@@ -1,4 +1,4 @@
-const productService = require("../../services/products.service");
+const { productService } = require("../../services/index.service");
 
 module.exports = async (req, res) => {
   try {
@@ -6,6 +6,6 @@ module.exports = async (req, res) => {
     const products = await productService.getProducts();
     return res.sendSuccess(products);
   } catch (error) {
-    return res.statsendServerError(error.message);
+    return res.sendServerError(error.message);
   }
 };

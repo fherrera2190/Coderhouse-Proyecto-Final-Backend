@@ -1,6 +1,6 @@
 class CartsService {
   constructor(dao) {
-    this.dao = new dao();
+    this.dao = dao;
   }
   async getCarts() {
     return await this.dao.get();
@@ -12,6 +12,5 @@ class CartsService {
     return await this.dao.getCartById(cid);
   }
   async addProduct(products) {}
-
 }
 module.exports = CartsService;

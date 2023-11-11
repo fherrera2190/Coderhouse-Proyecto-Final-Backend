@@ -6,7 +6,7 @@ switch (config.PERSISTENCE) {
     console.log("Persisntecia Fs");
     break;
   case "MONGO":
-    MongoSingleton.connectDb();
+    MongoSingleton.connectDb(config.MONGO_URL);
     User = require("./mongo/user.mongo");
     Product = require("./mongo/product.mongo");
     Cart = require("./mongo/cart.mongo");
@@ -20,4 +20,4 @@ module.exports = {
   User,
   Product,
   Cart
-  };
+};

@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const productsModels = require("../dao/mongo/models/products.models");
-const messagesModel = require("../dao/mongo/models/messages.models");
+const productsModels = require("../dao/mongo/models/product.model");
+const messagesModel = require("../dao/mongo/models/message.model");
 const auth = require("../middlewares/auth");
 const auth2 = require("../middlewares/auth2");
 const { passportCall } = require("../utils");

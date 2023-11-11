@@ -1,7 +1,5 @@
-const messagesModel = require("../dao/mongo/models/messages.models");
-const productsModels = require("../dao/mongo/models/products.models");
-// const ProductManager = require("../modules/ProductManager");
-// pm = new ProductManager();
+const messagesModel = require("../dao/mongo/models/message.model");
+const productsModels = require("../dao/mongo/models/product.model");
 
 module.exports = io => {
   io.on("connection", socket => {

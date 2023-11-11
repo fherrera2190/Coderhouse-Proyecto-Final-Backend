@@ -1,4 +1,4 @@
-const productsModels = require("../../dao/mongo/models/products.models");
+const productsModels = require("../../dao/mongo/models/product.model");
 const { mongoose } = require("mongoose");
 module.exports = async (req, res) => {
   try {

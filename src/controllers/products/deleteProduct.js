@@ -1,5 +1,5 @@
 const { mongoose } = require("mongoose");
-const productsModels = require("../../dao/mongo/models/products.models");
+const productsModels = require("../../dao/mongo/models/product.model");
 
 module.exports = async (req, res) => {
   try {
@@ -18,6 +18,6 @@ module.exports = async (req, res) => {
       .status(200)
       .json({ status: "OK", msg: "Producto eliminado exitosamente" });
   } catch (error) {
-    return res.statsendServerError(error.message);
+    return res.sendServerError(error.message);
   }
 };

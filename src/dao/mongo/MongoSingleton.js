@@ -16,5 +16,4 @@ class MongoSingleton{
          return this.#instacia;
     }
 }
-MongoSingleton.connectDb(process.env.MONGO_URL);
 module.exports = MongoSingleton;

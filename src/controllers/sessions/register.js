@@ -1,5 +1,5 @@
-const cartsModels = require("../../dao/mongo/models/carts.models");
-const userModel = require("../../dao/mongo/models/users.models");
+const cartsModels = require("../../dao/mongo/models/cart.model");
+const userModel = require("../../dao/mongo/models/user.model");
 
 module.exports = async (req, res) => {
   try {

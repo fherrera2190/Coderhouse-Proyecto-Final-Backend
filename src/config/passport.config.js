@@ -1,11 +1,11 @@
 const passport = require("passport");
 const local = require("passport-local");
-const userModel = require("../dao/mongo/models/users.models");
+const userModel = require("../dao/mongo/models/user.model");
 const bcrypt = require("bcrypt");
 const github = require("passport-github2");
 const passportJWT = require("passport-jwt");
 const { PRIVATE_KEY } = require("../utils");
-const cartsModels = require("../dao/mongo/models/carts.models");
+const cartsModels = require("../dao/mongo/models/cart.model");
 // adminCoder@coder.com
 //adminCod3r123
 
