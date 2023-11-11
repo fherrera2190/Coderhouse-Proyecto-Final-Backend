@@ -12,9 +12,9 @@ const Router = require("./router");
 
 class CartsRouter extends Router {
   init() {
-    this.get("/:cid", ["USER"], getCartById);
-
     this.post("/", ["USER"], addCart);
+    
+    this.get("/:cid", ["USER"], getCartById);
 
     this.post("/:cid/products/:pid", ["USER"], addProduct);
 

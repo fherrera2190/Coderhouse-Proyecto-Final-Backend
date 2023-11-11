@@ -1,15 +1,19 @@
-const dao = require("../dao/mongo/products.mongo");
-
 class ProductsService {
   constructor(dao) {
     this.dao = new dao();
   }
-  async getProducts(filtro={}) {
+  async getProducts(filtro = {}) {
     return await this.dao.get();
   }
   async createProduct() {
     return await this.dao.create({});
   }
+  async deleteProduct(cid, pid) {
+    return await this.dao.delete(cid, pid);
+  }
+  async updateProduct(cid, pid) {
+    return await this.dao.delete(cid, pid);
+  }
 }
-const productService = new ProductsService(dao);
-module.exports = productService;
+
+module.exports = ProductsService;

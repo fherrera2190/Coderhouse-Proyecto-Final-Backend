@@ -71,7 +71,7 @@ class Router {
       res.status(403).json({ status: "error", error });
     next();
   };
-
+  
   handlePolicies = policies => (req, res, next) => {
     if (policies.includes("PUBLIC")) return next(); //Cualquiera entra
     const token = req.cookies.coderCookie;

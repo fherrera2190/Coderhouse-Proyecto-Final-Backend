@@ -1,5 +1,3 @@
-const dao = require("../dao/mongo/carts.mongo.js");
-
 class CartsService {
   constructor(dao) {
     this.dao = new dao();
@@ -13,7 +11,7 @@ class CartsService {
   async getCartById(cid) {
     return await this.dao.getCartById(cid);
   }
-}
+  async addProduct(products) {}
 
-const cartService = new CartsService(dao);
-module.exports = cartService;
+}
+module.exports = CartsService;

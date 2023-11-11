@@ -1,5 +1,3 @@
-const dao = require("../dao/mongo/users.mongo");
-
 class UsersService {
   constructor(dao) {
     this.dao = new dao();
@@ -12,6 +10,5 @@ class UsersService {
   }
 }
 
-const userService = new UsersService(dao);
 
-module.exports = userService;
+module.exports = UsersService;

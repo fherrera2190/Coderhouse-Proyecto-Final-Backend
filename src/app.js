@@ -1,5 +1,7 @@
 const express = require("express");
 const app = express();
+const config= require('./config/config.js')
+const factory = require("./dao/factory.js");
 const handlebars = require("express-handlebars");
 const path = require("path");
 const productsRouter = require("./routes/products.routes.js");
@@ -7,8 +9,6 @@ const cartRouter = require("./routes/cart.routes.js");
 const sessionsRouter = require("./routes/sessions.routes");
 const viewRouter = require("./routes/view.routes");
 const { Server } = require("socket.io");
-const PORT = 8080;
-const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const passport = require("passport");
 const inicializaPassport = require("./config/passport.config");
@@ -35,23 +35,8 @@ app.use("/api/products", productsRouter.getRouter());
 app.use("/api/carts", cartRouter.getRouter());
 app.use("/api/sessions", sessionsRouter.getRouter());
 
-//Nuevos Routes 2
-
-// app.use("/api/products2", productsRouter2.getRouter());
-
-const serverExpress = app.listen(PORT, () =>
-  console.log(`Server running on http://localhost:${PORT}`)
+const serverExpress = app.listen(config.PORT, () =>
+  console.log(`Server running on http://localhost:${config.PORT}`)
 );
 const io = new Server(serverExpress);
 require("./sockets/socket")(io);
-
-mongoose
-  .connect(
-    "mongodb+srv://ferbeoulve:root1234@cluster0.s9kw73z.mongodb.net/?retryWrites=true&w=majority&dbName=ecommerce"
-  )
-  .then(result => {
-    console.log("DB conectada");
-  })
-  .catch(err => {
-    console.log(err);
-  });

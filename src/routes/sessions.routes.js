@@ -10,7 +10,7 @@ const {
 
 class SessionsRoutes extends Router {
   init() {
-    this.post("/login", ["PUBLIC"], login);
+    this.post("/login", ["ADMIN"], login);
     this.post("/register", ["PUBLIC"], register);
     this.get("github", ["PUBLIC"], gitHub);
     this.get("./callbackGitHub", callBackGitHub);
