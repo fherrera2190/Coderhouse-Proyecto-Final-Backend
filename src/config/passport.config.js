@@ -12,18 +12,12 @@ const cartsModels = require("../dao/mongo/models/cart.model");
 const buscaToken = req => {
   let token = null;
   if (req && req.cookies) {
-    // console.log("Recupero token,desde la cookie...PASSPORT!!");
     token = req.cookies.coderCookie;
   }
   return token;
 };
 
 const inicializaPassport = () => {
-  // passport.use(
-  //   "registro",
-  //   new local.Strategy({ passReqToCallback: true, usernameField: "email" }, asycn)
-  // );
-
   passport.use(
     "jwt",
     new passportJWT.Strategy(

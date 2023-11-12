@@ -1,9 +1,11 @@
-const productsModels = require("../../dao/mongo/models/product.model");
+const { productService } = require("../../services/index.service");
 
 module.exports = async (req, res) => {
   try {
-    await productsModels.create(req.body);
-    const productos = await productsModels.find().lean();
+    const { title, description, price, code, stock, category } = req.body;
+    if (!title || !description || !price || !code || !stock || !category)
+      return res.sendUserError("Faltan datos");
+    const productos = await productService.create(req.body);
     req.io.emit("actualizarProductos", productos);
     return res.sendSuccess(productos);
   } catch (error) {

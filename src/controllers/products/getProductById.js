@@ -1,18 +1,11 @@
-const productsModels = require("../../dao/mongo/models/product.model");
-const { mongoose } = require("mongoose");
+const { productService } = require("../../services/index.service.js");
 module.exports = async (req, res) => {
   try {
-    if (!mongoose.Types.ObjectId.isValid(req.params.pid.trim()))
-      return res.status(400).json({ error: "Id invalido" });
-    const product = await productsModels.findOne({
-      _id: { $eq: req.params.pid.trim() }
-    });
+    const product = await productService.getById(req.params.pid);
     if (!product)
-      return res
-        .status(200)
-        .json({ status: "OK", msg: "No existe producto con ese pid" });
-    return res.status(200).json({ status: "OK", product: product });
+      return res.errorResourceNotFound("Product don´t exist")
+    res.sendSuccess(product)
   } catch (error) {
-    return res.statsendServerError(error.message);
+    return res.sendServerError(error.message);
   }
 };

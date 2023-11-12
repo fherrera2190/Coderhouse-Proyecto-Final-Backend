@@ -69,9 +69,11 @@ class Router {
       res.status(401).send({ status: "error", error });
     res.errorUserAuthentication = error =>
       res.status(403).json({ status: "error", error });
+    res.errorResourceNotFound = error =>
+      res.status(404).json({ status: "error", error });
     next();
   };
-  
+
   handlePolicies = policies => (req, res, next) => {
     if (policies.includes("PUBLIC")) return next(); //Cualquiera entra
     const token = req.cookies.coderCookie;

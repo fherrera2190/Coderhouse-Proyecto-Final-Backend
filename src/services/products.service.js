@@ -1,17 +1,24 @@
+const ProductDto = require("../dto/Product.dto");
+
 class ProductsService {
   constructor(dao) {
     this.dao = new dao();
   }
-  async getProducts(filtro = {}) {
-    return await this.dao.getProducts();
+  async get(query, options) {
+    return await this.dao.getProducts(query, options);
   }
-  async createProduct() {
-    return await this.dao.create({});
+  async getById(pid) {
+    return await this.dao.getProductById(pid);
   }
-  async deleteProduct(cid, pid) {
+  async create(product) {
+    const newProduct = new ProductDto(product);
+    return await this.dao.addProduct(newProduct);
+  }
+
+  async delete(cid, pid) {
     return await this.dao.delete(cid, pid);
   }
-  async updateProduct(cid, pid) {
+  async update(cid, pid) {
     return await this.dao.delete(cid, pid);
   }
 }

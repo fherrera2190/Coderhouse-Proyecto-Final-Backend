@@ -1,28 +1,15 @@
 const { generaJWT } = require("../../utils");
 const userModel = require("../../dao/mongo/models/user.model");
 const bcrypt = require("bcrypt");
-
+const UserCurrent = require("../../dto/UserCurrent.dto");
 module.exports = async (req, res) => {
-
-  console.log("Entre aca")
-
   if (!req.body.email || !req.body.password)
-    return res
-      .status(400)
-      .json({ status: "error", error: "debe completar todos los campos" });
-
+    return res.sendUserError("debe completar todos los campos");
   const user = await userModel.findOne({ email: req.body.email });
   if (!user) return res.status(401).redirect("/login");
   if (!bcrypt.compareSync(req.body.password.trim(), user.password))
     return res.status(401).redirect("/login");
-  const userLimited = {
-    id: user.id,
-    first_name: user.first_name,
-    last_name: user.last_name,
-    email: user.email,
-    role: user.role,
-    cartId: user.cartId
-  };
+  const userLimited = new UserCurrent(user);
 
   const token = generaJWT(userLimited);
   res.cookie("coderCookie", token, {

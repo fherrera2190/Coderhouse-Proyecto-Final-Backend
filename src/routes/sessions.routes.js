@@ -7,15 +7,16 @@ const {
   logOut,
   current
 } = require("../controllers/sessions.controller");
+const { passportCall } = require("../utils");
 
 class SessionsRoutes extends Router {
   init() {
-    this.post("/login", ["ADMIN"], login);
+    this.post("/login", ["PUBLIC"], login);
     this.post("/register", ["PUBLIC"], register);
-    this.get("github", ["PUBLIC"], gitHub);
-    this.get("./callbackGitHub", callBackGitHub);
-    this.get("./current", ["PUBLIC"], current);
-    this.get("./logOut", ["PUBLIC"], logOut);
+    this.get("/github", ["PUBLIC"], gitHub);
+    this.get("/callbackGitHub", callBackGitHub);
+    this.get("/current", ["PUBLIC"], passportCall("jwt"), current);
+    this.get("/logout", ["PUBLIC"], logOut);
   }
 }
 

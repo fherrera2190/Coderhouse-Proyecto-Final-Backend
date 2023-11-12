@@ -1,5 +1,5 @@
 const productModel = require("./models/product.model");
-
+const mongoose = require("mongoose");
 class Product {
   constructor(model) {
     this.productModel = model;
@@ -14,19 +14,13 @@ class Product {
   }
 
   async getProductById(pid) {
-    try {
-      return await productModel.findOne({ _id: pid });
-    } catch (err) {
-      return new Error(err);
-    }
+    if (!mongoose.Types.ObjectId.isValid(pid.trim()))
+      throw new Error("pid invalid");
+    return await productModel.findOne({ _id: pid });
   }
 
   async addProduct(product) {
-    try {
-      return await productModel.create(product);
-    } catch (err) {
-      return new Error(err);
-    }
+    return await productModel.create(product);
   }
 
   async updateProduct(pid, product) {

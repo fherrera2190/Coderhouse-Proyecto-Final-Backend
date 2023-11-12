@@ -1,3 +1,6 @@
+const UserCurrent = require("../../dto/UserCurrent.dto");
+
 module.exports = (req, res) => {
-  res.send(req.user);
+  const userCurrent = new UserCurrent(req.user);
+  res.sendSuccess(userCurrent);
 };

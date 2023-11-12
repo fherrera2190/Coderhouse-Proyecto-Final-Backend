@@ -25,6 +25,8 @@ class CartsRouter extends Router {
     this.delete("/:cid/products/:pid", ["USER"], deleteProduct);
 
     this.delete("/:cid", ["USER"], deleteProducts);
+    
+
   }
 }
 
