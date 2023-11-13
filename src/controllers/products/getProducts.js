@@ -27,8 +27,6 @@ module.exports = async (req, res) => {
       page: req.query.page ?? 1,
       sort
     }
-    console.log(query)
-    console.log(options)
     const products = await productService.get(query, options);
     const {
       docs,

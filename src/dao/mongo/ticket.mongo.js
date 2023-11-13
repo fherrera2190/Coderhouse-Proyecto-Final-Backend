@@ -2,41 +2,21 @@ const ticketModel = require("./models/ticket.model");
 
 class Ticket {
   constructor(model) {
-    this.userModel = model;
+    this.ticketModel = model;
   }
 
   async getTickets() {
-    try {
-      return await ticketModel.find({});
-    } catch (error) {
-      return new Error(error);
-    }
+    return await ticketModel.find({});
   }
 
   async getTicketById(tid) {
-    try {
-      return await ticketModel.findById({ _id: tid });
-    } catch (error) {
-      return new Error(error);
-    }
+    return await ticketModel.findById({ _id: tid });
   }
 
+  async createTicket(ticket) {
 
-  async addTicket(ticket) {
-    try {
-      return await ticketModel.create(user);
-    } catch (error) {
-      return new Error(error);
-    }
-  }
-
-  async deleteUser(ticket) {
-    try {
-      return await ticketModel.findOneAndDelete({ _id: tid });
-    } catch (error) {
-      return new Error(error);
-    }
+    return await ticketModel.create(ticket);
   }
 }
 
-module.exports = User;
+module.exports = Ticket;

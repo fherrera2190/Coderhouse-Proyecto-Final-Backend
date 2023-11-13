@@ -1,6 +1,6 @@
 const config = require("../config/config");
 const MongoSingleton = require("./mongo/MongoSingleton");
-let User, Product, Cart;
+let User, Product, Cart, Ticket;
 switch (config.PERSISTENCE) {
   case "FS":
     console.log("Persisntecia Fs");
@@ -10,6 +10,7 @@ switch (config.PERSISTENCE) {
     User = require("./mongo/user.mongo");
     Product = require("./mongo/product.mongo");
     Cart = require("./mongo/cart.mongo");
+    Ticket = require("./mongo/ticket.mongo");
     break;
 
   default:
@@ -19,5 +20,6 @@ switch (config.PERSISTENCE) {
 module.exports = {
   User,
   Product,
-  Cart
+  Cart,
+  Ticket
 };

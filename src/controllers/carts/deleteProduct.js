@@ -1,34 +1,24 @@
+const { cartService, productService } = require("../../services/index.service");
+
 module.exports = async (req, res) => {
   try {
     const { pid, cid } = req.params;
-    if (!mongoose.Types.ObjectId.isValid(pid))
-      return res.status(400).json({ error: "Pid invalid" });
-    if (!mongoose.Types.ObjectId.isValid(cid))
-      return res.status(400).json({ error: "Cid invalid" });
-    const existsProduct = await productsModels.findById(pid);
-    if (!existsProduct)
-      return res.status(400).json({ error: "Product not found" });
-    const existsCart = await cartsModels.findById(cid);
-    if (!existsCart) return res.status(400).json({ error: "Cart not found" });
 
-    if (
-      !existsCart.products.find(
-        product => product.product.toJSON() === req.params.pid
-      )
-    )
-      return res.status(400).json({ error: "Product no exist on cart" });
+    const existsProduct = await productService.getById(pid);
+    if (!existsProduct) return res.sendUserError("Product not exist");
 
-    await cartsModels.updateOne(
-      { _id: req.params.cid },
-      {
-        products: existsCart.products.filter(
-          product => product.product.toJSON() !== req.params.pid
-        )
-      }
+    const cart = await cartService.getById(cid);
+    if (!cart) return res.sendUserError("Cart not found");
+
+    const product = cart.products.find(
+      product => product.product._id.toString() === pid
     );
+    if (!product) return res.sendUserError("Product not exist on cart");
+    const result = await cartService.deleteProduct(cid, pid);
+    console.log(result);
 
-    return res.status(201).send({ status: "OK", msg: "Product deleted" });
+    return res.sendSuccess([]);
   } catch (error) {
-    console.log(error);
+    return res.sendServerError(error.message);
   }
 };

@@ -1,8 +1,9 @@
+let cartId = "";
+
 async function sendCart(e) {
-  const input = document.getElementById("carts");
   try {
     const response = await fetch(
-      "/api/carts/" + input.value + "/products/" + e.currentTarget.id,
+      "/api/carts/" + cartId + "/products/" + e.currentTarget.id,
       {
         method: "POST",
         headers: { "Content-type": "application/json; charset=UTF-8" }
@@ -35,9 +36,15 @@ function actualizarBotonesAgregar() {
   });
 }
 
-async function llamarFetch(dir) {
+window.addEventListener("load", async function() {
   try {
-    const response = await fetch(dir, { method: "GET" });
+    const userCurrent = await fetch("/api/sessions/current");
+    const user = await userCurrent.json();
+    cartId = user.payload.cartId;
+    const response = await fetch(
+      "/api" + window.location.pathname + window.location.search,
+      { method: "GET" }
+    );
     const data = await response.json();
     const tbody = document.getElementById("tbody");
     const prev = document.getElementById("prev");
@@ -66,8 +73,41 @@ async function llamarFetch(dir) {
   } catch (error) {
     console.log(error);
   }
-}
-
-document.addEventListener("DOMContentLoaded", event => {
-  llamarFetch("/api" + window.location.pathname + window.location.search);
 });
+
+// async function llamarFetch(dir) {
+//   try {
+//     const response = await fetch(dir, { method: "GET" });
+//     const data = await response.json();
+//     const tbody = document.getElementById("tbody");
+//     const prev = document.getElementById("prev");
+//     if (!data.prevLink) prev.classList.add("disabled");
+//     const next = document.getElementById("next");
+//     if (!data.nextPage) next.classList.add("disabled");
+//     document.getElementById("nextLink").href = data.nextLink;
+//     document.getElementById("prevLink").href = data.prevLink;
+//     let nuevotbody = "";
+//     data.products.forEach(product => {
+//       nuevotbody += `
+//           <tr>
+//            <th scope="row">${product.code}</th>
+//            <td> ${product.title}</td>
+//            <td> ${product.description}</td>
+//            <td> ${product.price}</td>
+//            <td> ${product.status}</td>
+//            <td> ${product.stock}</td>
+//            <td> ${product.category}</td>
+//            <td><button id="${product._id}"class="fs-4 bg-black  text-white border-1  rounded-2 p-1 sendCart"><i class="bi bi-cart-plus"></i></button></i></a></td>
+//           </tr>
+//       `;
+//     });
+//     tbody.innerHTML = nuevotbody;
+//     actualizarBotonesAgregar();
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
+
+// document.addEventListener("DOMContentLoaded", event => {
+//   llamarFetch("/api" + window.location.pathname + window.location.search);
+// });

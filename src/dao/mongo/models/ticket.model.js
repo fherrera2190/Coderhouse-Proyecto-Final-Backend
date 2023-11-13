@@ -19,3 +19,5 @@ const ticketSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+module.exports = mongoose.model(collection, ticketSchema);

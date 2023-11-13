@@ -1,12 +1,11 @@
-const cartServices = require("../../services/carts.service.js");
+const { cartService } = require("../../services/index.service.js");
 
 module.exports = async (req, res) => {
   try {
-
-    const cart = await cartServices.getCartById(req.params.cid);
-    if (!cart) return res.status(400).json({ error: "Cart not found" });
-    return res.status(200).json({ status: "success", payload: cart });
+    const cart = await cartService.getById(req.params.cid);
+    if (!cart) return res.sendUserError("Cart not found");
+    return res.sendSuccess(cart);
   } catch (error) {
-    return res.status(500).json({ status: "Error", detalle: error.message });
+    return res.sendServerError(error.message);
   }
 };

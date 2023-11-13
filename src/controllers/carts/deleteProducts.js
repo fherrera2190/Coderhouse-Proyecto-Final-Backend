@@ -1,16 +1,13 @@
+const { cartService } = require("../../services/index.service");
+
 module.exports = async (req, res) => {
   try {
-    const cid = req.params.cid;
-    if (!mongoose.Types.ObjectId.isValid(cid))
-      return res.status(400).json({ error: "Cid invalid" });
-    const existsCart = await cartsModels.findById(cid);
-    if (!existsCart) return res.status(400).json({ error: "Cart not found" });
-    await cartsModels.updateOne(
-      { _id: req.params.cid },
-      {
-        products: []
-      }
-    );
+    const cart = await cartService.getById(req.params.cid);
+    if (!cart) return res.sendUserError("Cart not found");
+
+    const result = await cartService.deleteProducts(req.params.cid);
+    
+    console.log(result)
     return res.status(201).send({ status: "OK", msg: "Cart empty!" });
   } catch (error) {
     console.log(error);

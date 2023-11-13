@@ -6,16 +6,11 @@ class Product {
   }
 
   async getProducts(query, options) {
-    try {
-      return await productModel.paginate(query, options);
-    } catch (err) {
-      return new Error(err);
-    }
+    return await productModel.paginate(query, options);
   }
 
   async getProductById(pid) {
-    if (!mongoose.Types.ObjectId.isValid(pid.trim()))
-      throw new Error("pid invalid");
+    if (!mongoose.Types.ObjectId.isValid(pid)) throw new Error("pid invalid");
     return await productModel.findOne({ _id: pid });
   }
 
@@ -24,19 +19,11 @@ class Product {
   }
 
   async updateProduct(pid, product) {
-    try {
-      return await productModel.updateOne({ _id: pid }, product);
-    } catch (err) {
-      return new Error(err);
-    }
+    return await productModel.updateOne({ _id: pid }, product);
   }
 
   async deleteProduct(pid) {
-    try {
-      return await productModel.deleteOne({ _id: pid });
-    } catch (err) {
-      return new Error(err);
-    }
+    return await productModel.deleteOne({ _id: pid });
   }
 }
 

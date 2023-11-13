@@ -1,12 +1,20 @@
-const input = document.getElementById("carts");
-document.getElementById("buttonIr").addEventListener("click", e => {
-  llamarFetch("/api/carts/" + input.value);
-});
+window.addEventListener("load", async function() {
+  const buttonPurchase = document.getElementById("purchase");
 
-async function llamarFetch(dir) {
+  buttonPurchase.addEventListener("click", function(e) {
+    purchase();
+  });
+
+  const input = document.getElementById("carts");
   try {
-    const response = await fetch(dir, { method: "GET" });
+    let userCurrent = await fetch("/api/sessions/current");
+    userCurrent = await userCurrent.json();
+    // console.log(userCurrent);
+    const { cartId } = userCurrent.payload;
+
+    const response = await fetch(`/api/carts/${cartId}`, { method: "GET" });
     const data = await response.json();
+    // console.log(data);
     let nuevotbody = "";
     data.payload.products.forEach(product => {
       nuevotbody += `
@@ -24,6 +32,18 @@ async function llamarFetch(dir) {
     });
     tbody.innerHTML = nuevotbody;
   } catch (error) {
-    // console.log(error);
+    console.log(error);
   }
+});
+
+async function purchase() {
+  let userCurrent = await fetch("/api/sessions/current");
+  userCurrent = await userCurrent.json();
+  const { cartId,email } = userCurrent.payload;
+  const response2 = await fetch(`/api/carts/${cartId}/purchase?email=${email}`, {
+    method: "get"
+  });
+  const datos = await response2.json();
+  alert(datos);
+  console.log(datos);
 }

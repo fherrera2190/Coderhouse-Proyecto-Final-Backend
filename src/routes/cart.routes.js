@@ -5,7 +5,8 @@ const {
   updateCart,
   updateQuantity,
   deleteProduct,
-  deleteProducts
+  deleteProducts,
+  purchase
 } = require("../controllers/carts.controller");
 
 const Router = require("./router");
@@ -13,8 +14,10 @@ const Router = require("./router");
 class CartsRouter extends Router {
   init() {
     this.post("/", ["USER"], addCart);
-    
+
     this.get("/:cid", ["USER"], getCartById);
+
+    this.get("/:cid/purchase", ["USER"], purchase);
 
     this.post("/:cid/products/:pid", ["USER"], addProduct);
 
@@ -25,8 +28,6 @@ class CartsRouter extends Router {
     this.delete("/:cid/products/:pid", ["USER"], deleteProduct);
 
     this.delete("/:cid", ["USER"], deleteProducts);
-    
-
   }
 }
 
