@@ -6,90 +6,50 @@ class User {
   }
 
   async getUsers() {
-    try {
-      return await userModel.find({});
-    } catch (error) {
-      return new Error(error);
-    }
+    return await userModel.find({});
   }
 
   async getUserById(uid) {
-    try {
-      return await userModel.findById({ _id: uid });
-    } catch (error) {
-      return new Error(error);
-    }
+    return await userModel.findById({ _id: uid });
   }
 
   async getUserByEmail(email) {
-    try {
-      return await userModel.findOne({ email: email });
-    } catch (error) {
-      return new Error(error);
-    }
+    return await userModel.findOne({ email: email });
   }
 
   async getUserByLogin(email, password) {
-    try {
-      return await userModel.findOne({ email: email, password: password });
-    } catch (error) {
-      return new Error(error);
-    }
+    return await userModel.findOne({ email: email, password: password });
   }
 
   async getUserByCartId(cid) {
-    try {
-      return await userModel.findOne({ cart: cid });
-    } catch (error) {
-      return new Error(error);
-    }
+    return await userModel.findOne({ cart: cid });
   }
 
   async getInactiveUsers(option) {
-    try {
-      return await userModel.find(option);
-    } catch (error) {
-      return new Error(error);
-    }
+    return await userModel.find(option);
   }
 
   async addUser(user) {
-    try {
-      return await userModel.create(user);
-    } catch (error) {
-      return new Error(error);
-    }
+    return await userModel.create(user);
   }
 
   async updateUser(uid, data) {
-    try {
-      return await userModel.findOneAndUpdate(uid, data);
-    } catch (error) {
-      return new Error(error);
-    }
+    return await userModel.findOneAndUpdate(uid, data);
   }
 
   async updateUserDocuments(uid, documentName, documentPath) {
-    try {
-      const user = await userModel.findById(uid);
+    const user = await userModel.findById(uid);
 
-      if (!user) return new Error("Error finding user");
+    if (!user) return new Error("Error finding user");
 
-      const update = {
-        $push: { documents: { name: documentName, reference: documentPath } }
-      };
-      await userModel.updateOne({ _id: uid }, update);
-    } catch (error) {
-      return new Error(error);
-    }
+    const update = {
+      $push: { documents: { name: documentName, reference: documentPath } }
+    };
+    await userModel.updateOne({ _id: uid }, update);
   }
 
   async deleteUser(uid) {
-    try {
-      return await userModel.findOneAndDelete({ _id: uid });
-    } catch (error) {
-      return new Error(error);
-    }
+    return await userModel.findOneAndDelete({ _id: uid });
   }
 }
 

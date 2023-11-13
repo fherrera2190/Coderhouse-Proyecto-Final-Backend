@@ -1,17 +1,17 @@
+const TicketResponse = require("../../dto/TicketResponse.dto");
 const {
   cartService,
   productService,
   ticketService
 } = require("../../services/index.service");
+const transport = require("../../utils/nodemailer");
 
 module.exports = async (req, res) => {
   try {
-    console.log(req.query.email);
     const cid = req.params.cid;
     let ticketResponse = {};
     let sinStock = [];
     const cart = await cartService.getById(cid);
-
     for (const productCart of cart.products) {
       const stock = productCart.product.stock;
       const quantity = productCart.quantity;
@@ -28,9 +28,12 @@ module.exports = async (req, res) => {
       }
     }
 
-    const purchasedProducts = cart.products.filter(
-      product => !sinStock.includes(product)
-    );
+    const purchasedProducts = [];
+    for (const product of cart.products) {
+      if (!sinStock.includes(product)) {
+        purchasedProducts.push(product);
+      }
+    }
 
     if (purchasedProducts.length > 0) {
       ticketResponse.code = require("uuid").v4();
@@ -39,13 +42,37 @@ module.exports = async (req, res) => {
         (total, product) => total + product.quantity * product.product.price,
         0
       );
+      ticketResponse = await ticketService.create(ticketResponse);
+      ticketResponse = new TicketResponse(ticketResponse);
+      const result = await transport.sendMail({
+        from: "Vendedor <ferbeoulvedev@gmail.com>",
+        to: req.query.email,
+        subject: "Orden de compra",
+        html: `
+      <div>
+          <h1>Ticket: ${ticketResponse.code}</h1>
+          <ul>${purchasedProducts.forEach(product => {
+            `<li>${product.product
+              .title}---------------${product.quantity}x${product.product
+              .price}---------------${product.quantity *
+              product.product.price}</li>`;
+          })}
+          </ul>
+          <h2>Total: $${ticketResponse.amount}</h2>
+      </div>
+      `
+      });
+
+      if (sinStock.length > 0) {
+        const updateCart = await cartService.update(
+          cid,
+          sinStock.map(product => product)
+        );
+      }
+      return res.sendSuccess({ purchasedProducts, sinStock });
+    } else {
+      return res.sendSuccess({ sinStock });
     }
-
-    ticketResponse = await ticketService.create(ticketResponse);
-    console.log(ticketResponse);
-
-    return;
-    // res.json("Nemesis");
   } catch (error) {
     console.log(error);
   }

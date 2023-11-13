@@ -7,7 +7,7 @@ class ProductDto {
     this.code = product.code;
     this.stock = product.stock;
     this.category = product.category;
-    this.status = product.status || true;
+    this.status = product.status;
   }
 }
 
