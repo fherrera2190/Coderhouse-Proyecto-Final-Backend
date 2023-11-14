@@ -6,7 +6,12 @@ const config = {
   DB_NAME: process.env.DB_NAME,
   PERSISTENCE: process.env.PERSISTENCE || "FS",
   NODEMAILER_PASS: process.env.NODEMAILER_PASS,
-  NODEMAILER_GMAIL: process.env.NODEMAILER_GMAIL
+  NODEMAILER_GMAIL: process.env.NODEMAILER_GMAIL,
+  PRIVATE_KEY: process.env.PRIVATE_KEY,
+  CLIENT_ID: process.env.CLIENT_ID,
+  CLIENT_SECRET: process.env.CLIENT_SECRET,
+  CALLBACK_URL: process.env.CALLBACK_URL,
+  PASS_COOKIE:process.env.PASS_COOKIE
 };
 
 module.exports = config;

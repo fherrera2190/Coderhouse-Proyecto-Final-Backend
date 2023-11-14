@@ -1,4 +1,7 @@
+const config = require("../../config/config");
+
 module.exports = (req, res) => {
-  res.clearCookie("coderCookie");
+  res.clearCookie(config.PASS_COOKIE);
   res.redirect("/login");
 };
+config

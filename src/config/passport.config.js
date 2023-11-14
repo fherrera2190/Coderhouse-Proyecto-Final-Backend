@@ -1,11 +1,10 @@
 const passport = require("passport");
-const local = require("passport-local");
 const userModel = require("../dao/mongo/models/user.model");
 const bcrypt = require("bcrypt");
 const github = require("passport-github2");
 const passportJWT = require("passport-jwt");
-const { PRIVATE_KEY } = require("../utils");
 const cartsModels = require("../dao/mongo/models/cart.model");
+const config = require("./config");
 // adminCoder@coder.com
 //adminCod3r123
 
@@ -23,7 +22,7 @@ const inicializaPassport = () => {
     new passportJWT.Strategy(
       {
         jwtFromRequest: passportJWT.ExtractJwt.fromExtractors([buscaToken]),
-        secretOrKey: PRIVATE_KEY
+        secretOrKey: config.PRIVATE_KEY
       },
       async (contenidoJwt, done) => {
         try {
@@ -38,9 +37,9 @@ const inicializaPassport = () => {
     "github",
     new github.Strategy(
       {
-        clientID: "Iv1.852bd6834d25d577",
-        clientSecret: "a497e4eb3ed80265ecfbec28b93133f86d0befae",
-        callbackURL: "http://localhost:8080/api/sessions/callbackGitHub"
+        clientID: config.CLIENT_ID,
+        clientSecret: config.CLIENT_SECRET,
+        callbackURL: config.CALLBACK_URL
       },
       async (token, tokenRefresh, profile, done) => {
         try {

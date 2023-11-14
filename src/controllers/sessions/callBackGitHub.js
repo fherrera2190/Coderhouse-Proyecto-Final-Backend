@@ -1,4 +1,5 @@
-const { generaJWT } = require("../../utils");
+const config = require("../../config/config");
+const generaJWT = require("../../utils/generaJWT");
 
 module.exports = (req, res) => {
   const user = req.user;
@@ -11,7 +12,7 @@ module.exports = (req, res) => {
     cartId: user.cartId
   };
   const token = generaJWT(userLimited);
-  res.cookie("coderCookie", token, {
+  res.cookie(config.PASS_COOKIE, token, {
     maxAge: 1000 * 60 * 60,
     httpOnly: true
   });

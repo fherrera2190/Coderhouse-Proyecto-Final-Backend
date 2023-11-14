@@ -4,7 +4,8 @@ const productsModels = require("../dao/mongo/models/product.model");
 const messagesModel = require("../dao/mongo/models/message.model");
 const auth = require("../middlewares/auth");
 const auth2 = require("../middlewares/auth2");
-const { passportCall } = require("../utils");
+const passportCall = require("../utils/passportCall");
+
 
 router.get("/login", auth2, async (req, res) => {
   try {

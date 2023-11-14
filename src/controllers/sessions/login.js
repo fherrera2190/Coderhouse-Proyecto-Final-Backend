@@ -1,7 +1,9 @@
-const { generaJWT } = require("../../utils");
+
 const userModel = require("../../dao/mongo/models/user.model");
 const bcrypt = require("bcrypt");
 const UserCurrent = require("../../dto/UserCurrent.dto");
+const generaJWT = require("../../utils/generaJWT");
+const config = require("../../config/config");
 module.exports = async (req, res) => {
   if (!req.body.email || !req.body.password)
     return res.sendUserError("debe completar todos los campos");
@@ -12,7 +14,7 @@ module.exports = async (req, res) => {
   const userLimited = new UserCurrent(user);
 
   const token = generaJWT(userLimited);
-  res.cookie("coderCookie", token, {
+  res.cookie(config.PASS_COOKIE, token, {
     maxAge: 1000 * 60 * 60,
     httpOnly: true
   });

@@ -1,5 +1,6 @@
 const routerExpress = require("express");
 const jwt = require("jsonwebtoken");
+const config = require("../config/config");
 
 class Router {
   constructor() {
@@ -78,7 +79,7 @@ class Router {
     if (policies.includes("PUBLIC")) return next(); //Cualquiera entra
     const token = req.cookies.coderCookie;
     if (!token) return res.sendUserUnauthorized("User Unauthorized");
-    jwt.verify(token, "secretPass", (err, user) => {
+    jwt.verify(token, config.PRIVATE_KEY, (err, user) => {
       if (err) {
         return res.errorUserAuthentication("Token invalido");
       } else {

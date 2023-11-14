@@ -1,4 +1,5 @@
 const Router = require("./router");
+
 const {
   login,
   register,
@@ -7,7 +8,7 @@ const {
   logOut,
   current
 } = require("../controllers/sessions.controller");
-const { passportCall } = require("../utils");
+const passportCall = require("../utils/passportCall");
 
 class SessionsRoutes extends Router {
   init() {
