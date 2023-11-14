@@ -68,6 +68,8 @@ module.exports = async (req, res) => {
           cid,
           sinStock.map(product => product)
         );
+      } else {
+        const updateCart = await cartService.update(cid, []);
       }
       return res.sendSuccess({ purchasedProducts, sinStock });
     } else {

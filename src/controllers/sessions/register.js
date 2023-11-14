@@ -1,6 +1,6 @@
 const cartsModels = require("../../dao/mongo/models/cart.model");
 const userModel = require("../../dao/mongo/models/user.model");
-
+const bcrypt = require('bcrypt')
 module.exports = async (req, res) => {
   try {
     const { first_name, last_name, age, email } = req.body;
