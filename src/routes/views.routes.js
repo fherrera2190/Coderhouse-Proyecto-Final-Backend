@@ -5,7 +5,8 @@ const messagesModel = require("../dao/mongo/models/message.model");
 const auth = require("../middlewares/auth");
 const auth2 = require("../middlewares/auth2");
 const passportCall = require("../utils/passportCall");
-
+const { faker } = require("@faker-js/faker");
+const { productService } = require("../services/index.service");
 
 router.get("/login", auth2, async (req, res) => {
   try {
@@ -86,6 +87,31 @@ router.get("/carts/:cid", auth, passportCall("jwt"), (req, res) => {
       title: "Carts - Page",
       user: req.user
     });
+  } catch (error) {
+    return res.status(500).json({ error: error.code, detalle: error.message });
+  }
+});
+
+router.get("/mockingproducts", async (req, res) => {
+  try {
+    let products = [];
+
+    for (let i = 0; i < 100; i++) {
+      const product = {
+        title: faker.commerce.productName(),
+        description: faker.commerce.productDescription(),
+        price: faker.commerce.price({ min: 100 }),
+        category: faker.commerce.department(),
+        code: faker.commerce.isbn(),
+        stock: 20,
+        status: true
+      };
+
+      //products.push(await productService.create(product));
+    }
+
+    req.io.emit("actualizarProductos", products);
+    res.status(200).json({ status: "success", payload: products });
   } catch (error) {
     return res.status(500).json({ error: error.code, detalle: error.message });
   }

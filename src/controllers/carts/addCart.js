@@ -1,4 +1,4 @@
-const cartService = require("../../services/carts.service");
+const {cartService} = require("../../services/index.service");
 
 module.exports = async (req, res) => {
   try {

@@ -1,5 +1,10 @@
 window.addEventListener("load", async function() {
   const buttonPurchase = document.getElementById("purchase");
+  const btnDeleteCart = document.getElementById("deleteCart");
+
+  btnDeleteCart.addEventListener("click", function(e) {
+    clearCart();
+  });
 
   buttonPurchase.addEventListener("click", function(e) {
     purchase();
@@ -66,6 +71,26 @@ async function purchase() {
       position: "center",
       icon: "success",
       title: "La compra se realizo con exito",
+      showConfirmButton: false,
+      timer: 2000
+    });
+    window.location.reload();
+  }
+}
+
+async function clearCart() {
+  let userCurrent = await fetch("/api/sessions/current");
+  userCurrent = await userCurrent.json();
+  const { cartId } = userCurrent.payload;
+  const response2 = await fetch(`/api/carts/${cartId}`, {
+    method: "delete"
+  });
+  const datos = await response2.json();
+  if (datos.status === "OK") {
+    await Swal.fire({
+      position: "center",
+      icon: "success",
+      title: "Se eliminaron todos los productos",
       showConfirmButton: false,
       timer: 2000
     });
