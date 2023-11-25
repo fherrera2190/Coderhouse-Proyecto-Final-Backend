@@ -1,4 +1,4 @@
-const Ticket = require("../dto/ticket.dto");
+const Ticket = require("../dto/Ticket.dto");
 
 class TicketService {
   constructor(dao) {
