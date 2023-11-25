@@ -25,7 +25,7 @@ module.exports = async (req, res) => {
     req.io.emit("actualizarProductos", productos);
     return res.sendSuccess(productos);
   } catch (error) {
-    console.log(error.cause)
+    req.logger.error(error.cause)
     return res.sendServerError(error.message);
   }
 };

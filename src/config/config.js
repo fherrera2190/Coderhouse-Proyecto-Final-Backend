@@ -11,7 +11,8 @@ const config = {
   CLIENT_ID: process.env.CLIENT_ID,
   CLIENT_SECRET: process.env.CLIENT_SECRET,
   CALLBACK_URL: process.env.CALLBACK_URL,
-  PASS_COOKIE:process.env.PASS_COOKIE
+  PASS_COOKIE: process.env.PASS_COOKIE,
+  MODE: process.env.MODE || "production"
 };
 
 module.exports = config;

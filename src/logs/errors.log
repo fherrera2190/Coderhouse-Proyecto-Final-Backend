@@ -1,0 +1,12 @@
+fatal: testing fatal log
+error: testing error log
+fatal: testing fatal log
+error: testing error log
+fatal: testing fatal log
+error: testing error log
+[31mfatal[39m: testing fatal log {"timestamp":"2023-11-25T21:29:03.066Z"}
+[35merror[39m: testing error log {"timestamp":"2023-11-25T21:29:03.068Z"}
+fatal: testing fatal log
+error: testing error log
+fatal: testing fatal log
+error: testing error log

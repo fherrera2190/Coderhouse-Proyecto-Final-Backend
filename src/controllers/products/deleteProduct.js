@@ -18,6 +18,7 @@ module.exports = async (req, res) => {
       .status(200)
       .json({ status: "OK", msg: "Producto eliminado exitosamente" });
   } catch (error) {
+    req.logger.error(error.message)
     return res.sendServerError(error.message);
   }
 };

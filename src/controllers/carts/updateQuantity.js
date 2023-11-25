@@ -31,6 +31,7 @@ module.exports = async (req, res) => {
       .status(201)
       .send({ status: "OK", msg: "Product quantity modified" });
   } catch (error) {
-    console.log(error);
+    req.logger.error(error.message);
+    return res.sendServerError(error.message);
   }
 };

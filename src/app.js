@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const config= require('./config/config.js')
+const config = require("./config/config.js");
 const factory = require("./dao/factory.js");
 const handlebars = require("express-handlebars");
 const path = require("path");
@@ -12,11 +12,13 @@ const { Server } = require("socket.io");
 const cookieParser = require("cookie-parser");
 const passport = require("passport");
 const inicializaPassport = require("./config/passport.config");
+const { addLogger } = require("./utils/logger.js");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname + "/public")));
 app.use(cookieParser());
+app.use(addLogger);
 
 inicializaPassport();
 app.use(passport.initialize());

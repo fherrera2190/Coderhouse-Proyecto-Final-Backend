@@ -6,6 +6,7 @@ module.exports = async (req, res) => {
       return res.errorResourceNotFound("Product don´t exist")
     res.sendSuccess(product)
   } catch (error) {
+    req.logger.error(error.message)
     return res.sendServerError(error.message);
   }
 };

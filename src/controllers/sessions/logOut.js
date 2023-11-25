@@ -4,4 +4,3 @@ module.exports = (req, res) => {
   res.clearCookie(config.PASS_COOKIE);
   res.redirect("/login");
 };
-config

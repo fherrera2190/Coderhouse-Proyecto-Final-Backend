@@ -5,7 +5,6 @@ const CustomError = require("../../utils/CustomErrors/CustomError");
 const { generateUserErrorInfo } = require("../../utils/CustomErrors/info");
 const EErrors = require("../../utils/CustomErrors/EErrors");
 
-
 module.exports = async (req, res) => {
   try {
     const { first_name, last_name, age, email } = req.body;
@@ -36,6 +35,7 @@ module.exports = async (req, res) => {
     console.log("Usuario creado con exito");
     res.redirect("/login");
   } catch (error) {
+    req.logger.error(error.message);
     return res.sendServerError(error.message);
   }
 };
