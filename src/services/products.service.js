@@ -23,8 +23,8 @@ class ProductsService {
     return await this.dao.updateProduct(pid, newProduct);
   }
 
-  async delete(cid, pid) {
-    return await this.dao.delete(cid, pid);
+  async delete(pid) {
+    return await this.dao.deleteProduct(pid);
   }
 }
 

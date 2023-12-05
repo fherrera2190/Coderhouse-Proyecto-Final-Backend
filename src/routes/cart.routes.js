@@ -13,21 +13,21 @@ const Router = require("./router");
 
 class CartsRouter extends Router {
   init() {
-    this.post("/", ["USER"], addCart);
+    this.post("/", ["USER","PREMIUM"], addCart);
 
-    this.get("/:cid", ["USER"], getCartById);
+    this.get("/:cid", ["USER","PREMIUM"], getCartById);
 
-    this.get("/:cid/purchase", ["USER"], purchase);
+    this.get("/:cid/purchase", ["USER","PREMIUM"], purchase);
 
-    this.post("/:cid/products/:pid", ["USER"], addProduct);
+    this.post("/:cid/products/:pid", ["USER","PREMIUM"], addProduct);
 
-    this.put("/:cid", ["USER"], updateCart);
+    this.put("/:cid", ["USER","PREMIUM"], updateCart);
 
-    this.put("/:cid/products/:pid", ["USER"], updateQuantity);
+    this.put("/:cid/products/:pid", ["USER","PREMIUM"], updateQuantity);
 
-    this.delete("/:cid/products/:pid", ["USER"], deleteProduct);
+    this.delete("/:cid/products/:pid", ["USER","PREMIUM"], deleteProduct);
 
-    this.delete("/:cid", ["USER"], deleteProducts);
+    this.delete("/:cid", ["USER","PREMIUM"], deleteProducts);
   }
 }
 

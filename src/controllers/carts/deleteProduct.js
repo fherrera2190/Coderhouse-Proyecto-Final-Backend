@@ -15,7 +15,7 @@ module.exports = async (req, res) => {
     );
     if (!product) return res.sendUserError("Product not exist on cart");
     const result = await cartService.deleteProduct(cid, pid);
-    console.log(result);
+    //console.log(result);
 
     return res.sendSuccess([]);
   } catch (error) {

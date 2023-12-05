@@ -21,6 +21,8 @@ module.exports = async (req, res) => {
         code: EErrors.INVALID_TYPE_ERROR
       });
     }
+    req.body.owner=req.user.user.email
+    console.log(req.body.owner)
     const productos = await productService.create(req.body);
     req.io.emit("actualizarProductos", productos);
     return res.sendSuccess(productos);

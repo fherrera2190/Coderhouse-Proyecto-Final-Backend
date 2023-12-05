@@ -7,6 +7,7 @@ const path = require("path");
 const productsRouter = require("./routes/products.routes.js");
 const cartRouter = require("./routes/cart.routes.js");
 const sessionsRouter = require("./routes/sessions.routes");
+const usersRouter = require("./routes/users.routes.js");
 const viewRouter = require("./routes/views.routes");
 const { Server } = require("socket.io");
 const cookieParser = require("cookie-parser");
@@ -36,6 +37,7 @@ app.use("/", viewRouter);
 app.use("/api/products", productsRouter.getRouter());
 app.use("/api/carts", cartRouter.getRouter());
 app.use("/api/sessions", sessionsRouter.getRouter());
+app.use("/api/users", usersRouter.getRouter());
 
 const serverExpress = app.listen(config.PORT, () =>
   console.log(`Server running on http://localhost:${config.PORT}`)

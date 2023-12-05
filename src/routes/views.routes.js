@@ -17,6 +17,26 @@ router.get("/login", auth2, async (req, res) => {
   }
 });
 
+router.get("/recoverpassword", auth2, async (req, res) => {
+  try {
+    res.setHeader("Content-Type", "text/html");
+    res.status(200).render("recoverpassword");
+  } catch (error) {
+    return res.status(500).json({ error: error.code, detalle: error.message });
+  }
+});
+
+router.get("/resetpassword", async (req, res) => {
+  try {
+    //console.log(req.query.token)
+    res.setHeader("Content-Type", "text/html");
+    res.status(200).render("resetpassword",{token:req.query.token});
+  } catch (error) {
+    return res.status(500).json({ error: error.code, detalle: error.message });
+  }
+});
+// updatepassword
+
 router.get("/register", auth2, async (req, res) => {
   try {
     res.setHeader("Content-Type", "text/html");
@@ -103,11 +123,11 @@ router.get("/mockingproducts", async (req, res) => {
         price: faker.commerce.price({ min: 100 }),
         category: faker.commerce.department(),
         code: faker.commerce.isbn(),
-        stock: 20,
+        stock: faker.number.int({ max: 1000 }) ,
         status: true
       };
 
-      //products.push(await productService.create(product));
+      products.push(await productService.create(product));
     }
 
     req.io.emit("actualizarProductos", products);

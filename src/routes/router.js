@@ -32,6 +32,7 @@ class Router {
       this.applyCallbacks(callbacks)
     );
   }
+  
   put(path, policies, ...callbacks) {
     this.router.put(
       path,

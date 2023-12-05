@@ -2,6 +2,8 @@ const Router = require("./router");
 
 const {
   login,
+  recoverPassword,
+  updatePassword,
   register,
   gitHub,
   callBackGitHub,
@@ -9,14 +11,18 @@ const {
   current
 } = require("../controllers/sessions.controller");
 const passportCall = require("../utils/passportCall");
+const authTokenResetPassword = require("../middlewares/authTokenResetPassword");
 
 class SessionsRoutes extends Router {
   init() {
     this.post("/login", ["PUBLIC"], login);
+    this.post("/recoverpassword", ["PUBLIC"], recoverPassword);
+    this.post("/updatepassword", ["PUBLIC"],authTokenResetPassword, updatePassword);
     this.post("/register", ["PUBLIC"], register);
     this.get("/github", ["PUBLIC"], gitHub);
     this.get("/callbackGitHub", callBackGitHub);
     this.get("/current", ["PUBLIC"], passportCall("jwt"), current);
+    
     this.get("/logout", ["PUBLIC"], logOut);
   }
 }

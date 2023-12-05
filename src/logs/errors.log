@@ -10,3 +10,9 @@ fatal: testing fatal log
 error: testing error log
 fatal: testing fatal log
 error: testing error log
+error: null
+error: pid invalid
+error: undefined
+error: this.dao.delete is not a function
+error: undefined
+error: Cannot set headers after they are sent to the client
