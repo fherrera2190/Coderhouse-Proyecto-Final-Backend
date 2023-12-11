@@ -1,0 +1,285 @@
+paths:
+  /api/carts/:
+    post:
+      summary: Create a cart
+      tags:
+        - Carts
+      responses:
+        "200":
+          description: Cart has been created successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/EmptyCart"
+        "401":
+          description: User Unauthorized, must be logged
+        "500":
+          description: Internal server error
+  /api/carts/{cid}:
+    get:
+      summary: Get a cart by id
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: Cart id to get
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/requestBodies/CartObject"
+      responses:
+        "200":
+          description: Cart found
+          content:
+          application/json:
+            schema:
+              type: object
+              items:
+                $ref: "#/components/schemas/Cart"
+        "401":
+          description: User Unauthorized, must be logged
+        "500":
+          description: Internal server error
+    put:
+      summary: Update a cart by id
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: Cart id to update
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/requestBodies/CartObject"
+      responses:
+        "200":
+          description: Product has been updated successfully
+        "401":
+          description: User Unauthorized, must be logged
+        "500":
+          description: Internal server error
+    delete:
+      summary: Delete all products from cart
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: Cart id (all products will be deleted)
+          schema:
+            type: string
+      responses:
+        "200":
+          description: All products has been deleted successfully
+        "401":
+          description: User Unauthorized, must be logged
+        "500":
+          description: Internal server error
+  /api/carts/{cid}/products/{pid}:
+    post:
+      summary: Add product to cart
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: Cart id
+          schema:
+            type: string
+        - name: pid
+          in: path
+          required: true
+          description: Product id
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Product has been added successfully
+        "500":
+          description: Internal server error
+    put:
+      summary: Update quantity of a product in the cart
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: Cart id
+          schema:
+            type: string
+        - name: pid
+          in: path
+          required: true
+          description: Product id
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/requestBodies/CartQuantity"
+      responses:
+        "200":
+          description: Product has been added successfully
+        "401":
+          description: User Unauthorized, must be logged
+        "500":
+          description: Internal server error
+    delete:
+      summary: Delete product from cart
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: Cart id
+          schema:
+            type: string
+        - name: pid
+          in: path
+          required: true
+          description: Product id
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Product has been deleted successfully
+        "401":
+          description: User Unauthorized, must be logged
+        "500":
+          description: Internal server error-
+  /api/carts/{cid}/purchase:
+    get:
+      summary: Generate purchase with cart id
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: Cart id
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Cart has been purchased successfully
+        "401":
+          description: User Unauthorized, must be logged
+        "500":
+          description: Internal server error
+
+components:
+  schemas:
+    EmptyCart:
+      type: Object
+      properties:
+        _id:
+          type: string
+          description: Id autogenerated by MongoDB
+        products:
+          type: array
+          items:
+            type: object
+          description: Populated products in cart
+      example:
+        _id: 64c2aa17a03fc266e7e36ed6
+        products: []
+    Cart:
+      type: Object
+      properties:
+        _id:
+          type: string
+          description: Id autogenerated by MongoDB
+        products:
+          type: array
+          items:
+            type: object
+          description: Populated products in cart
+        quantity:
+          type: integer
+          description: Quantity of products in cart
+      example:
+        _id: ObjectId('649c3d1ca492b743a8d8f33b')
+        products:
+          [
+            {
+              product:
+                {
+                  owner: admin,
+                  _id: 645e5df41a4b57a9cf70c5cc,
+                  title: Modern Frozen Soap",
+                  description: The Apollotech B340 is an affordable wireless mouse with reliable connectivity,
+                  12 months battery life and modern design,
+                  thumbnails: [],
+                  category: Computers,
+                  price: 123,
+                  stock: 123,
+                  status: true,
+                  code: 978-0-88783-117-1,
+                  __v: 0,
+                },
+              quantity: 3,
+              _id: 64c2a667cc612c07f0954a0f,
+            },
+            {
+              product:
+                {
+                  owner: admin,
+                  _id: 645e5df41a4b57a9cf70c5cc,
+                  title: Modern Frozen Soap",
+                  description: The Apollotech B340 is an affordable wireless mouse with reliable connectivity,
+                  12 months battery life and modern design,
+                  thumbnails: [],
+                  category: Computers,
+                  price: 123,
+                  stock: 123,
+                  status: true,
+                  code: 978-0-88783-117-1,
+                  __v: 0,
+                },
+              quantity: 4,
+              _id: 64c2a667cc612c07f0954a0f,
+            },
+          ]
+  requestBodies:
+    CartObject:
+      type: object
+      properties:
+        products:
+          type: array
+          items:
+            type: object
+          description: Product id
+      example:
+        products:
+          [
+            { product: 645e5e421a4b57a9cf70c5d0, quantity: 3 },
+            { product: 645e5e651a4b57a9cf70c5d4, quantity: 1 },
+          ]
+    CartQuantity:
+      type: object
+      properties:
+        quantity:
+          type: integer
+          description: Quantity of products in cart
+      example:
+        quantity: 3
