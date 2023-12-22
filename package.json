@@ -36,6 +36,9 @@
   },
   "devDependencies": {
     "artillery": "^2.0.0-38",
-    "nodemon": "^3.0.2"
+    "chai": "^4.3.10",
+    "mocha": "^10.2.0",
+    "nodemon": "^3.0.2",
+    "supertest": "^6.3.3"
   }
 }

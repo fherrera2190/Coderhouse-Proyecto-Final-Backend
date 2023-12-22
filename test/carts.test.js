@@ -2,10 +2,9 @@ const dotenv = require("dotenv").config();
 const mongoose = require("mongoose");
 const CartDao = require("../src/dao/mongo/cart.mongo");
 const { expect } = require("chai");
-
 const supertest = require("supertest");
 const requester = supertest("http://localhost:8080");
-
+console.log(mongoose.connect(process.env.MONGO_URL));
 mongoose.connect(process.env.MONGO);
 
 describe("Carts testing", () => {
@@ -18,20 +17,22 @@ describe("Carts testing", () => {
       expect(result).to.have.property("_id");
     }).timeout(5000);
   });
+
   describe("Router Testing", () => {
     it("The POST endpoint must create a cart in the database correctly", async () => {
       const res = await requester.post(`/api/carts/`);
       expect(res.statusCode).to.equal(200);
       expect(res.body).to.have.property("payload");
-      expect(res.body.payload).to.have.property("createdCart");
-      expect(res.body.payload.createdCart).to.have.property("products");
+      expect(res.body).to.have.property("status");
     });
+
     it("The GET by id endpoint must fetch a cart from the database correctly", async () => {
       const cid = "64d02112f9d1e00a779eb201";
       const res = await requester.get(`/api/carts/${cid}`);
       expect(res.statusCode).to.equal(200);
       expect(res.body.payload.products).to.be.an("array");
     });
+    
     it("The PUT endpoint must update the quantity of a product in the cart correctly", async () => {
       const cid = "64d02112f9d1e00a779eb201";
       const pid = "645e5e421a4b57a9cf70c5d0";

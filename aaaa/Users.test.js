@@ -1,6 +1,6 @@
 const dotenv = require("dotenv").config();
 const mongoose = require("mongoose");
-const UserDao = require("../src/dao/mongo/user.mongo");
+const User = require("../src/dao/mongo/user.mongo");
 const { expect } = require("chai");
 
 const supertest = require("supertest");
@@ -11,7 +11,7 @@ mongoose.connect(process.env.MONGO);
 describe("Users testing", () => {
   describe("DAO Testing", () => {
     before(() => {
-      this.usersDao = new UserDao();
+      this.usersDao = new User();
     });
     it("The dao must be able to obtain a user by id from the database", async () => {
       const result = await this.usersDao.getUserById(
@@ -25,7 +25,7 @@ describe("Users testing", () => {
       const user = {
         first_name: "Test user",
         last_name: "This is a user created by a test file",
-        date_of_birth: "2023-08-21",
+        age: "2023-08-21",
         email: "test@email.com",
         password: "test",
         cart: objectId,
@@ -44,13 +44,13 @@ describe("Users testing", () => {
   describe("Router testing", () => {
     it("The POST register endpoint must create a user in the database correctly", async () => {
       const objectId = new mongoose.Types.ObjectId("649c563f2e3e50755408566a");
-      const uniqueEmail = `test${Date.now()}@email.com`;
+      const uniqueEmail = `test${Date.now()}test@gmail.com`;
       const user = {
-        first_name: "Test user",
-        last_name: "This is a user created by a test file",
-        date_of_birth: "2023-08-21",
+        first_name: "Test",
+        last_name: "User",
+        date_of_birth: "1990-06-21",
         email: uniqueEmail,
-        password: "test",
+        password: "usertest",
         cart: objectId,
         role: "user",
       };
