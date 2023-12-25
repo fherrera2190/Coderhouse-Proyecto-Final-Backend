@@ -4,8 +4,8 @@ const CartDao = require("../src/dao/mongo/cart.mongo");
 const { expect } = require("chai");
 const supertest = require("supertest");
 const requester = supertest("http://localhost:8080");
-console.log(mongoose.connect(process.env.MONGO_URL));
-mongoose.connect(process.env.MONGO);
+
+mongoose.connect(process.env.MONGO_URL);
 
 describe("Carts testing", () => {
   describe("DAO Testing", () => {
@@ -19,27 +19,32 @@ describe("Carts testing", () => {
   });
 
   describe("Router Testing", () => {
+
+    before()
+
+
     it("The POST endpoint must create a cart in the database correctly", async () => {
-      const res = await requester.post(`/api/carts/`);
-      expect(res.statusCode).to.equal(200);
-      expect(res.body).to.have.property("payload");
-      expect(res.body).to.have.property("status");
+      const userTest={email:"",password:""};
+      const result = await requester.post(`/api/carts/`);
+      expect(result.statusCode).to.equal(200);
+      expect(result.body).to.have.property("payload");
+      expect(result.body).to.have.property("status");
     });
 
     it("The GET by id endpoint must fetch a cart from the database correctly", async () => {
       const cid = "64d02112f9d1e00a779eb201";
-      const res = await requester.get(`/api/carts/${cid}`);
-      expect(res.statusCode).to.equal(200);
-      expect(res.body.payload.products).to.be.an("array");
+      const result = await requester.get(`/api/carts/${cid}`);
+      expect(result.statusCode).to.equal(200);
+      expect(result.body.payload.products).to.be.an("array");
     });
-    
+
     it("The PUT endpoint must update the quantity of a product in the cart correctly", async () => {
       const cid = "64d02112f9d1e00a779eb201";
       const pid = "645e5e421a4b57a9cf70c5d0";
-      const res = await requester
+      const result = await requester
         .put(`/api/carts/${cid}/products/${pid}`)
         .send({ quantity: 25 });
-      expect(res.statusCode).to.equal(200);
+      expect(result.statusCode).to.equal(200);
     });
   });
 });

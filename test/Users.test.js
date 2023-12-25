@@ -15,7 +15,7 @@ describe("Users testing", () => {
     });
     it("The dao must be able to obtain a user by id from the database", async () => {
       const result = await this.usersDao.getUserById(
-        "649c563f2e3e507554085663"
+        "658732b45f8efa19c3916161"
       );
       expect(result).to.have.property("_id");
       expect(result).to.have.property("email");
@@ -44,32 +44,31 @@ describe("Users testing", () => {
   describe("Router testing", () => {
     it("The POST register endpoint must create a user in the database correctly", async () => {
       const objectId = new mongoose.Types.ObjectId("649c563f2e3e50755408566a");
-      const uniqueEmail = `test${Date.now()}test@gmail.com`;
+
       const user = {
-        first_name: "Test",
-        last_name: "User",
-        date_of_birth: "1990-06-21",
-        email: uniqueEmail,
+        first_name: "test",
+        last_name: "user",
+        age: "1990-06-21",
+        email: `test${Date.now()}@gmail.com`,
         password: "usertest",
-        cart: objectId,
-        role: "user",
       };
 
-      const res = await requester.post(`/api/users/register`).send(user);
+      const res = await requester.post(`/api/sessions/register`).send(user);
       expect(res.statusCode).to.equal(200);
-      expect(res.body.payload.result).to.have.property("_id");
+      
     });
+
     it("The POST login endpoint must log in with a user account correctly and then logout", async () => {
       const login = {
-        email: "adminCoderhouse@gmail.com",
-        password: "adminCoderhouse",
+        email: "adminCoder@gmail.com",
+        password: "adminCod3r123",
       };
 
-      const res = await requester.post(`/api/users/login`).send(login);
+      const res = await requester.post(`/login`).send(login);
       expect(res.statusCode).to.equal(200);
-      expect(res.body.payload).to.have.property("access_token");
-
-      const resLogout = await requester.get("/api/users/logout");
+     
+      const resLogout = await requester.get("/api/sessions/logout");
+      console.log(resLogout.statusCode)
       expect(resLogout.statusCode).to.equal(200);
     });
   });

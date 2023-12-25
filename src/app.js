@@ -33,7 +33,7 @@ const swaggerOptions = {
   },
   apis: [`${__dirname}/../docs/**/*.yaml`]
 };
-//console.log(`${__dirname}/docs/**/*.yaml`)
+
 const specs = swaggerJSDoc(swaggerOptions);
 app.use("/apidocs", swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
 

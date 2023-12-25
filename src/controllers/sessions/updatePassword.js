@@ -3,7 +3,7 @@ const { isValidPassword, createHash } = require("../../utils/bcrypt");
 const decodeJWT = require("../../utils/decodeJWT");
 
 module.exports = async (req, res) => {
-  //console.log(req.query.token+"soy el qyery"
+
   const { token, password, password2 } = req.body;
 
   if (password !== password2) {
