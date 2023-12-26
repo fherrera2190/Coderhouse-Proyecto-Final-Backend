@@ -18,7 +18,6 @@ describe("Products testing", () => {
       expect(result).to.have.property("docs").that.is.an("array");
     }).timeout(5000);
     it("The dao must be able to add a product to the database and delete it", async () => {
-      // I am deleting the product because when I run the test again the code will be repeated and this will return an error.
       const product = {
         title: "Test product",
         description: "This is a product created by a test file",
@@ -79,6 +78,5 @@ describe("Products testing", () => {
       expect(res.body.payload.product).to.have.property("_id");
       expect(res.body.payload.product._id).to.equal(pid);
     });
-    // The other routes need an administrator or premium user to be tested
   });
 });

@@ -33,7 +33,7 @@ module.exports = async (req, res) => {
       cartId: await cartsModels.create({})
     });
     console.log("Usuario creado con exito");
-    res.status(200).redirect("/login");
+    res.redirect("/login");
   } catch (error) {
     req.logger.error(error.message);
     return res.sendServerError(error.message);

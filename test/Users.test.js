@@ -35,7 +35,6 @@ describe("Users testing", () => {
       const result = await this.usersDao.addUser(user);
       expect(result).to.be.an("object");
       expect(result).to.have.property("_id");
-
       const resultDelete = await this.usersDao.deleteUser(result._id);
       expect(resultDelete).to.be.an("object");
       expect(resultDelete).to.have.property("_id");
@@ -43,33 +42,28 @@ describe("Users testing", () => {
   });
   describe("Router testing", () => {
     it("The POST register endpoint must create a user in the database correctly", async () => {
-      const objectId = new mongoose.Types.ObjectId("649c563f2e3e50755408566a");
-
       const user = {
         first_name: "test",
         last_name: "user",
         age: "1990-06-21",
-        email: `test${Date.now()}@gmail.com`,
+        email: `test${Date.now()}@test.com`,
         password: "usertest",
       };
-
       const res = await requester.post(`/api/sessions/register`).send(user);
-      expect(res.statusCode).to.equal(200);
-      
+      expect(res.statusCode).to.equal(302);
     });
 
     it("The POST login endpoint must log in with a user account correctly and then logout", async () => {
       const login = {
-        email: "adminCoder@gmail.com",
+        email: "adminCoder@coder.com",
         password: "adminCod3r123",
       };
 
-      const res = await requester.post(`/login`).send(login);
-      expect(res.statusCode).to.equal(200);
-     
+      const res = await requester.post(`/api/sessions/login`).send(login);
+      expect(res.statusCode).to.equal(302);
+
       const resLogout = await requester.get("/api/sessions/logout");
-      console.log(resLogout.statusCode)
-      expect(resLogout.statusCode).to.equal(200);
+      expect(resLogout.statusCode).to.equal(302);
     });
   });
 });

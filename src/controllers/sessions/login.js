@@ -28,5 +28,5 @@ module.exports = async (req, res) => {
     maxAge: 1000 * 60 * 60,
     httpOnly: true
   });
-  res.status(200).redirect("/");
+  res.redirect("/");
 };

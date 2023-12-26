@@ -20,11 +20,9 @@ describe("Carts testing", () => {
 
   describe("Router Testing", () => {
 
-    before()
-
-
     it("The POST endpoint must create a cart in the database correctly", async () => {
-      const userTest={email:"",password:""};
+
+
       const result = await requester.post(`/api/carts/`);
       expect(result.statusCode).to.equal(200);
       expect(result.body).to.have.property("payload");
