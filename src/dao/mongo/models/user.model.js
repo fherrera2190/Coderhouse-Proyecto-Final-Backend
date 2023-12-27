@@ -5,34 +5,48 @@ const collection = "users";
 const userSchema = new mongoose.Schema({
   first_name: {
     type: String,
-    required: true
+    required: true,
   },
   last_name: {
     type: String,
-    required: true
+    required: true,
   },
   age: {
     type: String,
-    required: true
+    required: true,
   },
   email: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
   },
   password: {
     type: String,
-    required: true
+    required: true,
   },
   cartId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "carts"
+    ref: "carts",
   },
   role: {
     type: String,
     enum: ["admin", "user", "premium"],
-    default: "user"
-  }
+    default: "user",
+  },
+  documents: [
+    {
+      name: {
+        type: String,
+      },
+      reference: {
+        type: String,
+      },
+    },
+  ],
+  last_connection: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 const productModel = mongoose.model(collection, userSchema);

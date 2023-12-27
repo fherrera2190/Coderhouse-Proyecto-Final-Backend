@@ -8,14 +8,14 @@ const productsRouter = require("./routes/products.routes.js");
 const cartRouter = require("./routes/cart.routes.js");
 const sessionsRouter = require("./routes/sessions.routes");
 const usersRouter = require("./routes/users.routes.js");
-const viewRouter = require("./routes/views.routes");
+const viewRouter = require("./routes/views.routes.js");
 const { Server } = require("socket.io");
 const cookieParser = require("cookie-parser");
 const passport = require("passport");
 const inicializaPassport = require("./config/passport.config");
 const { addLogger } = require("./utils/logger.js");
 const swaggerJSDoc = require("swagger-jsdoc");
-const swaggerUiExpress = require('swagger-ui-express')
+const swaggerUiExpress = require("swagger-ui-express");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -28,10 +28,10 @@ const swaggerOptions = {
     openapi: "3.0.1",
     info: {
       title: "Documentación del e-commerce",
-      description: "Mi primer api"
-    }
+      description: "Mi primer api",
+    },
   },
-  apis: [`${__dirname}/../docs/**/*.yaml`]
+  apis: [`${__dirname}/../docs/**/*.yaml`],
 };
 
 const specs = swaggerJSDoc(swaggerOptions);

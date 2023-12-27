@@ -14,7 +14,7 @@ module.exports = async (req, res) => {
         name: "User creation error",
         cause: generateUserErrorInfo({ first_name, last_name, age, email }),
         message: "Error to create a user",
-        code: EErrors.INVALID_TYPE_ERROR
+        code: EErrors.INVALID_TYPE_ERROR,
       });
     }
 
@@ -30,7 +30,7 @@ module.exports = async (req, res) => {
         req.body.password.trim(),
         bcrypt.genSaltSync(10)
       ),
-      cartId: await cartsModels.create({})
+      cartId: await cartsModels.create({}),
     });
     console.log("Usuario creado con exito");
     res.redirect("/login");

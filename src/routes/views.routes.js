@@ -17,6 +17,18 @@ router.get("/login", auth2, async (req, res) => {
   }
 });
 
+router.get("/profile", passportCall("jwt"), async (req, res) => {
+  try {
+    res.setHeader("Content-Type", "text/html");
+    res.status(200).render("profile.handlebars", {
+      title: "Profile - Page",
+      user: req.user,
+    });
+  } catch (error) {
+    return res.status(500).json({ error: error.code, detalle: error.message });
+  }
+});
+
 router.get("/recoverpassword", auth2, async (req, res) => {
   try {
     res.setHeader("Content-Type", "text/html");
@@ -28,14 +40,12 @@ router.get("/recoverpassword", auth2, async (req, res) => {
 
 router.get("/resetpassword", async (req, res) => {
   try {
-    //console.log(req.query.token)
     res.setHeader("Content-Type", "text/html");
-    res.status(200).render("resetpassword",{token:req.query.token});
+    res.status(200).render("resetpassword", { token: req.query.token });
   } catch (error) {
     return res.status(500).json({ error: error.code, detalle: error.message });
   }
 });
-// updatepassword
 
 router.get("/register", auth2, async (req, res) => {
   try {
@@ -53,7 +63,7 @@ router.get("/", auth, passportCall("jwt"), async (req, res) => {
     res.status(200).render("home.handlebars", {
       title: "Home - Page",
       products,
-      user: req.user
+      user: req.user,
     });
   } catch (error) {
     return res.status(500).json({ error: error.code, detalle: error.message });
@@ -67,7 +77,7 @@ router.get("/realtimeproducts", auth, passportCall("jwt"), async (req, res) => {
     res.status(200).render("realTimeProducts.handlebars", {
       title: "Products Menu",
       products,
-      user: req.user
+      user: req.user,
     });
   } catch (error) {
     return res.status(500).json({ error: error.code, detalle: error.message });
@@ -81,7 +91,7 @@ router.get("/chat", auth, passportCall("jwt"), async (req, res) => {
     res.status(200).render("chat", {
       title: "Chat Room",
       messages,
-      user: req.user
+      user: req.user,
     });
   } catch (error) {
     return res.status(500).json({ error: error.code, detalle: error.message });
@@ -93,7 +103,7 @@ router.get("/products", auth, passportCall("jwt"), async (req, res) => {
     res.setHeader("Content-Type", "text/html");
     res.status(200).render("products.handlebars", {
       title: "Home - Page",
-      user: req.user
+      user: req.user,
     });
   } catch (error) {
     return res.status(500).json({ error: error.code, detalle: error.message });
@@ -105,7 +115,7 @@ router.get("/carts/:cid", auth, passportCall("jwt"), (req, res) => {
     res.setHeader("Content-Type", "text/html");
     res.status(200).render("carts.handlebars", {
       title: "Carts - Page",
-      user: req.user
+      user: req.user,
     });
   } catch (error) {
     return res.status(500).json({ error: error.code, detalle: error.message });
@@ -123,8 +133,8 @@ router.get("/mockingproducts", async (req, res) => {
         price: faker.commerce.price({ min: 100 }),
         category: faker.commerce.department(),
         code: faker.commerce.isbn(),
-        stock: faker.number.int({ max: 1000 }) ,
-        status: true
+        stock: faker.number.int({ max: 1000 }),
+        status: true,
       };
 
       products.push(await productService.create(product));
