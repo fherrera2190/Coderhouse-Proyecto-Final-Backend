@@ -44,9 +44,26 @@ app.use((req, res, next) => {
   next();
 });
 
-app.engine("handlebars", handlebars.engine());
-app.set("views", path.join(__dirname + "/views"));
 app.set("view engine", "handlebars");
+app.engine(
+  "handlebars",
+  handlebars.engine({
+    layoutsDir: "./src/views/layouts",
+    partialsDir: "./src/views/partials",
+    defaultLayout: "main.handlebars",
+    helpers: {
+      isAdmin: (role) => {
+        if (role === "admin") {
+          return true;
+        } else {
+          return false;
+        }
+      },
+    },
+  })
+);
+
+app.set("views", path.join(__dirname + "/views"));
 
 // Routes
 app.use("/", viewRouter);

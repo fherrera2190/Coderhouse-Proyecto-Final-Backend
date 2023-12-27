@@ -4,7 +4,6 @@ const EErrors = require("../../utils/CustomErrors/EErrors");
 
 module.exports = async (req, res) => {
   const { uid } = req.params;
-  console.log("Entre aca");
   const user = await userService.getById(uid);
   try {
     if (!user)
@@ -12,7 +11,7 @@ module.exports = async (req, res) => {
         name: "Could not find user",
         cause: null,
         message: "Error trying to find a user with the id: " + uid,
-        code: EErrors.INVALID_TYPE_ERROR
+        code: EErrors.INVALID_TYPE_ERROR,
       });
     let newRole = "";
     user.role === "user" ? (newRole = "premium") : (newRole = "user");

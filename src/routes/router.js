@@ -32,7 +32,7 @@ class Router {
       this.applyCallbacks(callbacks)
     );
   }
-  
+
   put(path, policies, ...callbacks) {
     this.router.put(
       path,
@@ -52,7 +52,7 @@ class Router {
 
   applyCallbacks(callbacks) {
     try {
-      return callbacks.map(callback => async (...params) => {
+      return callbacks.map((callback) => async (...params) => {
         await callback.apply(this, params);
       });
     } catch (error) {
@@ -61,22 +61,22 @@ class Router {
   }
 
   defaultResponses = (req, res, next) => {
-    res.sendSuccess = payload =>
+    res.sendSuccess = (payload) =>
       res.status(200).send({ status: "success", payload });
-    res.sendServerError = error =>
+    res.sendServerError = (error) =>
       res.status(500).send({ status: "error", error });
-    res.sendUserError = error =>
+    res.sendUserError = (error) =>
       res.status(400).send({ status: "error", error });
-    res.sendUserUnauthorized = error =>
+    res.sendUserUnauthorized = (error) =>
       res.status(401).send({ status: "error", error });
-    res.errorUserAuthentication = error =>
+    res.errorUserAuthentication = (error) =>
       res.status(403).json({ status: "error", error });
-    res.errorResourceNotFound = error =>
+    res.errorResourceNotFound = (error) =>
       res.status(404).json({ status: "error", error });
     next();
   };
 
-  handlePolicies = policies => (req, res, next) => {
+  handlePolicies = (policies) => (req, res, next) => {
     if (policies.includes("PUBLIC")) return next(); //Cualquiera entra
     const token = req.cookies.coderCookie;
     if (!token) return res.sendUserUnauthorized("User Unauthorized");

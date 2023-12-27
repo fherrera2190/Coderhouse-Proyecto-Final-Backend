@@ -6,7 +6,7 @@ async function sendCart(e) {
       "/api/carts/" + cartId + "/products/" + e.currentTarget.id,
       {
         method: "POST",
-        headers: { "Content-type": "application/json; charset=UTF-8" }
+        headers: { "Content-type": "application/json; charset=UTF-8" },
       }
     );
     const data = await response.json();
@@ -20,9 +20,9 @@ async function sendCart(e) {
       position: "right", // `left`, `center` or `right`
       stopOnFocus: true, // Prevents dismissing of toast on hover
       style: {
-        background: "linear-gradient(to right, #00b09b, #96c93d)"
+        background: "linear-gradient(to right, #00b09b, #96c93d)",
       },
-      onClick: function() {} // Callback after click
+      onClick: function () {}, // Callback after click
     }).showToast();
   } catch (error) {
     console.log(error);
@@ -31,12 +31,12 @@ async function sendCart(e) {
 
 function actualizarBotonesAgregar() {
   botonesAgregar = document.querySelectorAll(".sendCart");
-  botonesAgregar.forEach(boton => {
+  botonesAgregar.forEach((boton) => {
     boton.addEventListener("click", sendCart);
   });
 }
 
-window.addEventListener("load", async function() {
+window.addEventListener("load", async function () {
   try {
     const userCurrent = await fetch("/api/sessions/current");
     const user = await userCurrent.json();
@@ -54,7 +54,7 @@ window.addEventListener("load", async function() {
     document.getElementById("nextLink").href = data.nextLink;
     document.getElementById("prevLink").href = data.prevLink;
     let nuevotbody = "";
-    data.products.forEach(product => {
+    data.products.forEach((product) => {
       nuevotbody += `
           <tr>
            <th scope="row">${product.code}</th>

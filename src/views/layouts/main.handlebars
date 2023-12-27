@@ -1,5 +1,4 @@
 <html lang="en">
-
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -20,79 +19,9 @@
     />
     <title>{{title}}</title>
   </head>
-
   <body>
-    {{#if user}}
-      <header class="bg-body-secondary">
-        <nav class="container navbar navbar-expand-lg">
-          <div class="container-fluid">
-            <button
-              class="navbar-toggler"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#navbarNav"
-              aria-controls="navbarNav"
-              aria-expanded="false"
-              aria-label="Toggle navigation"
-            >
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <div
-              class="collapse navbar-collapse d-flex justify-content-between"
-              id="navbarNav"
-            >
-              <ul class="navbar-nav">
-                <li class="nav-item">
-                  <a
-                    class="nav-link active"
-                    aria-current="page"
-                    href="/"
-                  >Home</a>
-                </li>
-
-                <li class="nav-item">
-                  <a class="nav-link" href="/realtimeproducts">Real Time Product</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="/chat">Chat</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="/products">Products</a>
-                </li>
-              </ul>
-              <ul class="navbar-nav">
-                <li class="nav-item d-flex align-items-center">
-                  <p class="mb-0">Bienvenido
-                    {{user.first_name}}</p>
-                  <p class="mb-0 px-5">Rol: {{user.role}}</p>
-                </li>
-                <li>
-                  <a
-                    class="btn btn-primary h-100 mx-3 d-flex align-items-center"
-                    href="/profile"
-                  ><i class="bi bi-person"></i>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    class="btn btn-success h-100 mx-3 d-flex align-items-center"
-                    href="/carts/vercarts"
-                  ><i class="bi bi-cart"></i>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    class="btn btn-danger px-3"
-                    href="/api/sessions/logout"
-                  >Salir</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </nav>
-      </header>
-    {{/if}}
-
+    {{>header}}
+    
     {{{body}}}
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
@@ -104,11 +33,15 @@
       type="text/javascript"
       src="https://cdn.jsdelivr.net/npm/toastify-js"
     ></script>
-    <script src="/js/handlebars.js"></script>
     <script src="/socket.io/socket.io.js"></script>
-    <script src="/js/home.js"></script>
-    <script src="/js/carts.js"></script>
-    <script src="/js/products.js"></script>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.8/handlebars.min.js"
+      integrity="sha512-E1dSFxg+wsfJ4HKjutk/WaCzK7S2wv1POn1RRPGh8ZK+ag9l244Vqxji3r6wgz9YBf6+vhQEYJZpSjqWFPg9gg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script src="/js/handlebars.js"></script>
   </body>
 
 </html>
