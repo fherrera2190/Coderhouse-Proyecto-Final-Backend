@@ -15,7 +15,7 @@ module.exports = async (req, res) => {
       name: "Could not find user",
       cause: null,
       message: "Error " + email + " dont exist",
-      code: EErrors.INVALID_TYPE_ERROR
+      code: EErrors.INVALID_TYPE_ERROR,
     });
   }
 
@@ -26,7 +26,7 @@ module.exports = async (req, res) => {
   const token = generaJWT(userLimited);
   res.cookie(config.PASS_COOKIE, token, {
     maxAge: 1000 * 60 * 60,
-    httpOnly: true
+    httpOnly: true,
   });
   res.redirect("/");
 };

@@ -1,9 +1,9 @@
 const multer = require("multer");
-const { logger } = require("../config/logger");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     let folder;
+    console.log("Entre aca")
     switch (file.fieldname) {
       case "profile":
         folder = "profiles";
@@ -11,14 +11,13 @@ const storage = multer.diskStorage({
       case "product":
         folder = "products";
         break;
-
       case "identification":
-      case "addressProof":
-      case "accountStatement":
+      case "address":
+      case "statusaccount":
         folder = "documents";
         break;
     }
-    cb(null, `${__dirname}/../public/uploads/${folder}`);
+    cb(null, `./src/public/${folder}`);
   },
   filename: function (req, file, cb) {
     cb(null, `${Date.now()}-${file.originalname}`);
@@ -26,11 +25,7 @@ const storage = multer.diskStorage({
 });
 
 const uploader = multer({
-  storage,
-  onError: function (err, next) {
-    logger.error(err);
-    next();
-  },
+  storage
 });
 
 module.exports = uploader;

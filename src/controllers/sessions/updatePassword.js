@@ -3,14 +3,13 @@ const { isValidPassword, createHash } = require("../../utils/bcrypt");
 const decodeJWT = require("../../utils/decodeJWT");
 
 module.exports = async (req, res) => {
-
   const { token, password, password2 } = req.body;
 
   if (password !== password2) {
     return res.send({
       status: "error",
       message:
-        "Passwords do not match. Please make sure your passwords match and try again."
+        "Passwords do not match. Please make sure your passwords match and try again.",
     });
   }
 
@@ -19,7 +18,7 @@ module.exports = async (req, res) => {
     if (isValidPassword(user.user, password))
       return res.send({
         status: "error",
-        message: "You can't enter the same password you had before"
+        message: "You can't enter the same password you had before",
       });
     const hashedPassword = createHash(password);
     await userService.update(

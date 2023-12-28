@@ -25,10 +25,11 @@
               <li class="nav-item">
                 <a class="nav-link" href="/chat">Chat</a>
               </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/products">Products</a>
+              </li>
             {{/unless}}
-            <li class="nav-item">
-              <a class="nav-link" href="/products">Products</a>
-            </li>
+
             {{#if (isAdmin user.role)}}
               <li class="nav-item">
                 <a class="nav-link" href="/realtimeproducts">Real Time Product</a>
@@ -44,20 +45,22 @@
                 {{user.first_name}}</p>
               <p class="mb-0 px-5">Rol: {{user.role}}</p>
             </li>
-            <li>
-              <a
-                class="btn btn-primary h-100 mx-3 d-flex align-items-center"
-                href="/profile"
-              ><i class="bi bi-person"></i>
-              </a>
-            </li>
-            <li>
-              <a
-                class="btn btn-success h-100 mx-3 d-flex align-items-center"
-                href="/carts/vercarts"
-              ><i class="bi bi-cart"></i>
-              </a>
-            </li>
+            {{#unless (isAdmin user.role)}}
+              <li>
+                <a
+                  class="btn btn-primary h-100 mx-3 d-flex align-items-center"
+                  href="/profile"
+                ><i class="bi bi-person"></i>
+                </a>
+              </li>
+              <li>
+                <a
+                  class="btn btn-success h-100 mx-3 d-flex align-items-center"
+                  href="/carts/vercarts"
+                ><i class="bi bi-cart"></i>
+                </a>
+              </li>
+            {{/unless}}
             <li>
               <a
                 class="btn btn-danger px-3"

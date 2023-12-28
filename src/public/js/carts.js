@@ -1,12 +1,12 @@
-window.addEventListener("load", async function() {
+window.addEventListener("load", async function () {
   const buttonPurchase = document.getElementById("purchase");
   const btnDeleteCart = document.getElementById("deleteCart");
 
-  btnDeleteCart.addEventListener("click", function(e) {
+  btnDeleteCart.addEventListener("click", function (e) {
     clearCart();
   });
 
-  buttonPurchase.addEventListener("click", function(e) {
+  buttonPurchase.addEventListener("click", function (e) {
     purchase();
   });
 
@@ -27,7 +27,7 @@ window.addEventListener("load", async function() {
 
 function showTable(products) {
   let nuevotbody = "";
-  products.forEach(product => {
+  products.forEach((product) => {
     nuevotbody += `
           <tr>
            <th scope="row">${product.product.code}</th>
@@ -38,6 +38,7 @@ function showTable(products) {
            <td> ${product.product.stock}</td>
            <td> ${product.product.category}</td>
            <td> ${product.quantity}</td>
+           <td></td>
           </tr>
       `;
   });
@@ -51,7 +52,7 @@ async function purchase() {
   const response2 = await fetch(
     `/api/carts/${cartId}/purchase?email=${email}`,
     {
-      method: "get"
+      method: "get",
     }
   );
   const datos = await response2.json();
@@ -61,7 +62,7 @@ async function purchase() {
       icon: "error",
       title: "No se realizo la compra por que la cantidad excede el stock",
       showConfirmButton: false,
-      timer: 2000
+      timer: 2000,
     });
     window.location.reload();
   }
@@ -72,7 +73,7 @@ async function purchase() {
       icon: "success",
       title: "La compra se realizo con exito",
       showConfirmButton: false,
-      timer: 2000
+      timer: 2000,
     });
     window.location.reload();
   }
@@ -83,7 +84,7 @@ async function clearCart() {
   userCurrent = await userCurrent.json();
   const { cartId } = userCurrent.payload;
   const response2 = await fetch(`/api/carts/${cartId}`, {
-    method: "delete"
+    method: "delete",
   });
   const datos = await response2.json();
   if (datos.status === "OK") {
@@ -92,7 +93,7 @@ async function clearCart() {
       icon: "success",
       title: "Se eliminaron todos los productos",
       showConfirmButton: false,
-      timer: 2000
+      timer: 2000,
     });
     window.location.reload();
   }
