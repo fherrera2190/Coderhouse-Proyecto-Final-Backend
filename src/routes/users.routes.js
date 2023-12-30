@@ -7,7 +7,7 @@ const uploader = require("../middlewares/multer");
 
 class UserRoutes extends Router {
   init() {
-    this.get("/premium/:uid", ["USER", "ADMIN"], userPremium);
+    this.get("/premium/:uid", ["ADMIN"], userPremium);
     this.post(
       "/:uid/documents",
       ["USER"],
@@ -19,6 +19,7 @@ class UserRoutes extends Router {
       ]),
       uploadDocuments
     );
+    this.post("/");
   }
 }
 

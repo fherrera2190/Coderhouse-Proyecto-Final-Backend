@@ -1,4 +1,4 @@
-const jwt= require('jsonwebtoken')
+const jwt = require("jsonwebtoken");
 const authTokenResetPassword = (req, res, next) => {
   const token = req.body.token;
   jwt.verify(

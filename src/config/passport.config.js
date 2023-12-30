@@ -8,7 +8,7 @@ const config = require("./config");
 // adminCoder@coder.com
 //adminCod3r123
 
-const buscaToken = req => {
+const buscaToken = (req) => {
   let token = null;
   if (req && req.cookies) {
     token = req.cookies.coderCookie;
@@ -22,7 +22,7 @@ const inicializaPassport = () => {
     new passportJWT.Strategy(
       {
         jwtFromRequest: passportJWT.ExtractJwt.fromExtractors([buscaToken]),
-        secretOrKey: config.PRIVATE_KEY
+        secretOrKey: config.PRIVATE_KEY,
       },
       async (contenidoJwt, done) => {
         try {
@@ -39,14 +39,13 @@ const inicializaPassport = () => {
       {
         clientID: config.CLIENT_ID,
         clientSecret: config.CLIENT_SECRET,
-        callbackURL: config.CALLBACK_URL
+        callbackURL: config.CALLBACK_URL,
       },
       async (token, tokenRefresh, profile, done) => {
         try {
           const usuario = await userModel.findOne({
-            email: profile._json.email
+            email: profile._json.email,
           });
-          console.log(profile._json.email);
           if (!usuario) {
             let newUsuario = {
               first_name: profile._json.name,
@@ -57,7 +56,7 @@ const inicializaPassport = () => {
                 profile._json.email,
                 bcrypt.genSaltSync(10)
               ),
-              cartId: await cartsModels.create({})
+              cartId: await cartsModels.create({}),
             };
             const result = await userModel.create(newUsuario);
             return done(null, result);

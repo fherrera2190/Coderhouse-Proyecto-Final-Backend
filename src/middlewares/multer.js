@@ -1,9 +1,9 @@
 const multer = require("multer");
+const path = require("path");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     let folder;
-    console.log("Entre aca")
     switch (file.fieldname) {
       case "profile":
         folder = "profiles";
@@ -17,15 +17,20 @@ const storage = multer.diskStorage({
         folder = "documents";
         break;
     }
-    cb(null, `./src/public/${folder}`);
+    cb(null, `${path.join(__dirname +"/../" +"/public/")}${folder}`);
   },
   filename: function (req, file, cb) {
-    cb(null, `${Date.now()}-${file.originalname}`);
+    cb(
+      null,
+      `${Date.now() + "-" + req.user.user.id}-${
+        file.fieldname
+      }${require("path").extname(file.originalname)}`
+    );
   },
 });
 
 const uploader = multer({
-  storage
+  storage,
 });
 
 module.exports = uploader;

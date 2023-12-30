@@ -6,7 +6,8 @@ const auth = require("../middlewares/auth");
 const auth2 = require("../middlewares/auth2");
 const passportCall = require("../utils/passportCall");
 const { faker } = require("@faker-js/faker");
-const { productService } = require("../services/index.service");
+const { productService, userService } = require("../services/index.service");
+const UserDtoProfile = require("../dto/UserProfile.dto");
 
 router.get("/login", auth2, async (req, res) => {
   try {
@@ -19,10 +20,12 @@ router.get("/login", auth2, async (req, res) => {
 
 router.get("/profile", passportCall("jwt"), async (req, res) => {
   try {
+    const user = await userService.getById(req.user.id);
+    console.log(new UserDtoProfile(user));
     res.setHeader("Content-Type", "text/html");
     res.status(200).render("profile.handlebars", {
       title: "Profile - Page",
-      user: req.user,
+      user: new UserDtoProfile(user),
     });
   } catch (error) {
     return res.status(500).json({ error: error.code, detalle: error.message });

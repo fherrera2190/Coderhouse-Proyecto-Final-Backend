@@ -31,6 +31,13 @@ class User {
   async deleteUser(uid) {
     return await userModel.findOneAndDelete({ _id: uid });
   }
+
+  async updateUserDocuments(uid, documentName, documentPath) {
+    const update = {
+      $push: { documents: { name: documentName, reference: documentPath } },
+    };
+    await userModel.updateOne({ _id: uid }, update);
+  }
 }
 
 module.exports = User;

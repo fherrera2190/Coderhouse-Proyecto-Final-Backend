@@ -14,7 +14,7 @@ module.exports = async (req, res, next) => {
         name: "Could not find user",
         cause: null,
         message: "Error trying to find a user with the email: " + email,
-        code: EErrors.INVALID_TYPE_ERROR
+        code: EErrors.INVALID_TYPE_ERROR,
       });
     }
 
@@ -30,11 +30,11 @@ module.exports = async (req, res, next) => {
                   <a href="http://localhost:8080/resetpassword?token=${token}">Click me to recover your password</a>
                   <p>This link to reset your password is only valid for 1 hour</>
               </div>
-              `
+              `,
     });
-    res.status(200).json({ ok: true });
+    res.status(200).json({ status: "success" });
   } catch (error) {
-    req.logger.error(error.cause)
+    req.logger.error(error.cause);
     return res.sendServerError(error.message);
   }
 };

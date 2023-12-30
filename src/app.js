@@ -16,6 +16,7 @@ const inicializaPassport = require("./config/passport.config");
 const { addLogger } = require("./utils/logger.js");
 const swaggerJSDoc = require("swagger-jsdoc");
 const swaggerUiExpress = require("swagger-ui-express");
+const helpers = require("./utils/helpers.js");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -51,15 +52,7 @@ app.engine(
     layoutsDir: "./src/views/layouts",
     partialsDir: "./src/views/partials",
     defaultLayout: "main.handlebars",
-    helpers: {
-      isAdmin: (role) => {
-        if (role === "admin") {
-          return true;
-        } else {
-          return false;
-        }
-      },
-    },
+    helpers,
   })
 );
 

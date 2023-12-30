@@ -2,8 +2,27 @@ window.addEventListener("load", async function () {
   const buttonPurchase = document.getElementById("purchase");
   const btnDeleteCart = document.getElementById("deleteCart");
 
-  btnDeleteCart.addEventListener("click", function (e) {
-    clearCart();
+  btnDeleteCart.addEventListener("click", async function (e) {
+    Swal.fire({
+      title: "Are you sure you want to remove all products from your cart?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        clearCart();
+        await Swal.fire({
+          title: "Deleted!",
+          text: "Your cart has been deleted.",
+          icon: "success",
+          timer: 2000,
+        });
+        window.location.reload();
+      }
+    });
   });
 
   buttonPurchase.addEventListener("click", function (e) {
@@ -86,15 +105,4 @@ async function clearCart() {
   const response2 = await fetch(`/api/carts/${cartId}`, {
     method: "delete",
   });
-  const datos = await response2.json();
-  if (datos.status === "OK") {
-    await Swal.fire({
-      position: "center",
-      icon: "success",
-      title: "Se eliminaron todos los productos",
-      showConfirmButton: false,
-      timer: 2000,
-    });
-    window.location.reload();
-  }
 }

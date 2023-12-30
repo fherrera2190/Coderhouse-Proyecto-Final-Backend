@@ -1,13 +1,14 @@
 const passport = require("passport");
 
-const passportCall = estrategia => {
-  return async function(req, res, next) {
-    passport.authenticate(estrategia, function(err, user, info) {
+const passportCall = (estrategia) => {
+  return async function (req, res, next) {
+    passport.authenticate(estrategia, function (err, user, info) {
       if (err) return next(err);
       if (!user) {
-        return res
-          .status(200)
-          .json({ error: info.messages ? info.messages : info.toString() });
+        // return res
+        //   .status(200)
+        //   .json({ error: info.messages ? info.messages : info.toString() });
+        return res.redirect("/login")
       }
       req.user = user;
       return next();

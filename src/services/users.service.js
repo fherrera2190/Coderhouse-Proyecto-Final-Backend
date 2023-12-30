@@ -20,6 +20,15 @@ class UsersService {
     const result = await this.dao.updateUser(uid, data);
     return result;
   }
+
+  async updateDocuments(uid, documentName, documentPath) {
+    const result = await this.dao.updateUserDocuments(
+      uid,
+      documentName,
+      documentPath
+    );
+    return result;
+  }
 }
 
 module.exports = UsersService;
