@@ -14,18 +14,18 @@
         >Profile</button>
       </li>
       {{#if (isPremium user.role)}}
-      <li class="nav-item" role="presentation">
-        <button
-          class="nav-link"
-          id="profile-tab"
-          data-bs-toggle="tab"
-          data-bs-target="#profile-tab-pane"
-          type="button"
-          role="tab"
-          aria-controls="profile-tab-pane"
-          aria-selected="false"
-        >My products</button>
-      </li>
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link"
+            id="profile-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#profile-tab-pane"
+            type="button"
+            role="tab"
+            aria-controls="profile-tab-pane"
+            aria-selected="false"
+          >My products</button>
+        </li>
       {{/if}}
       <li class="nav-item" role="presentation">
         <button
@@ -105,7 +105,7 @@
                 placeholder="{{user.age}}"
               />
             </div>
-            <div class="mt-3"><button
+            <div class="mt-5"><button
                 id="recoverpassword"
                 class="btn btn-primary"
               >Reset Password</button>
@@ -126,14 +126,76 @@
         role="tabpanel"
         aria-labelledby="contact-tab"
         tabindex="0"
-      >...</div>
-      <div
-        class="tab-pane fade"
-        id="disabled-tab-pane"
-        role="tabpanel"
-        aria-labelledby="disabled-tab"
-        tabindex="0"
-      >...</div>
+      >
+        <div class="row flex flex-column">
+          <div class="mb-3 col-6">
+            <label for="profile" class="form-label">Profile</label>
+            <input
+              class="form-control form-control-sm"
+              id="profile"
+              name="profile"
+              type="file"
+              accept="image/*"
+            />
+          </div>
+          {{#if user.identification}}
+
+            <p class="fs-5">Your identification has been successfully uploaded.
+              <i class="bi bi-check-circle text-success"></i>
+            </p>
+
+          {{else}}
+            <div class="mb-3 col-6">
+              <label
+                for="identification"
+                class="form-label"
+              >Identification</label>
+              <input
+                class="form-control form-control-sm"
+                id="identification"
+                name="identification"
+                type="file"
+                accept="image/*"
+              />
+            </div>
+          {{/if}}
+
+          {{#if user.address}}
+
+            <p class="fs-5">Your address has been successfully uploaded.
+              <i class="bi bi-check-circle text-success"></i>
+            </p>
+          {{else}}
+            <div class="mb-3 col-6">
+              <label for="address" class="form-label">Adress</label>
+              <input
+                class="form-control form-control-sm"
+                id="address"
+                name="address"
+                type="file"
+                accept="image/*"
+              />
+            </div>
+          {{/if}}
+          {{#if user.statusaccount}}
+            <p class="fs-5">Your statusaccount has been successfully uploaded.
+              <i class="bi bi-check-circle text-success"></i>
+            </p>
+          {{else}}
+            <div class="mb-3 col-6">
+              <label for="statusaccount" class="form-label">Small file input
+                example</label>
+              <input
+                class="form-control form-control-sm"
+                id="statusaccount"
+                name="statusaccount"
+                type="file"
+                accept="image/*"
+              />
+            </div>
+          {{/if}}
+        </div>
+      </div>
     </div>
   </div>
 </main>

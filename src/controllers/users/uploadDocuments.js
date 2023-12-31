@@ -8,17 +8,6 @@ module.exports = async (req, res) => {
     }
     const uploadedFiles = req.files;
 
-    if (
-      !uploadedFiles["identification"] ||
-      !uploadedFiles["address"] ||
-      !uploadedFiles["statusaccount"]
-    ) {
-      return res.status(400).json({
-        status: "error",
-        message: "Missing required field: requiredData",
-      });
-    }
-
     const uploadedDocuments = user.documents.map((document) => document.name);
     console.log(
       user.documents.map((document) => document.name).includes("identification")
