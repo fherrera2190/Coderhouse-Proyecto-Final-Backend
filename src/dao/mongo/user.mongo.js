@@ -32,9 +32,9 @@ class User {
     return await userModel.findOneAndDelete({ _id: uid });
   }
 
-  async updateUserDocuments(uid, documentName, documentPath) {
+  async updateUserDocuments(uid, documents) {
     const update = {
-      $push: { documents: { name: documentName, reference: documentPath } },
+      $set: { documents },
     };
     await userModel.updateOne({ _id: uid }, update);
   }

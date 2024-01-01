@@ -21,12 +21,8 @@ class UsersService {
     return result;
   }
 
-  async updateDocuments(uid, documentName, documentPath) {
-    const result = await this.dao.updateUserDocuments(
-      uid,
-      documentName,
-      documentPath
-    );
+  async updateDocuments(uid, documents) {
+    const result = await this.dao.updateUserDocuments(uid, documents);
     return result;
   }
 }

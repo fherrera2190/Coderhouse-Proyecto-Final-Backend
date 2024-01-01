@@ -39,4 +39,35 @@ window.addEventListener("load", function () {
       });
     }
   });
+
+  const form = document.querySelector("form");
+  const formData = new FormData(form);
+  form.addEventListener("submit", async function (event) {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const url = new URL(form.action);
+    const formData = new FormData(form);
+    const searchParams = new URLSearchParams(formData);
+
+    const fetchOptions = {
+      method: form.method,
+    };
+
+    if (form.method.toLowerCase() === "post") {
+      if (form.enctype === "multipart/form-data") {
+        fetchOptions.body = formData;
+      } else {
+        fetchOptions.body = searchParams;
+      }
+    } else {
+      url.search = searchParams;
+    }
+
+    const responseFetch = await fetch(url, fetchOptions);
+    const response = await responseFetch.json();
+
+    if (response.status === "success") {
+      window.location.href = '/profile';
+    }
+  });
 });

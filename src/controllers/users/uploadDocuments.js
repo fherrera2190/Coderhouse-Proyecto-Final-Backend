@@ -1,5 +1,5 @@
 const { userService } = require("../../services/index.service");
-
+const fs = require("fs");
 module.exports = async (req, res) => {
   try {
     const user = await userService.getById(req.params.uid);
@@ -7,55 +7,69 @@ module.exports = async (req, res) => {
       return res.errorResourceNotFound("User not found");
     }
     const uploadedFiles = req.files;
-
-    const uploadedDocuments = user.documents.map((document) => document.name);
-    console.log(
-      user.documents.map((document) => document.name).includes("identification")
+    //console.log(req.files);
+    const uploadedDocuments = user.documents;
+    const uploadedDocumentsName = user.documents.map(
+      (document) => document.name
     );
-
+    if (uploadedFiles["profile"]) {
+      if (!uploadedDocumentsName.includes("profile")) {
+        const profileFile = uploadedFiles["profile"][0];
+        uploadedDocuments.push({
+          name: profileFile.fieldname,
+          reference: profileFile.path,
+        });
+      } else {
+        uploadedDocuments.forEach((document) => {
+          if (document.name === "profile") {
+            fs.existsSync(document.reference) &&
+              fs.unlinkSync(document.reference);
+            const profileFile = uploadedFiles["profile"][0];
+            document.reference = profileFile.path;
+          }
+        });
+      }
+    }
     if (
       uploadedFiles["identification"] &&
-      !uploadedDocuments.includes("identification")
+      !uploadedDocumentsName.includes("identification")
     ) {
       const identificationFile = uploadedFiles["identification"][0];
-      await userService.updateDocuments(
-        user.id,
-        identificationFile.fieldname,
-        identificationFile.path
-      );
-    }
 
-    if (uploadedFiles["address"] && !uploadedDocuments.includes("address")) {
-      const addressProofFile = uploadedFiles["address"][0];
-      await userService.updateDocuments(
-        user.id,
-        addressProofFile.fieldname,
-        addressProofFile.path
-      );
+      uploadedDocuments.push({
+        name: identificationFile.fieldname,
+        reference: identificationFile.path,
+      });
+    }
+    if (
+      uploadedFiles["address"] &&
+      !uploadedDocumentsName.includes("address")
+    ) {
+      const identificationFile = uploadedFiles["address"][0];
+
+      uploadedDocuments.push({
+        name: identificationFile.fieldname,
+        reference: identificationFile.path,
+      });
     }
 
     if (
       uploadedFiles["statusaccount"] &&
-      !uploadedDocuments.includes("statusaccount")
+      !uploadedDocumentsName.includes("statusaccount")
     ) {
-      const accountStatementFile = uploadedFiles["statusaccount"][0];
-      await userService.updateDocuments(
-        user.id,
-        accountStatementFile.fieldname,
-        accountStatementFile.path
-      );
-    }
+      const identificationFile = uploadedFiles["statusaccount"][0];
 
-    if (uploadedFiles["profile"]) {
-      const profileFile = uploadedFiles["profile"][0];
-      await userService.updateDocuments(
-        user.id,
-        profileFile.fieldname,
-        profileFile.path
-      );
+      uploadedDocuments.push({
+        name: identificationFile.fieldname,
+        reference: identificationFile.path,
+      });
     }
+    await userService.updateDocuments(user.id, uploadedDocuments);
 
-    return res.json({ msg: "se subieron correctamente los archivos" });
+    return res.json({
+      status: "success",
+      msg: "se subieron correctamente los archivos",
+    });
   } catch (error) {
     console.log(error);
   }
