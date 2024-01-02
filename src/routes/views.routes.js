@@ -90,7 +90,7 @@ router.get("/realtimeproducts", auth, passportCall("jwt"), async (req, res) => {
 router.get("/chat", auth, passportCall("jwt"), async (req, res) => {
   try {
     let messages = await messagesModel.find().lean();
-    res.setHeader("Content-Type", "text/html");
+    //res.setHeader("Content-Type", "text/html");
     res.status(200).render("chat", {
       title: "Chat Room",
       messages,

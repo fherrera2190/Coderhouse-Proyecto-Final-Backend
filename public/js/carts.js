@@ -69,10 +69,7 @@ async function purchase() {
   userCurrent = await userCurrent.json();
   const { cartId, email } = userCurrent.payload;
   const response2 = await fetch(
-    `/api/carts/${cartId}/purchase?email=${email}`,
-    {
-      method: "get",
-    }
+    `/api/carts/${cartId}/purchase?email=${email}`
   );
   const datos = await response2.json();
   if (!datos.payload.purchasedProducts && datos.payload.sinStock) {

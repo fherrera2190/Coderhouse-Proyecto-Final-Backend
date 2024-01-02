@@ -1,6 +1,5 @@
 window.addEventListener("load", function () {
-  console.clear();
-  console.log("termino de cargar la pagina");
+
   const buttonForm = document.getElementById("recoverpassword");
   const email = document.getElementById("email");
   buttonForm.addEventListener("click", async (e) => {

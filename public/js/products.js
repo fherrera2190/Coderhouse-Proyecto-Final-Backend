@@ -6,7 +6,7 @@ async function sendCart(e) {
       "/api/carts/" + cartId + "/products/" + e.currentTarget.id,
       {
         method: "POST",
-        headers: { "Content-type": "application/json; charset=UTF-8" },
+        headers: { "Content-type": "application/json" },
       }
     );
     const data = await response.json();
@@ -41,10 +41,8 @@ window.addEventListener("load", async function () {
     const userCurrent = await fetch("/api/sessions/current");
     const user = await userCurrent.json();
     cartId = user.payload.cartId;
-    const response = await fetch(
-      "/api" + window.location.pathname + window.location.search,
-      { method: "GET" }
-    );
+    //console.log("/api" + window.location.pathname + window.location.search)
+    const response = await fetch("/api/products");
     const data = await response.json();
     const tbody = document.getElementById("tbody");
     const prev = document.getElementById("prev");
