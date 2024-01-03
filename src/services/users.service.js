@@ -3,7 +3,7 @@ class UsersService {
     this.dao = new dao();
   }
   async getUsers() {
-    return await this.dao.get();
+    return await this.dao.getUsers();
   }
   async getById(id) {
     const result = await this.dao.getUserById(id);

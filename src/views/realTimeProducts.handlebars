@@ -25,13 +25,14 @@
             <td> {{this.status}}</td>
             <td> {{this.stock}}</td>
             <td> {{this.category}}</td>
-            <td class="d-flex gap-3">
-              <button class="btn btn-info"><i
-                  class="bi bi-pencil-square"
-                ></i></button>
-              <button onclick="deleteProductAdm('{{this._id}}')" class="btn btn-danger"><i
-                  class="bi bi-trash"
-                ></i></button>
+            <td class="d-flex gap-3 align-items-center h-100">
+              <button class="btn btn-info">
+                <i class="bi bi-pencil-square"></i>
+              </button>
+              <button
+                onclick="deleteProductAdm('{{this._id}}')"
+                class="btn btn-danger"
+              ><i class="bi bi-trash"></i></button>
             </td>
           </tr>
         {{/each}}
