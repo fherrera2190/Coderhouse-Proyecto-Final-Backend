@@ -16,7 +16,6 @@ const inicializaPassport = require("./config/passport.config");
 const { addLogger } = require("./utils/logger.js");
 const swaggerJSDoc = require("swagger-jsdoc");
 const swaggerUiExpress = require("swagger-ui-express");
-const helpers = require("./utils/helpers.js");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -24,18 +23,7 @@ app.use(express.static(path.join(__dirname + "/../public")));
 app.use(cookieParser());
 app.use(addLogger);
 
-const swaggerOptions = {
-  definition: {
-    openapi: "3.0.1",
-    info: {
-      title: "Documentación del e-commerce",
-      description: "Mi primer api",
-    },
-  },
-  apis: [`${__dirname}/../docs/**/*.yaml`],
-};
-
-const specs = swaggerJSDoc(swaggerOptions);
+const specs = swaggerJSDoc(require("./utils/swaggerOptions.js"));
 app.use("/apidocs", swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
 
 inicializaPassport();
@@ -52,7 +40,7 @@ app.engine(
     layoutsDir: "./src/views/layouts",
     partialsDir: "./src/views/partials",
     defaultLayout: "main.handlebars",
-    helpers,
+    helpers: require("./utils/helpers.js"),
   })
 );
 

@@ -1,7 +1,13 @@
 <main class="container">
   <div class="mt-3">
-    <button class="btn btn-dark mb-3"><i class="bi bi-plus-square">
-        New product</i></button>
+    <button
+      type="button"
+      class="btn btn-dark"
+      data-bs-toggle="modal"
+      data-bs-target="#staticBackdrop"
+    >
+      <i class="bi bi-plus-square">New product</i>
+    </button>
     <table class="table">
       <thead>
         <tr>
@@ -26,7 +32,11 @@
             <td> {{this.stock}}</td>
             <td> {{this.category}}</td>
             <td class="d-flex gap-3 align-items-center h-100">
-              <button class="btn btn-info">
+              <button
+                class="btn btn-info"
+                data-bs-toggle="modal"
+                data-bs-target="#staticBackdrop"
+              >
                 <i class="bi bi-pencil-square"></i>
               </button>
               <button
@@ -39,5 +49,73 @@
       </tbody>
     </table>
   </div>
+  <div
+    class="modal fade"
+    id="staticBackdrop"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    aria-labelledby="staticBackdropLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <form class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">New Product</h1>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Email address</label>
+            <input
+              type="email"
+              class="form-control"
+              id="exampleInputEmail1"
+              aria-describedby="emailHelp"
+            />
+            <div id="emailHelp" class="form-text">We'll never share your email
+              with anyone else.</div>
+          </div>
+          <div class="mb-3">
+            <label
+              for="exampleInputPassword1"
+              class="form-label"
+            >Password</label>
+            <input
+              type="password"
+              class="form-control"
+              id="exampleInputPassword1"
+            />
+          </div>
+          <div class="mb-3 form-check">
+            <input
+              type="checkbox"
+              class="form-check-input"
+              id="exampleCheck1"
+            />
+            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >Cancel</button>
+          <button
+            type="submit"
+            onclick="addProduct()"
+            class="btn btn-primary"
+          >Add Product</button>
+        </div>
+      </form>
+    </div>
+  </div>
 </main>
+<script src="/socket.io/socket.io.js"></script>
 <script src="/js/realtimeproducts.js"></script>

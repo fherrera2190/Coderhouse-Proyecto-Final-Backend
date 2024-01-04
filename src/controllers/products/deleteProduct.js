@@ -3,10 +3,7 @@ const { productService } = require("../../services/index.service");
 
 module.exports = async (req, res) => {
   try {
-    console.log(req.params.pid);
-
     const product = await productService.getById(req.params.pid);
-
     if (
       req.user.user.role === "premiun" &&
       req.user.user.email !== product.owner
@@ -22,8 +19,8 @@ module.exports = async (req, res) => {
     await productService.delete(req.params.pid);
 
     const productos = await productsModels.find().lean();
-    //console.log(productos);
     req.io.emit("actualizarProductos", productos);
+
     return res.status(200).json({
       status: "success",
       message: "Product Successfully Deleted",

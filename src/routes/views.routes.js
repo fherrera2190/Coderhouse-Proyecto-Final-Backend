@@ -8,6 +8,8 @@ const passportCall = require("../utils/passportCall");
 const { faker } = require("@faker-js/faker");
 const { productService, userService } = require("../services/index.service");
 const UserDtoProfile = require("../dto/UserProfile.dto");
+const authAdmin = require("../middlewares/authAdmin");
+const authUser = require("../middlewares/authUser");
 
 router.get("/login", auth2, async (req, res) => {
   try {
@@ -18,7 +20,7 @@ router.get("/login", auth2, async (req, res) => {
   }
 });
 
-router.get("/profile", passportCall("jwt"), async (req, res) => {
+router.get("/profile", passportCall("jwt"), authAdmin, async (req, res) => {
   try {
     const user = await userService.getById(req.user.id);
     console.log(new UserDtoProfile(user));
@@ -73,24 +75,32 @@ router.get("/", auth, passportCall("jwt"), async (req, res) => {
   }
 });
 
-router.get("/realtimeproducts", auth, passportCall("jwt"), async (req, res) => {
-  try {
-    let products = await productsModels.find().lean();
-    res.setHeader("Content-Type", "text/html");
-    res.status(200).render("realTimeProducts.handlebars", {
-      title: "Products Menu",
-      products,
-      user: req.user,
-    });
-  } catch (error) {
-    return res.status(500).json({ error: error.code, detalle: error.message });
+router.get(
+  "/realtimeproducts",
+  auth,
+  passportCall("jwt"),
+  authUser,
+  async (req, res) => {
+    try {
+      let products = await productsModels.find().lean();
+      res.setHeader("Content-Type", "text/html");
+      res.status(200).render("realTimeProducts.handlebars", {
+        title: "Products Menu",
+        products,
+        user: req.user,
+      });
+    } catch (error) {
+      return res
+        .status(500)
+        .json({ error: error.code, detalle: error.message });
+    }
   }
-});
+);
 
-router.get("/chat", auth, passportCall("jwt"), async (req, res) => {
+router.get("/chat", auth, passportCall("jwt"), authAdmin, async (req, res) => {
   try {
     let messages = await messagesModel.find().lean();
-    //res.setHeader("Content-Type", "text/html");
+    res.setHeader("Content-Type", "text/html");
     res.status(200).render("chat", {
       title: "Chat Room",
       messages,
@@ -101,19 +111,27 @@ router.get("/chat", auth, passportCall("jwt"), async (req, res) => {
   }
 });
 
-router.get("/products", auth, passportCall("jwt"), async (req, res) => {
-  try {
-    res.setHeader("Content-Type", "text/html");
-    res.status(200).render("products.handlebars", {
-      title: "Home - Page",
-      user: req.user,
-    });
-  } catch (error) {
-    return res.status(500).json({ error: error.code, detalle: error.message });
+router.get(
+  "/products",
+  auth,
+  passportCall("jwt"),
+  authAdmin,
+  async (req, res) => {
+    try {
+      res.setHeader("Content-Type", "text/html");
+      res.status(200).render("products.handlebars", {
+        title: "Home - Page",
+        user: req.user,
+      });
+    } catch (error) {
+      return res
+        .status(500)
+        .json({ error: error.code, detalle: error.message });
+    }
   }
-});
+);
 
-router.get("/carts/:cid", auth, passportCall("jwt"), (req, res) => {
+router.get("/mycart", auth, passportCall("jwt"), authAdmin, (req, res) => {
   try {
     res.setHeader("Content-Type", "text/html");
     res.status(200).render("carts.handlebars", {
