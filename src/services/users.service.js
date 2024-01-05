@@ -25,6 +25,11 @@ class UsersService {
     const result = await this.dao.updateUserDocuments(uid, documents);
     return result;
   }
+
+  async delete(uid) {
+    const result = await this.dao.deleteUser(uid);
+    return result;
+  }
 }
 
 module.exports = UsersService;

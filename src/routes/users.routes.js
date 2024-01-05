@@ -4,6 +4,7 @@ const {
   uploadDocuments,
   getUsers,
   changeImageProfile,
+  deleteUser,
 } = require("../controllers/user.controller");
 const uploader = require("../middlewares/multer");
 
@@ -28,6 +29,7 @@ class UserRoutes extends Router {
       ]),
       uploadDocuments
     );
+    this.delete("/:uid", ["ADMIN"],deleteUser);
   }
 }
 

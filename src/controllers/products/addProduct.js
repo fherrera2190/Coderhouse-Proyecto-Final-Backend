@@ -11,23 +11,26 @@ module.exports = async (req, res) => {
         name: "Error Creating Product",
         cause: generateProductErrorInfo({
           title,
-          description:description.toString(),
+          description: description.toString(),
           code,
           price,
           stock,
-          category
+          category,
         }),
         message: "Error to create a product",
-        code: EErrors.INVALID_TYPE_ERROR
+        code: EErrors.INVALID_TYPE_ERROR,
       });
     }
-    req.body.owner=req.user.user.email
-    console.log(req.body.owner)
-    const productos = await productService.create(req.body);
-    req.io.emit("actualizarProductos", productos);
-    return res.sendSuccess(productos);
+    if (req.user.user.role === "admin") {
+      req.body.owner = "admin";
+    } else {
+      req.body.owner = req.user.user.email;
+    }
+
+    const product = await productService.create(req.body);
+    return res.sendSuccess(product);
   } catch (error) {
-    req.logger.error(error.cause)
+    req.logger.error(error.cause);
     return res.sendServerError(error.message);
   }
 };

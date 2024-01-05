@@ -25,6 +25,12 @@ class Product {
   async deleteProduct(pid) {
     return await productModel.deleteOne({ _id: pid });
   }
+
+  async deleteProducts(owner) {
+    return await productModel.deleteMany({
+      owner,
+    });
+  }
 }
 
 module.exports = Product;

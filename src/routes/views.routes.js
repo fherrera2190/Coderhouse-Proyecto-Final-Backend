@@ -10,6 +10,7 @@ const { productService, userService } = require("../services/index.service");
 const UserDtoProfile = require("../dto/UserProfile.dto");
 const authAdmin = require("../middlewares/authAdmin");
 const authUser = require("../middlewares/authUser");
+const UserCurrent = require("../dto/UserCurrent.dto");
 
 router.get("/login", auth2, async (req, res) => {
   try {
@@ -28,6 +29,24 @@ router.get("/profile", passportCall("jwt"), authAdmin, async (req, res) => {
     res.status(200).render("profile.handlebars", {
       title: "Profile - Page",
       user: new UserDtoProfile(user),
+    });
+  } catch (error) {
+    return res.status(500).json({ error: error.code, detalle: error.message });
+  }
+});
+
+router.get("/paneladmin", passportCall("jwt"), authUser, async (req, res) => {
+  try {
+    let users = await userService.getUsers();
+    //console.log(new UserDtoProfile(user));
+    users = users.map((user) => new UserCurrent(user));
+    users = users.filter((user) => user.role !== "admin");
+    console.log(users);
+    res.setHeader("Content-Type", "text/html");
+    res.status(200).render("paneladmin.handlebars", {
+      title: "Profile - Page",
+      user: req.user,
+      users,
     });
   } catch (error) {
     return res.status(500).json({ error: error.code, detalle: error.message });

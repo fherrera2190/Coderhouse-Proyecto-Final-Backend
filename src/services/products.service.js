@@ -26,6 +26,10 @@ class ProductsService {
   async delete(pid) {
     return await this.dao.deleteProduct(pid);
   }
+
+  async deleteByOwner(owner) {
+    return await this.dao.deleteProducts(owner);
+  }
 }
 
 module.exports = ProductsService;

@@ -21,7 +21,6 @@ class Router {
       this.handlePolicies(policies),
       this.applyCallbacks(callbacks)
     );
-    // this.router.get(path, callbacks);
   }
 
   post(path, policies, ...callbacks) {
@@ -82,7 +81,7 @@ class Router {
     if (!token) return res.sendUserUnauthorized("User Unauthorized");
     jwt.verify(token, config.PRIVATE_KEY, (err, user) => {
       if (err) {
-        return res.errorUserAuthentication("Token invalido");
+        return res.errorUserAuthentication("Invalid token");
       } else {
         if (policies.includes(user.user.role.toUpperCase())) {
           req.user = user;
