@@ -26,5 +26,8 @@ module.exports = async (req, res) => {
       status: "success",
       message: "Perfecto",
     });
-  } catch (error) {}
+  } catch (error) {
+    req.logger.error(error.message);
+    return res.sendServerError(error.message);
+  }
 };

@@ -32,7 +32,9 @@
             <td> {{this.stock}}</td>
             <td> {{this.category}}</td>
             <td>
-              <div class="d-flex align-items-center justify-content-center gap-3 h-100">
+              <div
+                class="d-flex align-items-center justify-content-center gap-3 h-100"
+              >
                 <button
                   class="btn btn-info"
                   data-bs-toggle="modal"
@@ -72,37 +74,82 @@
           ></button>
         </div>
         <div class="modal-body">
-          <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Email address</label>
-            <input
-              type="email"
-              class="form-control"
-              id="exampleInputEmail1"
-              aria-describedby="emailHelp"
-            />
-            <div id="emailHelp" class="form-text">We'll never share your email
-              with anyone else.</div>
+          <div>
+            <div class="mb-3">
+              <label for="title" class="form-label">Title</label>
+              <input
+                type="text"
+                name="title"
+                class="form-control"
+                id="title"
+                aria-describedby="emailHelp"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="code" class="form-label">Code</label>
+              <input
+                type="text"
+                name="code"
+                class="form-control"
+                id="code"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="price" class="form-label">Price</label>
+              <input
+                type="number"
+                name="price"
+                class="form-control"
+                id="price"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="stock" class="form-label">Stock</label>
+              <input
+                type="number"
+                name="stock"
+                class="form-control"
+                min="0"
+                id="stock"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="category" class="form-label">Category</label>
+              <input
+                type="text"
+                name="category"
+                class="form-control"
+                id="category"
+                aria-describedby="emailHelp"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="description" class="form-label">Description</label>
+              <input
+                type="text"
+                name="description"
+                class="form-control"
+                id="description"
+                aria-describedby="emailHelp"
+                required
+              />
+            </div>
           </div>
-          <div class="mb-3">
-            <label
-              for="exampleInputPassword1"
-              class="form-label"
-            >Password</label>
-            <input
-              type="password"
-              class="form-control"
-              id="exampleInputPassword1"
+          <div>
+            <img
+              src="\profiles\default.webp"
+              class="img-thumbnail"
+              alt="No hay imagen"
+              style="width: 200px; height: 200px;"
             />
-          </div>
-          <div class="mb-3 form-check">
-            <input
-              type="checkbox"
-              class="form-check-input"
-              id="exampleCheck1"
-            />
-            <label class="form-check-label" for="exampleCheck1">Check me out</label>
           </div>
         </div>
+
         <div class="modal-footer">
           <button
             type="button"

@@ -8,7 +8,7 @@ module.exports = async (req, res) => {
     users = users.map((user) => new UserAdmin(user));
     res.json({ users });
   } catch (error) {
-    console.log(error);
-    res.json({ error: "Hubo un error" });
+    req.logger.error(error.message);
+    return res.sendServerError(error.message);
   }
 };
