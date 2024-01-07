@@ -1,4 +1,66 @@
 let cartId = "";
+window.addEventListener("load", function () {
+  getProducts("/api/products");
+  const prevButton = document.getElementById("prevLink");
+  prevButton.addEventListener("click", function (e) {
+    e.preventDefault();
+    getProducts(prevButton.href);
+  });
+
+  const nextButton = document.getElementById("nextLink");
+  nextButton.addEventListener("click", function (e) {
+    e.preventDefault();
+    getProducts(nextButton.href);
+  });
+});
+
+async function getProducts(url) {
+  try {
+    //console.log("/api" + window.location.pathname + window.location.search)
+    const userCurrent = await fetch("/api/sessions/current");
+    const user = await userCurrent.json();
+    cartId = user.payload.cartId;
+    const response = await fetch(url);
+    const data = await response.json();
+    const tbody = document.getElementById("tbody");
+    const prev = document.getElementById("prevLink");
+
+    if (!data.prevLink) {
+      prev.classList.add("disabled");
+    } else {
+      prev.classList.remove("disabled");
+    }
+    const next = document.getElementById("nextLink");
+
+    if (!data.nextPage) {
+      next.classList.add("disabled");
+    } else {
+      next.classList.remove("disabled");
+    }
+
+    document.getElementById("nextLink").href = data.nextLink;
+    document.getElementById("prevLink").href = data.prevLink;
+    let nuevotbody = "";
+    data.products.forEach((product) => {
+      nuevotbody += `
+          <tr>
+           <th scope="row">${product.code}</th>
+           <td> ${product.title}</td>
+           <td> ${product.description}</td>
+           <td> ${product.price}</td>
+           <td> ${product.status}</td>
+           <td> ${product.stock}</td>
+           <td> ${product.category}</td>
+           <td><button id="${product._id}"class="fs-4 bg-black  text-white border-1  rounded-2 p-1 sendCart"><i class="bi bi-cart-plus"></i></button></td>
+          </tr>
+      `;
+    });
+    tbody.innerHTML = nuevotbody;
+    actualizarBotonesAgregar();
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 async function sendCart(e) {
   try {
@@ -35,40 +97,3 @@ function actualizarBotonesAgregar() {
     boton.addEventListener("click", sendCart);
   });
 }
-
-window.addEventListener("load", async function () {
-  try {
-    const userCurrent = await fetch("/api/sessions/current");
-    const user = await userCurrent.json();
-    cartId = user.payload.cartId;
-    //console.log("/api" + window.location.pathname + window.location.search)
-    const response = await fetch("/api/products");
-    const data = await response.json();
-    const tbody = document.getElementById("tbody");
-    const prev = document.getElementById("prev");
-    if (!data.prevLink) prev.classList.add("disabled");
-    const next = document.getElementById("next");
-    if (!data.nextPage) next.classList.add("disabled");
-    document.getElementById("nextLink").href = data.nextLink;
-    document.getElementById("prevLink").href = data.prevLink;
-    let nuevotbody = "";
-    data.products.forEach((product) => {
-      nuevotbody += `
-          <tr>
-           <th scope="row">${product.code}</th>
-           <td> ${product.title}</td>
-           <td> ${product.description}</td>
-           <td> ${product.price}</td>
-           <td> ${product.status}</td>
-           <td> ${product.stock}</td>
-           <td> ${product.category}</td>
-           <td><button id="${product._id}"class="fs-4 bg-black  text-white border-1  rounded-2 p-1 sendCart"><i class="bi bi-cart-plus"></i></button></i></a></td>
-          </tr>
-      `;
-    });
-    tbody.innerHTML = nuevotbody;
-    actualizarBotonesAgregar();
-  } catch (error) {
-    console.log(error);
-  }
-});

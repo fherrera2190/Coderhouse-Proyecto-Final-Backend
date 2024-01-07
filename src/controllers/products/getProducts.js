@@ -11,22 +11,26 @@ module.exports = async (req, res) => {
       sort = { price: -1 };
     }
 
-    let query ={};
+    let query = {};
 
     if (req.query.query === "true") {
       query.status = true;
-    } 
-     if (req.query.query === "false") {
+    }
+    if (req.query.query === "false") {
       query.status = false;
-    } 
-    if(req.query.query && req.query.query!=="true" && req.query.query!=="false") {
+    }
+    if (
+      req.query.query &&
+      req.query.query !== "true" &&
+      req.query.query !== "false"
+    ) {
       query.category = req.query.query;
     }
-    const options={
+    const options = {
       limit,
       page: req.query.page ?? 1,
-      sort
-    }
+      sort,
+    };
     const products = await productService.get(query, options);
     const {
       docs,
@@ -35,16 +39,24 @@ module.exports = async (req, res) => {
       nextPage,
       page,
       hasPrevPage,
-      hasNextPage
+      hasNextPage,
     } = products;
-    
-    const prevLink= !prevPage
-    ? null
-    :  `/products${"?page="+prevPage}${req.query.limit?"&limit="+req.query.limit:""}${req.query.sort?"&sort="+ req.query.sort:""}${req.query.query?"&query="+ req.query.query:""}`
-    const nextLink=!nextPage
-    ? null
-    :  `/products${"?page="+nextPage}${req.query.limit?"&limit="+req.query.limit:""}${req.query.sort?"&sort="+ req.query.sort:""}${req.query.query?"&query="+ req.query.query:""}`
-    
+
+    const prevLink = !prevPage
+      ? null
+      : `/api/products${"?page=" + prevPage}${
+          req.query.limit ? "&limit=" + req.query.limit : ""
+        }${req.query.sort ? "&sort=" + req.query.sort : ""}${
+          req.query.query ? "&query=" + req.query.query : ""
+        }`;
+    const nextLink = !nextPage
+      ? null
+      : `/api/products${"?page=" + nextPage}${
+          req.query.limit ? "&limit=" + req.query.limit : ""
+        }${req.query.sort ? "&sort=" + req.query.sort : ""}${
+          req.query.query ? "&query=" + req.query.query : ""
+        }`;
+    console.log(prevLink, nextLink);
     return res.status(200).json({
       status: "Success",
       products: docs,
@@ -55,11 +67,10 @@ module.exports = async (req, res) => {
       hasPrevPage,
       hasNextPage,
       prevLink,
-      nextLink
+      nextLink,
     });
-
   } catch (error) {
-    req.logger.error(error.message)
+    req.logger.error(error.message);
     return res.sendServerError(error.message);
   }
 };

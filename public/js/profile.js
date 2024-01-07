@@ -1,4 +1,4 @@
-window.addEventListener("load", function () {
+window.addEventListener("load", async function () {
   const buttonForm = document.getElementById("recoverpassword");
   const email = document.getElementById("email");
   buttonForm.addEventListener("click", async (e) => {
@@ -124,4 +124,56 @@ window.addEventListener("load", function () {
       }).showToast();
     }
   });
+
+  loadProducts();
 });
+
+async function loadProducts() {
+  const fetchCurrentUser = await fetch("/api/sessions/current");
+  const dataCurrentUser = await fetchCurrentUser.json();
+  const fetchMyproducts = await fetch(
+    `/api/users/${dataCurrentUser.payload._id}/products`
+  );
+
+  const products = (await fetchMyproducts.json()).payload;
+  const tbody = document.getElementById("tbody");
+  let nuevotbody = "";
+  products.forEach((product) => {
+    nuevotbody += `
+        <tr>
+         <th scope="row">${product.code}</th>
+         <td> ${product.title}</td>
+         <td> ${product.description}</td>
+         <td> ${product.price}</td>
+         <td> ${product.status}</td>
+         <td> ${product.stock}</td>
+         <td> ${product.category}</td>
+         <td><button
+         onclick="deleteProductAdm('${product._id}')"
+         class="btn btn-danger"
+       ><i class="bi bi-trash"></i></button></td>
+        </tr>
+    `;
+  });
+  tbody.innerHTML = nuevotbody;
+}
+
+async function deleteProductAdm(pid) {
+  const deleteProduct = await fetch(`/api/products/${pid}`, {
+    method: "DELETE",
+  });
+
+  const response = await deleteProduct.json();
+
+  Toastify({
+    text: response.message,
+    className: "error",
+    gravity: "bottom", // `top` or `bottom`
+    position: "right",
+    style: {
+      background: "#dc143c",
+      color: "white",
+    },
+  }).showToast();
+  loadProducts();
+}

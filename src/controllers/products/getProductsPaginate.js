@@ -31,9 +31,7 @@ module.exports = async (req, res) => {
       page: req.query.page ?? 1,
       sort,
     };
-
     const products = await productService.get(query, options);
-
     const {
       docs,
       totalPages,
@@ -46,19 +44,19 @@ module.exports = async (req, res) => {
 
     const prevLink = !prevPage
       ? null
-      : `/products${"?page=" + prevPage}${
+      : `/api/products${"?page=" + prevPage}${
           req.query.limit ? "&limit=" + req.query.limit : ""
         }${req.query.sort ? "&sort=" + req.query.sort : ""}${
           req.query.query ? "&query=" + req.query.query : ""
         }`;
     const nextLink = !nextPage
       ? null
-      : `/products${"?page=" + nextPage}${
+      : `/api/products${"?page=" + nextPage}${
           req.query.limit ? "&limit=" + req.query.limit : ""
         }${req.query.sort ? "&sort=" + req.query.sort : ""}${
           req.query.query ? "&query=" + req.query.query : ""
         }`;
-
+    console.log(prevLink, nextLink);
     return res.status(200).json({
       status: "Success",
       products: docs,

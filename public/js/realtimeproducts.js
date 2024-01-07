@@ -7,14 +7,19 @@ async function deleteProductAdm(pid) {
   });
 
   const response = await deleteProduct.json();
-  console.log(response);
+  Toastify({
+    text: response.message,
+    className: "error",
+    gravity: "bottom", // `top` or `bottom`
+    position: "right",
+    style: {
+      background: "#dc143c",
+      color: "white",
+    },
+  }).showToast();
 }
 
-async function addProduct(){
-  
-}
-
-
+async function addProduct() {}
 
 socket.on("actualizarProductos", (productos) => {
   const tbody = document.getElementById("tbody");
@@ -31,7 +36,7 @@ socket.on("actualizarProductos", (productos) => {
              <td> ${product.category}</td>
              <td class="d-flex gap-3 align-items-center h-100">
              <button
-              class="btn btn-info" 
+              class="btn btn-info" >
                <i class="bi bi-pencil-square"></i>
              </button>
              <button

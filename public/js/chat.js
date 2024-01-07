@@ -3,6 +3,17 @@ const socket = io();
 
 document.addEventListener("DOMContentLoaded", (event) => {
   probandoScroll.scrollTop = probandoScroll.scrollHeight;
+  document
+    .getElementById("textarea")
+    .addEventListener("keypress", function (event) {
+      // If the user presses the "Enter" key on the keyboard
+      if (event.key === "Enter") {
+        // Cancel the default action, if needed
+        event.preventDefault();
+        // Trigger the button element with a click
+        document.getElementById("enviarMensaje").click();
+      }
+    });
 });
 
 socket.on("updateMessages", (message) => {
