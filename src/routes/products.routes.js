@@ -4,8 +4,9 @@ const {
   getProductById,
   addProduct,
   updateProduct,
-  deleteProduct
+  deleteProduct,
 } = require("../controllers/products.controller");
+const uploader = require("../middlewares/multer");
 
 class ProductsRouter extends Router {
   init() {
@@ -13,11 +14,21 @@ class ProductsRouter extends Router {
 
     this.get("/:pid", ["PUBLIC"], getProductById);
 
-    this.post("/", ["ADMIN","PREMIUM"], addProduct);
+    this.post(
+      "/",
+      ["ADMIN", "PREMIUM"],
+      uploader.fields([{ name: "identification", maxCount: 1 }]),
+      addProduct
+    );
 
-    this.put("/:pid", ["ADMIN"], updateProduct);
+    this.put(
+      "/:pid",
+      ["ADMIN"],
+      uploader.fields([{ name: "identification", maxCount: 1 }]),
+      updateProduct
+    );
 
-    this.delete("/:pid", ["ADMIN","PREMIUM"], deleteProduct);
+    this.delete("/:pid", ["ADMIN", "PREMIUM"], deleteProduct);
   }
 }
 

@@ -17,7 +17,6 @@ window.addEventListener("load", async function () {
       }),
     });
     const response = await fetchResponse.json();
-    console.log(response);
     if (response.status === "success") {
       await Swal.fire({
         position: "bottom-end",
@@ -136,10 +135,24 @@ async function loadProducts() {
   );
 
   const products = (await fetchMyproducts.json()).payload;
-  const tbody = document.getElementById("tbody");
-  let nuevotbody = "";
-  products.forEach((product) => {
-    nuevotbody += `
+
+  const tbody = document.getElementById("table");
+  if (products.length > 0) {
+    let nuevotbody = "";
+    products.forEach((product) => {
+      nuevotbody += `
+      <thead>
+      <tr>
+        <th scope="col">Code</th>
+        <th scope="col">Title</th>
+        <th scope="col">Description</th>
+        <th scope="col">Price</th>
+        <th scope="col">Status</th>
+        <th scope="col">Stock</th>
+        <th scope="col">Category</th>
+        <th scope="col">Options</th>
+      </tr>
+    </thead>
         <tr>
          <th scope="row">${product.code}</th>
          <td> ${product.title}</td>
@@ -154,8 +167,11 @@ async function loadProducts() {
        ><i class="bi bi-trash"></i></button></td>
         </tr>
     `;
-  });
-  tbody.innerHTML = nuevotbody;
+    });
+    tbody.innerHTML = nuevotbody;
+  } else {
+    tbody.innerHTML = `<p>No tienes productos</p>`;
+  }
 }
 
 async function deleteProductAdm(pid) {
