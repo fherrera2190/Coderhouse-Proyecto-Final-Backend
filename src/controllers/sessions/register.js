@@ -8,7 +8,6 @@ const EErrors = require("../../utils/CustomErrors/EErrors");
 module.exports = async (req, res) => {
   try {
     const { first_name, last_name, age, email } = req.body;
-
     if (!first_name || !last_name || !email || !age) {
       CustomError.createError({
         name: "User creation error",
@@ -32,8 +31,7 @@ module.exports = async (req, res) => {
       ),
       cartId: await cartsModels.create({}),
     });
-    console.log("Usuario creado con exito");
-    res.redirect("/login");
+    return res.status(200).json({ status: "success" });
   } catch (error) {
     req.logger.error(error.message);
     return res.sendServerError(error.message);

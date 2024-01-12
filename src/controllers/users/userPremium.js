@@ -35,7 +35,7 @@ module.exports = async (req, res) => {
 
       return res
         .status(200)
-        .json({ status: "success", user: new UserAdminPanel(result) });
+        .json({ status: "success" });
     }
     return res.status(200).json({
       error: "error",

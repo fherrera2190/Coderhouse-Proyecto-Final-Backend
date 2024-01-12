@@ -12,7 +12,6 @@ module.exports = async (req, res) => {
 
       if (dias >= 172800000 && user.role !== "admin") {
         await userService.delete(user._id);
-        console.log(user.mail)
         await productService.deleteByOwner(user.email);
         await transport.sendMail({
           from: "Admin <ferbeoulvedev@gmail.com>",
@@ -27,7 +26,6 @@ module.exports = async (req, res) => {
         });
       }
     });
-    console.log(users);
     return res.status(200).json({ status: "success" });
   } catch (error) {
     req.logger.error(error.message);

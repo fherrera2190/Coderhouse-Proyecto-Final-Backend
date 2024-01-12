@@ -1,17 +1,38 @@
-window.addEventListener("load", async function () {
-  const users = await getUsers();
-  console.log(users);
-});
-
-async function getUsers() {
-  const fetchUsers = await fetch("/api/users/");
-  return (await fetchUsers.json()).users;
-}
-
 async function deleteAllUser() {
   try {
-    const fetchDeleteUsers = await fetch(`/api/users/`, {
-      method: "delete",
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const fetchUsers = await fetch(`/api/users/`, {
+          method: "delete",
+        });
+        const response = await fetchUsers.json();
+
+        if (response.status === "success") {
+          await Swal.fire({
+            title: response.message,
+            text: "All users have been successfully deleted.",
+            icon: "success",
+            timer: 3000,
+          });
+          window.location.reload();
+        } else {
+          await Swal.fire({
+            title: "Failed to delete the user",
+            text: "Error occurred while attempting to delete all users.Your file has been deleted.",
+            icon: "error",
+            timer: 3000,
+          });
+          window.location.reload();
+        }
+      }
     });
   } catch (error) {
     console.log(error);
@@ -20,35 +41,40 @@ async function deleteAllUser() {
 
 async function deleteUser(uid) {
   try {
-    const fetchUsers = await fetch(`/api/users/${uid}`, {
-      method: "delete",
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const fetchUsers = await fetch(`/api/users/${uid}`, {
+          method: "delete",
+        });
+        const response = await fetchUsers.json();
+
+        if (response.status === "success") {
+          await Swal.fire({
+            title: response.message,
+            text: "Your file has been deleted.",
+            icon: "success",
+            timer: 3000,
+          });
+          window.location.reload();
+        } else {
+          await Swal.fire({
+            title: "Failed to delete the user",
+            text: "Your file has been deleted.",
+            icon: "error",
+            timer: 3000,
+          });
+          window.location.reload();
+        }
+      }
     });
-    const response = await fetchUsers.json();
-    if (response.status === "success") {
-      Toastify({
-        text: response.message,
-        className: "error",
-        gravity: "bottom", // `top` or `bottom`
-        position: "right",
-        style: {
-          background: "linear-gradient(to right, #00b09b, #96c93d)",
-          color: "white",
-        },
-      }).showToast();
-      window.location.reload();
-    } else {
-      Toastify({
-        text: response.error,
-        className: "error",
-        gravity: "bottom", // `top` or `bottom`
-        position: "right",
-        style: {
-          background: "#dc143c",
-          color: "white",
-        },
-      }).showToast();
-      window.location.reload();
-    }
   } catch (error) {
     console.log(error);
   }
@@ -58,7 +84,23 @@ async function changeRole(uid) {
   try {
     const fetchUsers = await fetch(`/api/users/premium/${uid}`);
     const response = await fetchUsers.json();
-    console.log(response);
+    if (response.status === "success") {
+      await Swal.fire({
+        title: response.message,
+        text: "Role of the user has been successfully lowered by the administrator.",
+        icon: "success",
+        timer: 3000,
+      });
+      window.location.reload();
+    } else {
+      await Swal.fire({
+        title: response.message,
+        text: "Role of the user has been successfully lowered by the administrator.",
+        icon: "error",
+        timer: 3000,
+      });
+      window.location.reload();
+    }
   } catch (error) {
     console.log(error);
   }
