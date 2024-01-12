@@ -7,7 +7,11 @@ class UserDtoProfile {
     this.email = user.email;
     this.role = user.role;
     user.documents.forEach((element) => {
-      this[`${element.name}`] = element.reference.replace("public", "");
+      if (element.name) {
+        this[`${element.name}`] = element.reference
+          ? element.reference.replace("public", "")
+          : null;
+      }
     });
   }
 }

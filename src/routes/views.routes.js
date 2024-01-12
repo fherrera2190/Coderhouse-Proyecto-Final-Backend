@@ -10,7 +10,7 @@ const { productService, userService } = require("../services/index.service");
 const UserDtoProfile = require("../dto/UserProfile.dto");
 const authAdmin = require("../middlewares/authAdmin");
 const authUser = require("../middlewares/authUser");
-const UserCurrent = require("../dto/UserCurrent.dto");
+const UserAdminPanel = require("../dto/UserAdminPanel.dto");
 
 router.get("/login", auth2, async (req, res) => {
   try {
@@ -38,8 +38,7 @@ router.get("/profile", passportCall("jwt"), authAdmin, async (req, res) => {
 router.get("/paneladmin", passportCall("jwt"), authUser, async (req, res) => {
   try {
     let users = await userService.getUsers();
-    //console.log(new UserDtoProfile(user));
-    users = users.map((user) => new UserCurrent(user));
+    users = users.map((user) => new UserAdminPanel(user));
     users = users.filter((user) => user.role !== "admin");
     console.log(users);
     res.setHeader("Content-Type", "text/html");

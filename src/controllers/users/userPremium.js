@@ -1,11 +1,12 @@
+const UserAdminPanel = require("../../dto/UserAdminPanel.dto");
 const { userService } = require("../../services/index.service");
 const CustomError = require("../../utils/CustomErrors/CustomError");
 const EErrors = require("../../utils/CustomErrors/EErrors");
-
+const fs = require("fs");
 module.exports = async (req, res) => {
   const { uid } = req.params;
-  const user = await userService.getById(uid);
   try {
+    const user = await userService.getById(uid);
     if (!user)
       CustomError.createError({
         name: "Could not find user",
@@ -13,15 +14,33 @@ module.exports = async (req, res) => {
         message: "Error trying to find a user with the id: " + uid,
         code: EErrors.INVALID_TYPE_ERROR,
       });
-    let newRole = "";
-    user.role === "user" ? (newRole = "premium") : (newRole = "user");
 
-    const newRoleUser = await userService.update(
-      { _id: uid },
-      { role: newRole }
-    );
-    const result = await userService.getById(uid);
-    res.status(200).json({ result });
+    if (user.role === "premium") {
+      const newDocuments = [];
+      user.documents.forEach((document) => {
+        if (document.name === "profile") {
+          newDocuments.push({
+            name: document.name,
+            reference: document.reference,
+          });
+        } else {
+          document.reference && fs.unlinkSync(document.reference);
+        }
+      });
+      const newRoleUser = await userService.update(
+        { _id: uid },
+        { role: "user", documents: newDocuments }
+      );
+      const result = await userService.getById(uid);
+
+      return res
+        .status(200)
+        .json({ status: "success", user: new UserAdminPanel(result) });
+    }
+    return res.status(200).json({
+      error: "error",
+      message: ` the user ${user.email} already has the 'user' role.`,
+    });
   } catch (error) {
     req.logger.error(error.cause);
     return res.sendServerError(error.message);

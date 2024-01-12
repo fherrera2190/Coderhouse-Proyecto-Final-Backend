@@ -108,6 +108,14 @@ window.addEventListener("load", async function () {
     const response = await responseFetch.json();
     console.log(response);
     if (response.status === "success") {
+      await Swal.fire({
+        position: "bottom-end",
+        icon: "success",
+        title:
+          "Congratulation!! now you are a user premium. Please login again.",
+        showConfirmButton: false,
+        timer: 3000,
+      });
       window.location.href = "/api/sessions/logout";
     }
     if (response.status === "error") {

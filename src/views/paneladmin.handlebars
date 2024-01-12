@@ -21,39 +21,35 @@
     <tbody id="tbody">
       {{#each users}}
         <tr>
-          <th scope="row">{{this.first_name}}</th>
+          <td>{{this.first_name}}</td>
           <td> {{this.last_name}}</td>
-          <td> {{this.Active}}</td>
-          <td> {{this.role}}</td>
-          <td><i class="bi bi-circle-fill"></i></td>
           <td>
-            <div
-              class="d-flex align-items-center justify-content-center gap-3 h-100"
-            >
-              {{#if (isPremium this.role)}}
+            {{#unless this.isActive}}
+              <i class="bi bi-circle-fill text-success"></i>
+            {{else}}
+              <i class="bi bi-circle-fill text-danger"></i>
+            {{/unless}}
+          </td>
+          <td> {{this.role}}</td>
+          <td>
 
-                <button
-                  class="btn btn-info"
-                  data-bs-toggle="modal"
-                  data-bs-target="#staticBackdrop"
-                >
-                  <i class="fs-4 bi bi-person-fill-down"></i>
-                </button>
-              {{else}}
-                <button
-                  class="btn btn-info disabled"
-                  data-bs-toggle="modal"
-                  data-bs-target="#staticBackdrop"
-                >
-                  <i class="fs-4 bi bi-person-fill-down"></i>
-                </button>
-              {{/if}}
+            {{#if (isPremium this.role)}}
+
+              <button onclick="changeRole('{{this._id}}')" class="btn btn-info">
+                <i class="fs-4 bi bi-person-fill-down"></i>
+              </button>
+            {{else}}
               <button
-                onclick="deleteUser('{{this._id}}')"
-                class="btn btn-danger"
-              ><i class="fs-4 bi bi-trash"></i></button>
-
-            </div>
+                onclick="changeRole('{{this._id}}')"
+                class="btn btn-info disabled"
+              >
+                <i class="fs-4 bi bi-person-fill-down"></i>
+              </button>
+            {{/if}}
+            <button
+              onclick="deleteUser('{{this._id}}')"
+              class="btn btn-danger"
+            ><i class="fs-4 bi bi-trash"></i></button>
           </td>
         </tr>
       {{/each}}

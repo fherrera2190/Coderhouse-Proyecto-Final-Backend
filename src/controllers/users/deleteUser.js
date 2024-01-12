@@ -24,7 +24,7 @@ module.exports = async (req, res) => {
 
     return res.json({
       status: "success",
-      message: "Perfecto",
+      message: "User has been deleted succesfully",
     });
   } catch (error) {
     req.logger.error(error.message);
