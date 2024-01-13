@@ -5,6 +5,7 @@ const github = require("passport-github2");
 const passportJWT = require("passport-jwt");
 const cartsModels = require("../dao/mongo/models/cart.model");
 const config = require("./config");
+const { userService } = require("../services/index.service");
 // adminCoder@coder.com
 //adminCod3r123
 
@@ -43,9 +44,7 @@ const inicializaPassport = () => {
       },
       async (token, tokenRefresh, profile, done) => {
         try {
-          const usuario = await userModel.findOne({
-            email: profile._json.email,
-          });
+          const usuario = await userService.getUserByEmail(profile._json.email);
           if (!usuario) {
             let newUsuario = {
               first_name: profile._json.name,

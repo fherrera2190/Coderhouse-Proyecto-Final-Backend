@@ -5,10 +5,9 @@ const passportCall = (estrategia) => {
     passport.authenticate(estrategia, function (err, user, info) {
       if (err) return next(err);
       if (!user) {
-        // return res
-        //   .status(200)
-        //   .json({ error: info.messages ? info.messages : info.toString() });
-        return res.redirect("/login")
+        return res
+          .status(200)
+          .json({ error: info.messages ? info.messages : info.toString() });
       }
       req.user = user;
       return next();
