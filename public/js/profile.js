@@ -63,7 +63,6 @@ window.addEventListener("load", async function () {
     const responseFetch = await fetch(url, fetchOptions);
 
     const response = await responseFetch.json();
-    console.log(response);
     if (response.status === "success") {
       window.location.href = "/profile";
     }

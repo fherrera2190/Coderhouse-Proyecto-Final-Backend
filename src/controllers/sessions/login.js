@@ -11,7 +11,6 @@ module.exports = async (req, res) => {
     if (!req.body.email || !req.body.password)
       return res.sendUserError("debe completar todos los campos");
     const user = await userService.getUserByEmail(req.body.email);
-    console.log(user);
     if (!user) {
       CustomError.createError({
         name: "Could not find user",
@@ -25,8 +24,6 @@ module.exports = async (req, res) => {
       return res.sendUserError("Invalid Credentials");
     }
     const userLimited = new UserCurrent(user);
-    console.log(user.last_connection);
-    console.log(new Date().toISOString());
     const token = generaJWT(userLimited);
     res.cookie(config.PASS_COOKIE, token, {
       maxAge: 1000 * 60 * 60,

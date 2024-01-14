@@ -12,7 +12,6 @@ module.exports = async (req, res) => {
       (document) => document.name
     );
     if (uploadedFiles["profile"]) {
-      console.log("Entre aca");
       if (!uploadedDocumentsName.includes("profile")) {
         const profileFile = uploadedFiles["profile"][0];
         uploadedDocuments.push({

@@ -3,7 +3,6 @@ const transport = require("../../utils/nodemailer");
 
 module.exports = async (req, res) => {
   try {
-    console.log(req.user.user);
     const user = await userService.getById(req.params.uid);
     if (!user) {
       res.sendUserError("User dont exits");

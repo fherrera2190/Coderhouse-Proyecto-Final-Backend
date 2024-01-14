@@ -57,7 +57,10 @@ function showTable(products) {
            <td> ${product.product.stock}</td>
            <td> ${product.product.category}</td>
            <td> ${product.quantity}</td>
-           <td></td>
+           <td><button
+           onclick="deleteProductFromCart('${product.product._id}')"
+           class="btn btn-danger"
+         ><i class="bi bi-trash"></i></button></td>
           </tr>
       `;
   });
@@ -65,41 +68,69 @@ function showTable(products) {
 }
 
 async function purchase() {
-  let userCurrent = await fetch("/api/sessions/current");
-  userCurrent = await userCurrent.json();
-  const { cartId, email } = userCurrent.payload;
-  const response2 = await fetch(
-    `/api/carts/${cartId}/purchase?email=${email}`
-  );
-  const datos = await response2.json();
-  if (!datos.payload.purchasedProducts && datos.payload.sinStock) {
-    await Swal.fire({
-      position: "center",
-      icon: "error",
-      title: "No se realizo la compra por que la cantidad excede el stock",
-      showConfirmButton: false,
-      timer: 2000,
-    });
-    window.location.reload();
-  }
+  try {
+    let userCurrent = await fetch("/api/sessions/current");
+    userCurrent = await userCurrent.json();
+    const { cartId, email } = userCurrent.payload;
+    const response2 = await fetch(
+      `/api/carts/${cartId}/purchase?email=${email}`
+    );
+    const datos = await response2.json();
+    if (!datos.payload.purchasedProducts && datos.payload.sinStock) {
+      await Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "No se realizo la compra por que la cantidad excede el stock",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+      window.location.reload();
+    }
 
-  if (datos.payload.purchasedProducts && datos.payload.sinStock) {
-    await Swal.fire({
-      position: "center",
-      icon: "success",
-      title: "La compra se realizo con exito",
-      showConfirmButton: false,
-      timer: 2000,
-    });
-    window.location.reload();
+    if (datos.payload.purchasedProducts && datos.payload.sinStock) {
+      await Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "La compra se realizo con exito",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+      window.location.reload();
+    }
+  } catch (error) {
+    console.log(error);
   }
 }
 
 async function clearCart() {
-  let userCurrent = await fetch("/api/sessions/current");
-  userCurrent = await userCurrent.json();
-  const { cartId } = userCurrent.payload;
-  const response2 = await fetch(`/api/carts/${cartId}`, {
-    method: "delete",
-  });
+  try {
+    let userCurrent = await fetch("/api/sessions/current");
+    userCurrent = await userCurrent.json();
+    const { cartId } = userCurrent.payload;
+    const response2 = await fetch(`/api/carts/${cartId}`, {
+      method: "delete",
+    });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function deleteProductFromCart(pid) {
+  try {
+    const buttonPurchase = document.getElementById("purchase");
+    let userCurrent = await fetch("/api/sessions/current");
+    userCurrent = await userCurrent.json();
+    const { cartId } = userCurrent.payload;
+    const response2 = await fetch(`/api/carts/${cartId}/products/${pid}`, {
+      method: "delete",
+    });
+    const response = await fetch(`/api/carts/${cartId}`);
+    const data = await response.json();
+    if (data.payload.products < 1) {
+      buttonPurchase.classList.toggle("disabled");
+    }
+    showTable(data.payload.products);
+  } catch (error) {
+    console.log(error);
+  }
 }
