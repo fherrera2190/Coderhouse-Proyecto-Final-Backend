@@ -75,7 +75,9 @@ async function purchase() {
     const response2 = await fetch(
       `/api/carts/${cartId}/purchase?email=${email}`
     );
+
     const datos = await response2.json();
+    console.log(datos);
     if (!datos.payload.purchasedProducts && datos.payload.sinStock) {
       await Swal.fire({
         position: "center",
