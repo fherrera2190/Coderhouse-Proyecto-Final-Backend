@@ -8,9 +8,6 @@ const transport = require("../../utils/nodemailer");
 
 module.exports = async (req, res) => {
   try {
-
-    console.log(req.params.cid)
-    console.log(req.user.user)
     const cid = req.params.cid;
     let ticketResponse = {};
     let sinStock = [];
