@@ -8,19 +8,18 @@ module.exports = async (req, res) => {
       return res.errorResourceNotFound("User not found");
     }
     const uploadedFiles = req.files;
-
     const uploadedDocuments = user.documents;
-    const uploadedDocumentsName = user.documents.map(
-      (document) => document.name
-    );
-
+    // const uploadedDocumentsName = user.documents.map(
+    //   (document) => document.name
+    // );
+    
     if (
       uploadedFiles["identification"] &&
       uploadedFiles["address"] &&
       uploadedFiles["statusaccount"]
     ) {
       const identificationFile = uploadedFiles["identification"][0];
-
+      
       uploadedDocuments.push({
         name: identificationFile.fieldname,
         reference: identificationFile.path,

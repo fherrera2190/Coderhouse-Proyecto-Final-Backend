@@ -44,19 +44,18 @@ module.exports = async (req, res) => {
 
     const prevLink = !prevPage
       ? null
-      : `/api/products${"?page=" + prevPage}${
+      : `/api/products/paginate${"?page=" + prevPage}${
           req.query.limit ? "&limit=" + req.query.limit : ""
         }${req.query.sort ? "&sort=" + req.query.sort : ""}${
           req.query.query ? "&query=" + req.query.query : ""
         }`;
     const nextLink = !nextPage
       ? null
-      : `/api/products${"?page=" + nextPage}${
+      : `/api/products/paginate${"?page=" + nextPage}${
           req.query.limit ? "&limit=" + req.query.limit : ""
         }${req.query.sort ? "&sort=" + req.query.sort : ""}${
           req.query.query ? "&query=" + req.query.query : ""
         }`;
-    console.log(prevLink, nextLink);
     return res.status(200).json({
       status: "Success",
       products: docs,

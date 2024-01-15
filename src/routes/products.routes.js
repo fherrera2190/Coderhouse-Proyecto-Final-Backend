@@ -3,6 +3,7 @@ const {
   getProducts,
   getProductById,
   addProduct,
+  getProductsPaginate,
   updateProduct,
   deleteProduct,
 } = require("../controllers/products.controller");
@@ -11,7 +12,7 @@ const uploader = require("../middlewares/multer");
 class ProductsRouter extends Router {
   init() {
     this.get("/", ["PUBLIC"], getProducts);
-
+    this.get("/paginate", ["PUBLIC"], getProductsPaginate);
     this.get("/:pid", ["PUBLIC"], getProductById);
 
     this.post(
@@ -29,6 +30,7 @@ class ProductsRouter extends Router {
     );
 
     this.delete("/:pid", ["ADMIN", "PREMIUM"], deleteProduct);
+  
   }
 }
 

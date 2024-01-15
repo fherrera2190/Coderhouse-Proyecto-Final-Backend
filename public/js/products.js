@@ -1,6 +1,6 @@
 let cartId = "";
 window.addEventListener("load", function () {
-  getProducts("/api/products");
+  getProducts("/api/products/paginate");
   const prevButton = document.getElementById("prevLink");
   prevButton.addEventListener("click", function (e) {
     e.preventDefault();

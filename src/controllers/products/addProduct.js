@@ -5,8 +5,6 @@ const { generateProductErrorInfo } = require("../../utils/CustomErrors/info");
 
 module.exports = async (req, res) => {
   try {
-    console.log(req.body)
-    console.log(req.formData)
     const { title, description, price, code, stock, category } = req.body;
     if (!title || !description || !price || !code || !stock || !category) {
       CustomError.createError({
@@ -30,6 +28,14 @@ module.exports = async (req, res) => {
     }
 
     const product = await productService.create(req.body);
+
+    options = {
+      pagination: false,
+    };
+    let productos = await productService.get({}, options);
+    productos = productos.docs;
+    req.io.emit("actualizarProductos", productos);
+
     return res.sendSuccess(product);
   } catch (error) {
     req.logger.error(error.cause);

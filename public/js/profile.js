@@ -1,42 +1,4 @@
 window.addEventListener("load", async function () {
-  const buttonForm = document.getElementById("recoverpassword");
-  const email = document.getElementById("email");
-  buttonForm.addEventListener("click", async (e) => {
-    e.preventDefault();
-
-    const getUser = await fetch("/api/sessions/current");
-    const user = await getUser.json();
-
-    const fetchResponse = await fetch("/api/sessions/recoverpassword", {
-      method: "post",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({
-        email: user.payload.email,
-      }),
-    });
-    const response = await fetchResponse.json();
-    if (response.status === "success") {
-      await Swal.fire({
-        position: "bottom-end",
-        icon: "success",
-        title:
-          "A password recovery email has been sent. Please check your inbox and follow the instructions to complete the process.",
-        showConfirmButton: false,
-        timer: 2500,
-      });
-    } else {
-      await Swal.fire({
-        position: "bottom-end",
-        icon: "error",
-        title: response.error,
-        showConfirmButton: false,
-        timer: 2500,
-      });
-    }
-  });
-
   const form = document.getElementById("imageForm");
   form.addEventListener("submit", async function (event) {
     event.preventDefault();
@@ -131,6 +93,70 @@ window.addEventListener("load", async function () {
     }
   });
 
+  const newPButton = document.getElementById("newProduct");
+
+  newPButton.addEventListener("click", function (e) {
+    e.preventDefault();
+    methodForm = "";
+    const form = document.getElementById("form");
+    form.reset();
+    form.action = "/api/products";
+    form.method = "post";
+    const code = document.getElementById("code");
+    code.disabled = false;
+    const buttonSubmit = form.querySelector("#buttonSubmit");
+    buttonSubmit.innerHTML = "Add Product";
+  });
+
+  document
+    .getElementById("formNewProduct")
+    .addEventListener("submit", async function (event) {
+      event.preventDefault();
+      console.log(methodForm);
+      const formDocumentation = event.currentTarget;
+      const url = new URL(formDocumentation.action);
+      const formData = new FormData(formDocumentation);
+      let fetchOptions;
+      if (methodForm === "PUT") {
+        fetchOptions = {
+          method: methodForm,
+          body: formData,
+        };
+      } else {
+        fetchOptions = {
+          method: formDocumentation.method,
+          body: formData,
+        };
+      }
+      const responseFetch = await fetch(url, fetchOptions);
+
+      const response = await responseFetch.json();
+      console.log(response);
+      if (response.status === "success") {
+        Toastify({
+          text: "Product has been added successfully",
+          className: "error",
+          gravity: "bottom", // `top` or `bottom`
+          position: "right",
+          style: {
+            background: "linear-gradient(to right, #00b09b, #96c93d)",
+            color: "white",
+          },
+        }).showToast();
+      } else {
+        Toastify({
+          text: response.error,
+          className: "error",
+          gravity: "bottom", // `top` or `bottom`
+          position: "right",
+          style: {
+            background: "#dc143c",
+            color: "white",
+          },
+        }).showToast();
+      }
+    });
+
   loadProducts();
 });
 
@@ -138,28 +164,27 @@ async function loadProducts() {
   const fetchCurrentUser = await fetch("/api/sessions/current");
   const dataCurrentUser = await fetchCurrentUser.json();
   const fetchMyproducts = await fetch(
-    `/api/users/${dataCurrentUser.payload._id}/products`
+    `/api/users/${dataCurrentUser.payload.id}/products`
   );
 
   const products = (await fetchMyproducts.json()).payload;
 
   const tbody = document.getElementById("table");
   if (products.length > 0) {
-    let nuevotbody = "";
+    let nuevotbody = `<thead>
+    <tr>
+      <th scope="col">Code</th>
+      <th scope="col">Title</th>
+      <th scope="col">Description</th>
+      <th scope="col">Price</th>
+      <th scope="col">Status</th>
+      <th scope="col">Stock</th>
+      <th scope="col">Category</th>
+      <th scope="col">Options</th>
+    </tr>
+  </thead>`;
     products.forEach((product) => {
       nuevotbody += `
-      <thead>
-      <tr>
-        <th scope="col">Code</th>
-        <th scope="col">Title</th>
-        <th scope="col">Description</th>
-        <th scope="col">Price</th>
-        <th scope="col">Status</th>
-        <th scope="col">Stock</th>
-        <th scope="col">Category</th>
-        <th scope="col">Options</th>
-      </tr>
-    </thead>
         <tr>
          <th scope="row">${product.code}</th>
          <td> ${product.title}</td>
@@ -177,7 +202,7 @@ async function loadProducts() {
     });
     tbody.innerHTML = nuevotbody;
   } else {
-    tbody.innerHTML = `<p>No tienes productos</p>`;
+    tbody.innerHTML = `<h3 class="mt-3">No tienes productos</h3>`;
   }
 }
 
@@ -199,4 +224,38 @@ async function deleteProductAdm(pid) {
     },
   }).showToast();
   loadProducts();
+}
+
+async function resetPassword() {
+  const getUser = await fetch("/api/sessions/current");
+  const user = await getUser.json();
+
+  const fetchResponse = await fetch("/api/sessions/recoverpassword", {
+    method: "post",
+    headers: {
+      "content-type": "application/json",
+    },
+    body: JSON.stringify({
+      email: user.payload.email,
+    }),
+  });
+  const response = await fetchResponse.json();
+  if (response.status === "success") {
+    await Swal.fire({
+      position: "bottom-end",
+      icon: "success",
+      title:
+        "A password recovery email has been sent. Please check your inbox and follow the instructions to complete the process.",
+      showConfirmButton: false,
+      timer: 2500,
+    });
+  } else {
+    await Swal.fire({
+      position: "bottom-end",
+      icon: "error",
+      title: response.error,
+      showConfirmButton: false,
+      timer: 2500,
+    });
+  }
 }

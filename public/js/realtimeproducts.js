@@ -21,7 +21,6 @@ window.addEventListener("load", function () {
     .getElementById("form")
     .addEventListener("submit", async function (event) {
       event.preventDefault();
-      console.log(methodForm);
       const formDocumentation = event.currentTarget;
       const url = new URL(formDocumentation.action);
       const formData = new FormData(formDocumentation);
@@ -40,7 +39,7 @@ window.addEventListener("load", function () {
       const responseFetch = await fetch(url, fetchOptions);
 
       const response = await responseFetch.json();
-      console.log(response);
+      document.getElementById("cancel").click();
       if (response.status === "success") {
         Toastify({
           text: "Product has been added successfully",
@@ -113,6 +112,7 @@ async function deleteProductAdm(pid) {
 }
 
 socket.on("actualizarProductos", (productos) => {
+  console.log(productos);
   const tbody = document.getElementById("tbody");
   let nuevotbody = "";
   productos.forEach((product) => {

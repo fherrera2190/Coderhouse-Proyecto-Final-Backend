@@ -49,7 +49,7 @@ app.engine(
 app.set("views", path.join(__dirname + "/views"));
 
 // Routes
-app.use("/", viewRouter);
+app.use("/", viewRouter.getRouter());
 app.use("/api/products", productsRouter.getRouter());
 app.use("/api/carts", cartRouter.getRouter());
 app.use("/api/sessions", sessionsRouter.getRouter());

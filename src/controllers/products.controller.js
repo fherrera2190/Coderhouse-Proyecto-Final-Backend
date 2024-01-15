@@ -1,5 +1,7 @@
+
 const productsController = {
   getProducts: require("./products/getProducts"),
+  getProductsPaginate:require('./products/getProductsPaginate'),
   getProductById: require("./products/getProductById"),
   getPorudctsByUid: require("./products/getProductsByUserId"),
   addProduct: require("./products/addProduct"),

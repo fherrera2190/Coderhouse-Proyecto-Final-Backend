@@ -44,3 +44,7 @@ error: Error to create a user
 error: Error to create a user
 error: Error to create a user
 error: null
+error: query is not defined
+error: query is not defined
+error: prevLink is not defined
+error: res.sed is not a function

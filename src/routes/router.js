@@ -78,7 +78,8 @@ class Router {
   handlePolicies = (policies) => (req, res, next) => {
     if (policies.includes("PUBLIC")) return next(); //Cualquiera entra
     const token = req.cookies.coderCookie;
-    if (!token) return res.sendUserUnauthorized("User Unauthorized");
+    if (!token) return res.redirect("/login");
+    //No borrar es lo que puse antes if (!token) return res.sendUserUnauthorized("User Unauthorized");
     jwt.verify(token, config.PRIVATE_KEY, (err, user) => {
       if (err) {
         return res.errorUserAuthentication("Invalid token");

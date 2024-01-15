@@ -5,7 +5,7 @@ class ProductsService {
     this.dao = new dao();
   }
 
-  async get(query, options) {
+  async get(query = {}, options = { pagination: false, lean: true }) {
     return await this.dao.getProducts(query, options);
   }
 
