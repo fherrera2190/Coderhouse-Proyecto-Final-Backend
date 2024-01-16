@@ -67,7 +67,6 @@ window.addEventListener("load", function () {
 });
 
 async function editProduct(id) {
-  console.log(id);
   const form = document.getElementById("form");
   const title = document.getElementById("title");
   const code = document.getElementById("code");
@@ -112,7 +111,6 @@ async function deleteProductAdm(pid) {
 }
 
 socket.on("actualizarProductos", (productos) => {
-  console.log(productos);
   const tbody = document.getElementById("tbody");
   let nuevotbody = "";
   productos.forEach((product) => {

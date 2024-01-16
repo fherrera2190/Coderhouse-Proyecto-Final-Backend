@@ -5,7 +5,6 @@ module.exports = async (req, res) => {
     products = products.filter(
       (product) => product.owner === req.user.user.email
     );
-    console.log(products);
     res.sendSuccess(products);
   } catch (error) {
     req.logger.error(error.message);

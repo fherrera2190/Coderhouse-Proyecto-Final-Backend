@@ -40,8 +40,8 @@ class ViewRoutes extends Router {
       viewPanelAdmin
     );
 
-    this.get("/recoverpassword", auth2, viewRecoverPassword);
-    this.get("/resetpassword", viewResetPassword);
+    this.get("/recoverpassword", ["PUBLIC"], auth2, viewRecoverPassword);
+    this.get("/resetpassword", ["PUBLIC"], viewResetPassword);
 
     this.get(
       "/realtimeproducts",

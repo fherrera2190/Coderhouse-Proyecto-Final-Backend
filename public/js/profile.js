@@ -1,4 +1,7 @@
+let methodForm = "";
+
 window.addEventListener("load", async function () {
+  loadProducts();
   const form = document.getElementById("imageForm");
   form.addEventListener("submit", async function (event) {
     event.preventDefault();
@@ -70,7 +73,7 @@ window.addEventListener("load", async function () {
     console.log(response);
     if (response.status === "success") {
       await Swal.fire({
-        position: "bottom-end",
+        position: "center",
         icon: "success",
         title:
           "Congratulation!! now you are a user premium. Please login again.",
@@ -82,8 +85,8 @@ window.addEventListener("load", async function () {
     if (response.status === "error") {
       Toastify({
         text: response.msg,
-        className: "info",
-        gravity: "bottom", // `top` or `bottom`
+        className: "error",
+        gravity: "center", // `top` or `bottom`
         position: "right",
         style: {
           background: "crimsom",
@@ -98,7 +101,7 @@ window.addEventListener("load", async function () {
   newPButton.addEventListener("click", function (e) {
     e.preventDefault();
     methodForm = "";
-    const form = document.getElementById("form");
+    const form = document.getElementById("formNewProduct");
     form.reset();
     form.action = "/api/products";
     form.method = "post";
@@ -131,7 +134,7 @@ window.addEventListener("load", async function () {
       const responseFetch = await fetch(url, fetchOptions);
 
       const response = await responseFetch.json();
-      console.log(response);
+      document.getElementById("cancel").click();
       if (response.status === "success") {
         Toastify({
           text: "Product has been added successfully",
@@ -143,6 +146,7 @@ window.addEventListener("load", async function () {
             color: "white",
           },
         }).showToast();
+        loadProducts();
       } else {
         Toastify({
           text: response.error,
@@ -156,9 +160,33 @@ window.addEventListener("load", async function () {
         }).showToast();
       }
     });
-
-  loadProducts();
 });
+
+async function editProduct(id) {
+  const form = document.getElementById("formNewProduct");
+  const title = document.getElementById("title");
+  const code = document.getElementById("code");
+  const price = document.getElementById("price");
+  const stock = document.getElementById("stock");
+  const category = document.getElementById("category");
+  const description = document.getElementById("description");
+  form.reset();
+  form.action = "/api/products/" + id;
+  methodForm = "PUT";
+  const productFetch = await fetch("/api/products/" + id);
+  const product = (await productFetch.json()).payload;
+
+  title.value = product.title;
+  code.value = product.code;
+  price.value = product.price;
+  stock.value = product.stock;
+  code.disabled = true;
+  category.value = product.category;
+  description.value = product.description;
+
+  const buttonSubmit = form.querySelector("#buttonSubmit");
+  buttonSubmit.innerHTML = "Update Product";
+}
 
 async function loadProducts() {
   const fetchCurrentUser = await fetch("/api/sessions/current");
@@ -193,10 +221,25 @@ async function loadProducts() {
          <td> ${product.status}</td>
          <td> ${product.stock}</td>
          <td> ${product.category}</td>
-         <td><button
-         onclick="deleteProductAdm('${product._id}')"
-         class="btn btn-danger"
-       ><i class="bi bi-trash"></i></button></td>
+         <td>
+            <div  class="d-flex align-items-center justify-content-center gap-3 h-100">
+
+            <button
+                  id="${product._id}"
+                  onclick="editProduct('${product._id}')"
+                  class="btn btn-info"
+                  data-bs-toggle="modal"
+                  data-bs-target="#staticBackdrop"
+                >
+                  <i class="bi bi-pencil-square"></i>
+                </button>
+
+            <button
+            onclick="deleteProductAdm('${product._id}')"
+            class="btn btn-danger"
+          ><i class="bi bi-trash"></i></button>
+            </div>
+         </td>
         </tr>
     `;
     });

@@ -24,13 +24,12 @@ class ProductsRouter extends Router {
 
     this.put(
       "/:pid",
-      ["ADMIN"],
+      ["ADMIN", "PREMIUM"],
       uploader.fields([{ name: "identification", maxCount: 1 }]),
       updateProduct
     );
 
     this.delete("/:pid", ["ADMIN", "PREMIUM"], deleteProduct);
-  
   }
 }
 
