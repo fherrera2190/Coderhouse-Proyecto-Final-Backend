@@ -8,11 +8,17 @@ const {
   deleteProduct,
 } = require("../controllers/products.controller");
 const uploader = require("../middlewares/multer");
+const passportCall = require("../utils/passportCall");
 
 class ProductsRouter extends Router {
   init() {
     this.get("/", ["PUBLIC"], getProducts);
-    this.get("/paginate", ["PUBLIC"], getProductsPaginate);
+    this.get(
+      "/paginate",
+      ["USER", "PREMIUM", "ADMIN"],
+      passportCall("jwt"),
+      getProductsPaginate
+    );
     this.get("/:pid", ["PUBLIC"], getProductById);
 
     this.post(

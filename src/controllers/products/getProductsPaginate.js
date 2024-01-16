@@ -11,7 +11,7 @@ module.exports = async (req, res) => {
       sort = { price: -1 };
     }
 
-    let query = {};
+    let query = { owner: { $ne: req.user.email } };
 
     if (req.query.query === "true") {
       query.status = true;

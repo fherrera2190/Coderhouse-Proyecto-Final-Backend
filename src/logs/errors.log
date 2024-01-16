@@ -48,3 +48,8 @@ error: query is not defined
 error: query is not defined
 error: prevLink is not defined
 error: res.sed is not a function
+error: Cannot read properties of undefined (reading 'user')
+error: Cannot read properties of undefined (reading 'user')
+error: Cannot read properties of undefined (reading 'email')
+error: Cannot read properties of undefined (reading 'email')
+error: Cannot read properties of undefined (reading 'email')
