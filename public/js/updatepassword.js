@@ -20,6 +20,8 @@ window.addEventListener("load", async function () {
       }),
     });
 
+
+    
     const response = await fetchUpdatePassword.json();
     if (response.status === "success") {
       await Swal.fire({
