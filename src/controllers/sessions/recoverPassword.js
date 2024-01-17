@@ -1,3 +1,4 @@
+const config = require("../../config/config");
 const { userService } = require("../../services/index.service");
 const CustomError = require("../../utils/CustomErrors/CustomError");
 const EErrors = require("../../utils/CustomErrors/EErrors");
@@ -26,7 +27,7 @@ module.exports = async (req, res, next) => {
       html: `
               <div>
                   <h1>Recover your password</h1>
-                  <a href="http://localhost:8080/resetpassword?token=${token}">Click me to recover your password</a>
+                  <a href="${config.SERVER}/resetpassword?token=${token}">Click me to recover your password</a>
                   <p>This link to reset your password is only valid for 1 hour</>
               </div>
               `,
