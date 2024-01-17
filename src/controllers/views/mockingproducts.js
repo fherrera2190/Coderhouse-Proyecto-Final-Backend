@@ -22,6 +22,7 @@ module.exports = async (req, res) => {
     req.io.emit("actualizarProductos", products);
     res.status(200).json({ status: "success", payload: products });
   } catch (error) {
+    req.logger.error(error.message);
     return res.status(500).json({ error: error.code, detalle: error.message });
   }
 };

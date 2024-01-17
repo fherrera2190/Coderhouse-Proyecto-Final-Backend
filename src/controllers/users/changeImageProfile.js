@@ -40,6 +40,7 @@ module.exports = async (req, res) => {
       });
     }
   } catch (error) {
+    req.logger.error(error.message);
     console.log(error);
   }
 };

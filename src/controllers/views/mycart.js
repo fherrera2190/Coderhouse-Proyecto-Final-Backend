@@ -6,6 +6,7 @@ module.exports = (req, res) => {
       user: req.user,
     });
   } catch (error) {
+    req.logger.error(error.message);
     return res.status(500).json({ error: error.code, detalle: error.message });
   }
 };

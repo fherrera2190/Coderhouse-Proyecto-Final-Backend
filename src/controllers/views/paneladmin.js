@@ -13,6 +13,7 @@ module.exports = async (req, res) => {
       users,
     });
   } catch (error) {
+    req.logger.error(error.message);
     return res.status(500).json({ error: error.code, detalle: error.message });
   }
 };
