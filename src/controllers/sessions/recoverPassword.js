@@ -6,7 +6,6 @@ const transport = require("../../utils/nodemailer");
 
 module.exports = async (req, res, next) => {
   const { email } = req.body;
-  console.log(email)
   const userDB = await userService.getUserByEmail(email);
   try {
     if (!userDB) {
