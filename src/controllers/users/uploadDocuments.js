@@ -12,14 +12,14 @@ module.exports = async (req, res) => {
     // const uploadedDocumentsName = user.documents.map(
     //   (document) => document.name
     // );
-    
+
     if (
       uploadedFiles["identification"] &&
       uploadedFiles["address"] &&
       uploadedFiles["statusaccount"]
     ) {
       const identificationFile = uploadedFiles["identification"][0];
-      
+
       uploadedDocuments.push({
         name: identificationFile.fieldname,
         reference: identificationFile.path,
@@ -37,8 +37,10 @@ module.exports = async (req, res) => {
         reference: statusaccountFile.path,
       });
 
-      await userService.updateDocuments(user.id, uploadedDocuments);
-      await userService.update({ _id: user._id }, { role: "premium" });
+      await userService.update(
+        { _id: user._id },
+        { role: "premium", documents: uploadedDocuments }
+      );
 
       return res.json({
         status: "success",

@@ -1,8 +1,26 @@
+const { createHash } = require("../../utils/bcrypt");
 const userModel = require("./models/user.model");
 
 class User {
   constructor(model) {
     this.userModel = model;
+    this.getUserByEmail("adminCoder@coder.com")
+      .then((response) => {
+        if (!response) {
+          const userAdmin = {
+            first_name: "Admin",
+            last_name: "Coder",
+            age: 0,
+            email: "adminCoder@coder.com",
+            password: createHash("adminCod3r123"),
+            role: "admin",
+          };
+          this.addUser(userAdmin);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   async getUsers() {

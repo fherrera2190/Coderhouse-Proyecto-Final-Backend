@@ -12,6 +12,7 @@ class MongoSingleton{
             return this.#instacia
         }
          this.#instacia = new  MongoSingleton(url)
+         
          console.log('Conexion a DB establecida')
          return this.#instacia;
     }
