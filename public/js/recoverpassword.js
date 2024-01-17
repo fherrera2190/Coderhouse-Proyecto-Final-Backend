@@ -1,6 +1,4 @@
 window.addEventListener("load", function () {
-  console.clear();
-  console.log("termino de cargar la pagina");
   const buttonForm = document.getElementById("recoverpassword");
   const email = document.getElementById("email");
   buttonForm.addEventListener("click", async (e) => {
@@ -25,15 +23,15 @@ window.addEventListener("load", function () {
         showConfirmButton: false,
         timer: 2500,
       });
-      window.location.href ="/"
-    }else{
-        await Swal.fire({
-            position: "bottom-end",
-            icon: "error",
-            title: response.error,
-            showConfirmButton: false,
-            timer: 2500,
-          });
+      window.location.href = "/";
+    } else {
+      await Swal.fire({
+        position: "bottom-end",
+        icon: "error",
+        title: response.error,
+        showConfirmButton: false,
+        timer: 2500,
+      });
     }
   });
 });

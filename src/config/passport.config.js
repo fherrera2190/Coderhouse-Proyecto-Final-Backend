@@ -3,9 +3,8 @@ const userModel = require("../dao/mongo/models/user.model");
 const bcrypt = require("bcrypt");
 const github = require("passport-github2");
 const passportJWT = require("passport-jwt");
-const cartsModels = require("../dao/mongo/models/cart.model");
 const config = require("./config");
-const { userService } = require("../services/index.service");
+const { userService, cartService } = require("../services/index.service");
 // adminCoder@coder.com
 //adminCod3r123
 
@@ -46,6 +45,8 @@ const inicializaPassport = () => {
         try {
           const usuario = await userService.getUserByEmail(profile._json.email);
           if (!usuario) {
+            let cartId = await cartService.createCart();
+            cartId = cartId._id.toString();
             let newUsuario = {
               first_name: profile._json.name,
               last_name: profile._json.name,
@@ -55,7 +56,7 @@ const inicializaPassport = () => {
                 profile._json.email,
                 bcrypt.genSaltSync(10)
               ),
-              cartId: await cartsModels.create({}),
+              cartId,
             };
             const result = await userModel.create(newUsuario);
             return done(null, result);

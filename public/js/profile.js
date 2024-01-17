@@ -191,6 +191,7 @@ async function editProduct(id) {
 async function loadProducts() {
   const fetchCurrentUser = await fetch("/api/sessions/current");
   const dataCurrentUser = await fetchCurrentUser.json();
+  console.log(dataCurrentUser)
   const fetchMyproducts = await fetch(
     `/api/users/${dataCurrentUser.payload.id}/products`
   );

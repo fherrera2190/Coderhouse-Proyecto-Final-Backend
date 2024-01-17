@@ -4,8 +4,9 @@ const { isValidPassword, createHash } = require("../../utils/bcrypt");
 const decodeJWT = require("../../utils/decodeJWT");
 
 module.exports = async (req, res) => {
-  const { token, password, password2 } = req.body;
+  const {token, password, password2 } = req.body;
 
+  console.log(token)
   if (password.trim() === "" || password2.trim() === "") {
     return res.send({
       status: "error",

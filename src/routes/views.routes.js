@@ -24,7 +24,7 @@ class ViewRoutes extends Router {
   init() {
     this.get("/", ["PUBLIC"], auth, passportCall("jwt"), viewHome);
     this.get("/login", ["PUBLIC"], auth2, viewLogin);
-    this.get("/register", auth2, viewRegister);
+    this.get("/register", ["PUBLIC"], auth2, viewRegister);
     this.get(
       "/profile",
       ["USER", "PREMIUM"],

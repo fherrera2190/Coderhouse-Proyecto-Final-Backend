@@ -37,4 +37,4 @@ Se puede clonar el repositorio, ingresando a una terminal y ejecutando: git clon
 Luego continuar con el paso 3 de la otra forma
 
 Despliegue
-El proyecto fue desplegado en netlify para navegarlo. https://server-express-0y8z.onrender.com/ La pagina esta adaptada para que se visualice correctamente en todos los dispositivos.
+El proyecto fue desplegado en render para navegarlo. https://server-express-0y8z.onrender.com/ La pagina esta adaptada para que se visualice correctamente en todos los dispositivos.

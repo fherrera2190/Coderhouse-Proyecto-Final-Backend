@@ -5,7 +5,7 @@ const viewsController = {
   viewProfile: require("./views/profile"),
   viewPanelAdmin: require("./views/paneladmin"),
   viewRecoverPassword: require("./views/recoverpassword"),
-  viewResetPassword: require("./views/recoverpassword"),
+  viewResetPassword: require("./views/resetpassword"),
   viewRealTime: require("./views/realtimeproduts"),
   viewChat: require("./views/chat.js"),
   viewProducts: require("./views/products.js"),

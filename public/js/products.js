@@ -1,5 +1,10 @@
 let cartId = "";
-window.addEventListener("load", function () {
+window.addEventListener("load", async function () {
+  const userCurrent = await fetch("/api/sessions/current");
+  const user = await userCurrent.json();
+
+  cartId = user.payload.cartId;
+
   getProducts("/api/products/paginate");
   const prevButton = document.getElementById("prevLink");
   prevButton.addEventListener("click", function (e) {
@@ -17,9 +22,6 @@ window.addEventListener("load", function () {
 async function getProducts(url) {
   try {
     //console.log("/api" + window.location.pathname + window.location.search)
-    const userCurrent = await fetch("/api/sessions/current");
-    const user = await userCurrent.json();
-    cartId = user.payload.cartId;
     const response = await fetch(url);
     const data = await response.json();
     const tbody = document.getElementById("tbody");

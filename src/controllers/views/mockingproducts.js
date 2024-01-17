@@ -1,3 +1,6 @@
+const { productService } = require("../../services/index.service");
+const { faker } = require("@faker-js/faker");
+
 module.exports = async (req, res) => {
   try {
     let products = [];

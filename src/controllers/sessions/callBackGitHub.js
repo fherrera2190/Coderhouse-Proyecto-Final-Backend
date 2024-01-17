@@ -2,7 +2,6 @@ const config = require("../../config/config");
 const generaJWT = require("../../utils/generaJWT");
 
 module.exports = (req, res) => {
-  console.log(req.user);
   const user = req.user;
   const userLimited = {
     id: user._id,

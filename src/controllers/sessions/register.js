@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const CustomError = require("../../utils/CustomErrors/CustomError");
 const { generateUserErrorInfo } = require("../../utils/CustomErrors/info");
 const EErrors = require("../../utils/CustomErrors/EErrors");
+const { cartService } = require("../../services/index.service");
 
 module.exports = async (req, res) => {
   try {
@@ -20,6 +21,9 @@ module.exports = async (req, res) => {
     const existe = await userModel.findOne({ email });
     if (existe) return res.status(200).json({ error: "user already exists" });
 
+    let cartId = await cartService.createCart();
+    cartId = cartId._id.toString();
+
     const user = await userModel.create({
       first_name: first_name.trim(),
       last_name: last_name.trim(),
@@ -29,7 +33,7 @@ module.exports = async (req, res) => {
         req.body.password.trim(),
         bcrypt.genSaltSync(10)
       ),
-      cartId: await cartsModels.create({}),
+      cartId,
     });
     return res.status(200).json({ status: "success" });
   } catch (error) {

@@ -28,7 +28,7 @@ module.exports = async (req, res) => {
           }
         });
       }
-      await userService.updateDocuments(user.id, uploadedDocuments);
+      await userService.updateDocuments(req.user.user.id, uploadedDocuments);
       return res.json({
         status: "success",
         msg: "Your image profile has been changed",

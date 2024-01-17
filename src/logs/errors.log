@@ -53,3 +53,26 @@ error: Cannot read properties of undefined (reading 'user')
 error: Cannot read properties of undefined (reading 'email')
 error: Cannot read properties of undefined (reading 'email')
 error: Cannot read properties of undefined (reading 'email')
+error: cid invalid
+error: Cast to ObjectId failed for value "[object Object]" (type string) at path "_id" for model "carts"
+error: cid invalid
+error: cid invalid
+error: cid invalid
+error: cid invalid
+error: cid invalid
+error: cid invalid
+error: cid invalid
+error: cid invalid
+error: null
+error: null
+error: null
+error: cid invalid
+error: null
+error: cid invalid
+error: cid invalid
+error: cid invalid
+error: cid invalid
+error: cartService is not defined
+error: null
+error: undefined
+error: undefined

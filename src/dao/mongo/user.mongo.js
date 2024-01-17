@@ -9,11 +9,11 @@ class User {
     return await userModel.find({});
   }
   async getUserById(uid) {
-    return await userModel.findById({ _id: uid });
+    return await userModel.findById({ _id: uid }).lean();
   }
 
   async getUserByEmail(email) {
-    return await userModel.findOne({ email: email });
+    return await userModel.findOne({ email: email }).lean();
   }
 
   async getUserByCartId(cid) {
