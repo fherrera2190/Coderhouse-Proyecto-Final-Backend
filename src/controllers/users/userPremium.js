@@ -1,4 +1,3 @@
-const UserAdminPanel = require("../../dto/UserAdminPanel.dto");
 const { userService } = require("../../services/index.service");
 const CustomError = require("../../utils/CustomErrors/CustomError");
 const EErrors = require("../../utils/CustomErrors/EErrors");
@@ -14,7 +13,7 @@ module.exports = async (req, res) => {
         message: "Error trying to find a user with the id: " + uid,
         code: EErrors.INVALID_TYPE_ERROR,
       });
-
+      
     if (user.role === "premium") {
       const newDocuments = [];
       user.documents.forEach((document) => {

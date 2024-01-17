@@ -14,7 +14,6 @@ async function deleteAllUser() {
           method: "delete",
         });
         const response = await fetchUsers.json();
-
         if (response.status === "success") {
           await Swal.fire({
             title: response.message,
@@ -95,7 +94,7 @@ async function changeRole(uid) {
     } else {
       await Swal.fire({
         title: response.message,
-        text: "Role of the user has been successfully lowered by the administrator.",
+        text: "Hubo un error.",
         icon: "error",
         timer: 3000,
       });
