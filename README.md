@@ -38,3 +38,4 @@ Luego continuar con el paso 3 de la otra forma
 
 Despliegue
 El proyecto fue desplegado en render para navegarlo. https://server-express-0y8z.onrender.com/ La pagina esta adaptada para que se visualice correctamente en todos los dispositivos.
+https://server-express-0y8z.onrender.com/apidocs/
